@@ -11,11 +11,11 @@ namespace S20_Power_Points
 		public SaveMessage()
 		{
 			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X + 180, ActiveForm.Location.Y + 300);
+				Location = new Point(ActiveForm.Location.X + 60, ActiveForm.Location.Y + 140);
 			InitializeComponent();
 			BackgroundImage = Resources.Button_Green;
 			BackgroundImageLayout = ImageLayout.Stretch;
-			panel1.BackgroundImage = Resources.Background_Blue;
+			panel1.BackgroundImage = Resources.BlackBackground;
 			SaveClose = 0;
 		}
 

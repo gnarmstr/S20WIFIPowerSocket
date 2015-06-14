@@ -116,13 +116,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(920, 1000);
+			this.ClientSize = new System.Drawing.Size(900, 980);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(920, 1000);
-			this.MinimumSize = new System.Drawing.Size(920, 1000);
+			this.MaximumSize = new System.Drawing.Size(900, 980);
+			this.MinimumSize = new System.Drawing.Size(900, 980);
 			this.Name = "Instructions";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Instructions";

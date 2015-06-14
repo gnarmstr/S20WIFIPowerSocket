@@ -70,6 +70,7 @@
 			this.label1.AutoSize = true;
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label1.Location = new System.Drawing.Point(13, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(201, 25);
@@ -78,22 +79,23 @@
 			// 
 			// panel1
 			// 
+			this.panel1.BackColor = System.Drawing.Color.Transparent;
 			this.panel1.Controls.Add(this.textBoxDeviceName);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.pictureBoxCancel);
 			this.panel1.Controls.Add(this.pictureBoxOK);
-			this.panel1.Location = new System.Drawing.Point(46, 77);
+			this.panel1.Location = new System.Drawing.Point(12, 63);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(560, 188);
+			this.panel1.Size = new System.Drawing.Size(560, 173);
 			this.panel1.TabIndex = 59;
 			// 
 			// textBoxDeviceName
 			// 
 			this.textBoxDeviceName.Location = new System.Drawing.Point(230, 24);
+			this.textBoxDeviceName.MaxLength = 16;
 			this.textBoxDeviceName.Name = "textBoxDeviceName";
 			this.textBoxDeviceName.Size = new System.Drawing.Size(281, 26);
 			this.textBoxDeviceName.TabIndex = 59;
-			this.textBoxDeviceName.Leave += new System.EventHandler(this.textBoxDeviceName_Leave);
 			// 
 			// toolTip1
 			// 
@@ -107,7 +109,7 @@
 			this.buttonMainTitle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.buttonMainTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.buttonMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.buttonMainTitle.Location = new System.Drawing.Point(46, 26);
+			this.buttonMainTitle.Location = new System.Drawing.Point(12, 12);
 			this.buttonMainTitle.Name = "buttonMainTitle";
 			this.buttonMainTitle.Size = new System.Drawing.Size(511, 43);
 			this.buttonMainTitle.TabIndex = 90;
@@ -120,7 +122,7 @@
 			// pictureBoxClose
 			// 
 			this.pictureBoxClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxClose.Location = new System.Drawing.Point(563, 26);
+			this.pictureBoxClose.Location = new System.Drawing.Point(529, 12);
 			this.pictureBoxClose.Name = "pictureBoxClose";
 			this.pictureBoxClose.Size = new System.Drawing.Size(43, 43);
 			this.pictureBoxClose.TabIndex = 89;
@@ -132,17 +134,18 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Info;
-			this.ClientSize = new System.Drawing.Size(660, 300);
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.ClientSize = new System.Drawing.Size(580, 250);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(660, 300);
-			this.MinimumSize = new System.Drawing.Size(660, 300);
+			this.MaximumSize = new System.Drawing.Size(580, 250);
+			this.MinimumSize = new System.Drawing.Size(580, 250);
 			this.Name = "DeviceName";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Cervical  Spine Movement";
-			this.Load += new System.EventHandler(this.DomesticActivities_Load);
+			this.Load += new System.EventHandler(this.DeviceName_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).EndInit();
 			this.panel1.ResumeLayout(false);

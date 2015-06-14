@@ -35,6 +35,7 @@
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
+			this.buttonCaptureData = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
 			this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
@@ -49,6 +50,9 @@
 			this.textBoxMacAddress = new System.Windows.Forms.TextBox();
 			this.buttonInstructions = new System.Windows.Forms.Button();
 			this.buttonSettings = new System.Windows.Forms.Button();
+			this.buttonSchedules = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
+			this.checkBoxVixen = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.SaveAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.panelMainPoints.SuspendLayout();
@@ -66,7 +70,7 @@
 			// SaveAll
 			// 
 			this.SaveAll.BackColor = System.Drawing.Color.Transparent;
-			this.SaveAll.Location = new System.Drawing.Point(848, 631);
+			this.SaveAll.Location = new System.Drawing.Point(512, 479);
 			this.SaveAll.Name = "SaveAll";
 			this.SaveAll.Size = new System.Drawing.Size(200, 40);
 			this.SaveAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -83,7 +87,7 @@
 			// pictureBoxClose
 			// 
 			this.pictureBoxClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxClose.Location = new System.Drawing.Point(1035, 12);
+			this.pictureBoxClose.Location = new System.Drawing.Point(705, 12);
 			this.pictureBoxClose.Name = "pictureBoxClose";
 			this.pictureBoxClose.Size = new System.Drawing.Size(43, 43);
 			this.pictureBoxClose.TabIndex = 86;
@@ -97,10 +101,9 @@
 			this.buttonMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.buttonMainTitle.Location = new System.Drawing.Point(8, 12);
 			this.buttonMainTitle.Name = "buttonMainTitle";
-			this.buttonMainTitle.Size = new System.Drawing.Size(1021, 43);
+			this.buttonMainTitle.Size = new System.Drawing.Size(677, 43);
 			this.buttonMainTitle.TabIndex = 88;
-			this.buttonMainTitle.Text = "Ver 0.1                                         S20 Power Socket Control - By Geo" +
-    "ff Armstrong                             ";
+			this.buttonMainTitle.Text = "Ver 1.0               S20 Power Socket Control                    ";
 			this.buttonMainTitle.UseVisualStyleBackColor = true;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);
@@ -110,6 +113,9 @@
 			// 
 			this.panelMainPoints.BackColor = System.Drawing.Color.Transparent;
 			this.panelMainPoints.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.panelMainPoints.Controls.Add(this.checkBoxVixen);
+			this.panelMainPoints.Controls.Add(this.label5);
+			this.panelMainPoints.Controls.Add(this.buttonCaptureData);
 			this.panelMainPoints.Controls.Add(this.label4);
 			this.panelMainPoints.Controls.Add(this.richTextBoxLog);
 			this.panelMainPoints.Controls.Add(this.pictureBoxAdd);
@@ -125,8 +131,20 @@
 			this.panelMainPoints.Controls.Add(this.textBoxMacAddress);
 			this.panelMainPoints.Location = new System.Drawing.Point(8, 101);
 			this.panelMainPoints.Name = "panelMainPoints";
-			this.panelMainPoints.Size = new System.Drawing.Size(1070, 687);
+			this.panelMainPoints.Size = new System.Drawing.Size(740, 534);
 			this.panelMainPoints.TabIndex = 83;
+			// 
+			// buttonCaptureData
+			// 
+			this.buttonCaptureData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonCaptureData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonCaptureData.Location = new System.Drawing.Point(256, 474);
+			this.buttonCaptureData.Name = "buttonCaptureData";
+			this.buttonCaptureData.Size = new System.Drawing.Size(213, 52);
+			this.buttonCaptureData.TabIndex = 105;
+			this.buttonCaptureData.Text = "Capture Data";
+			this.buttonCaptureData.UseVisualStyleBackColor = true;
+			this.buttonCaptureData.Click += new System.EventHandler(this.buttonCaptureData_Click);
 			// 
 			// label4
 			// 
@@ -134,7 +152,7 @@
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label4.Location = new System.Drawing.Point(25, 34);
+			this.label4.Location = new System.Drawing.Point(12, 286);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(45, 25);
 			this.label4.TabIndex = 104;
@@ -142,17 +160,17 @@
 			// 
 			// richTextBoxLog
 			// 
-			this.richTextBoxLog.Location = new System.Drawing.Point(17, 71);
+			this.richTextBoxLog.Location = new System.Drawing.Point(17, 314);
 			this.richTextBoxLog.Name = "richTextBoxLog";
 			this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.richTextBoxLog.Size = new System.Drawing.Size(279, 475);
+			this.richTextBoxLog.Size = new System.Drawing.Size(716, 147);
 			this.richTextBoxLog.TabIndex = 96;
 			this.richTextBoxLog.Text = "";
 			// 
 			// pictureBoxAdd
 			// 
 			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxAdd.Location = new System.Drawing.Point(690, 80);
+			this.pictureBoxAdd.Location = new System.Drawing.Point(246, 50);
 			this.pictureBoxAdd.Name = "pictureBoxAdd";
 			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 36);
 			this.pictureBoxAdd.TabIndex = 103;
@@ -162,7 +180,7 @@
 			// pictureBoxDelete
 			// 
 			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxDelete.Location = new System.Drawing.Point(634, 80);
+			this.pictureBoxDelete.Location = new System.Drawing.Point(299, 50);
 			this.pictureBoxDelete.Name = "pictureBoxDelete";
 			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 36);
 			this.pictureBoxDelete.TabIndex = 102;
@@ -172,9 +190,9 @@
 			// pictureBoxTogglePWR
 			// 
 			this.pictureBoxTogglePWR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(358, 175);
+			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(367, 52);
 			this.pictureBoxTogglePWR.Name = "pictureBoxTogglePWR";
-			this.pictureBoxTogglePWR.Size = new System.Drawing.Size(315, 312);
+			this.pictureBoxTogglePWR.Size = new System.Drawing.Size(213, 215);
 			this.pictureBoxTogglePWR.TabIndex = 101;
 			this.pictureBoxTogglePWR.TabStop = false;
 			this.pictureBoxTogglePWR.Click += new System.EventHandler(this.pictureBoxTogglePWR_Click);
@@ -185,7 +203,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label1.Location = new System.Drawing.Point(739, 38);
+			this.label1.Location = new System.Drawing.Point(12, 14);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(129, 25);
 			this.label1.TabIndex = 98;
@@ -197,7 +215,7 @@
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label3.Location = new System.Drawing.Point(739, 220);
+			this.label3.Location = new System.Drawing.Point(12, 186);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(201, 25);
 			this.label3.TabIndex = 100;
@@ -205,9 +223,11 @@
 			// 
 			// buttonSocketData
 			// 
-			this.buttonSocketData.Location = new System.Drawing.Point(17, 581);
+			this.buttonSocketData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonSocketData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonSocketData.Location = new System.Drawing.Point(17, 474);
 			this.buttonSocketData.Name = "buttonSocketData";
-			this.buttonSocketData.Size = new System.Drawing.Size(220, 90);
+			this.buttonSocketData.Size = new System.Drawing.Size(220, 52);
 			this.buttonSocketData.TabIndex = 91;
 			this.buttonSocketData.Text = "Socket Data";
 			this.buttonSocketData.UseVisualStyleBackColor = true;
@@ -216,9 +236,9 @@
 			// comboBoxDeviceName
 			// 
 			this.comboBoxDeviceName.FormattingEnabled = true;
-			this.comboBoxDeviceName.Location = new System.Drawing.Point(744, 83);
+			this.comboBoxDeviceName.Location = new System.Drawing.Point(17, 52);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
-			this.comboBoxDeviceName.Size = new System.Drawing.Size(316, 28);
+			this.comboBoxDeviceName.Size = new System.Drawing.Size(213, 28);
 			this.comboBoxDeviceName.TabIndex = 96;
 			this.comboBoxDeviceName.SelectionChangeCommitted += new System.EventHandler(this.comboBoxDeviceName_SelectionChangeCommitted);
 			// 
@@ -228,7 +248,7 @@
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label2.Location = new System.Drawing.Point(739, 133);
+			this.label2.Location = new System.Drawing.Point(12, 99);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(173, 25);
 			this.label2.TabIndex = 99;
@@ -236,18 +256,18 @@
 			// 
 			// textBoxIP
 			// 
-			this.textBoxIP.Location = new System.Drawing.Point(745, 171);
+			this.textBoxIP.Location = new System.Drawing.Point(18, 137);
 			this.textBoxIP.Name = "textBoxIP";
 			this.textBoxIP.ReadOnly = true;
-			this.textBoxIP.Size = new System.Drawing.Size(316, 26);
+			this.textBoxIP.Size = new System.Drawing.Size(213, 26);
 			this.textBoxIP.TabIndex = 97;
 			// 
 			// textBoxMacAddress
 			// 
-			this.textBoxMacAddress.Location = new System.Drawing.Point(745, 260);
+			this.textBoxMacAddress.Location = new System.Drawing.Point(18, 226);
 			this.textBoxMacAddress.Name = "textBoxMacAddress";
 			this.textBoxMacAddress.ReadOnly = true;
-			this.textBoxMacAddress.Size = new System.Drawing.Size(316, 26);
+			this.textBoxMacAddress.Size = new System.Drawing.Size(213, 26);
 			this.textBoxMacAddress.TabIndex = 97;
 			// 
 			// buttonInstructions
@@ -268,29 +288,63 @@
 			this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
 			this.buttonSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.buttonSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonSettings.Location = new System.Drawing.Point(200, 61);
+			this.buttonSettings.Location = new System.Drawing.Point(375, 61);
 			this.buttonSettings.Name = "buttonSettings";
 			this.buttonSettings.Size = new System.Drawing.Size(149, 34);
 			this.buttonSettings.TabIndex = 91;
 			this.buttonSettings.Text = "Settings";
 			this.buttonSettings.UseVisualStyleBackColor = false;
 			// 
+			// buttonSchedules
+			// 
+			this.buttonSchedules.BackColor = System.Drawing.Color.Transparent;
+			this.buttonSchedules.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonSchedules.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.buttonSchedules.Location = new System.Drawing.Point(197, 61);
+			this.buttonSchedules.Name = "buttonSchedules";
+			this.buttonSchedules.Size = new System.Drawing.Size(149, 34);
+			this.buttonSchedules.TabIndex = 92;
+			this.buttonSchedules.Text = "Schedules";
+			this.buttonSchedules.UseVisualStyleBackColor = false;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label5.Location = new System.Drawing.Point(575, 14);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(130, 25);
+			this.label5.TabIndex = 106;
+			this.label5.Text = "Vixen Control";
+			// 
+			// checkBoxVixen
+			// 
+			this.checkBoxVixen.AutoSize = true;
+			this.checkBoxVixen.Location = new System.Drawing.Point(711, 17);
+			this.checkBoxVixen.Name = "checkBoxVixen";
+			this.checkBoxVixen.Size = new System.Drawing.Size(22, 21);
+			this.checkBoxVixen.TabIndex = 107;
+			this.checkBoxVixen.UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Black;
-			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.ClientSize = new System.Drawing.Size(1090, 800);
+			this.BackColor = System.Drawing.Color.White;
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.ClientSize = new System.Drawing.Size(760, 650);
+			this.Controls.Add(this.buttonSchedules);
 			this.Controls.Add(this.buttonSettings);
 			this.Controls.Add(this.buttonInstructions);
 			this.Controls.Add(this.panelMainPoints);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Location = new System.Drawing.Point(300, 50);
-			this.MaximumSize = new System.Drawing.Size(1090, 800);
-			this.MinimumSize = new System.Drawing.Size(1090, 800);
+			this.Location = new System.Drawing.Point(400, 250);
+			this.MaximumSize = new System.Drawing.Size(760, 650);
+			this.MinimumSize = new System.Drawing.Size(760, 650);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = " ";
@@ -329,6 +383,10 @@
 		private System.Windows.Forms.PictureBox pictureBoxAdd;
 		private System.Windows.Forms.PictureBox pictureBoxDelete;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonCaptureData;
+		private System.Windows.Forms.Button buttonSchedules;
+		private System.Windows.Forms.CheckBox checkBoxVixen;
+		private System.Windows.Forms.Label label5;
 	}
 }
 

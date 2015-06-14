@@ -11,11 +11,11 @@ namespace S20_Power_Points
 		public OkMessage()
 		{
 			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X + 180, ActiveForm.Location.Y + 300);
+				Location = new Point(ActiveForm.Location.X + 50, ActiveForm.Location.Y + 150);
 			InitializeComponent();
 			BackgroundImage = Resources.Button_Green;
 			BackgroundImageLayout = ImageLayout.Stretch;
-			panel1.BackgroundImage = Resources.Background_Blue;
+			panel1.BackgroundImage = Resources.BlackBackground;
 		}
 
 		protected override CreateParams CreateParams

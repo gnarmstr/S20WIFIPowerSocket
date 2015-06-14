@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Common.Resources;
 using Common.Resources.Properties;
@@ -11,13 +14,12 @@ namespace S20_Power_Points
 		public DeviceName()
 		{
 			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X + 100, ActiveForm.Location.Y + 100);
+				Location = new Point(ActiveForm.Location.X + 30, ActiveForm.Location.Y + 100);
 			InitializeComponent();
 			pictureBoxClose.BackgroundImage = Resources.Close;
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
-			BackgroundImage = Resources.MainBackground_Green_Form;
+			BackgroundImage = Resources.BlackBackground;
 			BackgroundImageLayout = ImageLayout.Stretch;
-			panel1.BackgroundImage = Resources.Background_Blue;
 		}
 
 		protected override CreateParams CreateParams
@@ -49,7 +51,7 @@ namespace S20_Power_Points
 			FormDrag.formDrag_MouseUp(e);
 		}
 
-		private void DomesticActivities_Load(object sender, EventArgs e)
+		private void DeviceName_Load(object sender, EventArgs e)
 		{
 			pictureBoxOK.Image = Tools.GetIcon(Resources.Ok, 40);
 			pictureBoxCancel.Image = Tools.GetIcon(Resources.Cancel, 40);
@@ -63,18 +65,32 @@ namespace S20_Power_Points
 
 		private void pictureBoxOK_Click(object sender, EventArgs e)
 		{
-			GlobalVar.Device_Name.Add(textBoxDeviceName.Text);
-			GlobalVar.CancelDiscover = false;
+			if (textBoxDeviceName.Text != "")
+			{
+				var result = string.Join(" ", textBoxDeviceName.Text.Select(c => String.Format("{0:X2}", Convert.ToInt32(c))));
+
+				string[] hexValuesSplit = result.Split(' ');
+				for (int i = 0; i < GlobalVar.DeviceName.Length; i++)
+				{
+					if (i < hexValuesSplit.Count())
+					{
+						GlobalVar.DeviceName[i] = Convert.ToByte(hexValuesSplit[i], 16);
+					}
+				}
+
+				GlobalVar.Device_Name.Add(textBoxDeviceName.Text);
+				GlobalVar.CancelDiscover = false;
+			}
+			else
+			{
+				GlobalVar.CancelDiscover = true;
+			}
 			Close();
 		}
 
 		private void pictureBoxClose_Click(object sender, EventArgs e)
 		{
-			Close();
-		}
-
-		private void textBoxDeviceName_Leave(object sender, EventArgs e)
-		{
+			GlobalVar.CancelDiscover = true;
 			Close();
 		}
 

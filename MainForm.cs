@@ -35,7 +35,10 @@ namespace S20_Power_Points
 			Settings();
 			LoadData();
 			GlobalVar.startup = false;
-			getStatus();
+			if (comboBoxDeviceName.Items.Count != 0)
+			{
+				getStatus();
+			}
 		}
 
 		#endregion
@@ -63,7 +66,7 @@ namespace S20_Power_Points
 			GlobalVar.startup = true;
 			GlobalVar.dataReceived = false;
 			GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.255");
-			GlobalVar.receiveTimeOut = 3000;
+			GlobalVar.receiveTimeOut = 1000;
 			GlobalVar.PowerStatusOn = false;
 
 	//		panelMainPoints.BackgroundImage = Resources.powerbutton;
@@ -74,6 +77,11 @@ namespace S20_Power_Points
 			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Unknown;
 			pictureBoxDelete.BackgroundImage = Resources.delete;
 			pictureBoxAdd.BackgroundImage = Resources.add;
+			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
+			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
+			buttonSocketData.BackgroundImage = Resources.button_Blue_Small;
+			buttonCaptureData.BackgroundImage = Resources.button_Blue_Small;
+			BackgroundImage = Resources.BlackBackground;
 		}
 
 		#endregion
@@ -117,12 +125,14 @@ namespace S20_Power_Points
 					line = "DeviceName";
 					i++;
 				} while (i < GlobalVar.DeviceNumber);
-				textBoxIP.Text = GlobalVar.IpAddress[0];
-				textBoxMacAddress.Text = GlobalVar.MacAddress[0];
-				int milliseconds = 200;
-				Thread.Sleep(milliseconds);
-				comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
-				comboBoxDeviceName.SelectedIndex = 0;
+				if (GlobalVar.Device_Name.Count > 0)
+				{
+					textBoxIP.Text = GlobalVar.IpAddress[0];
+					textBoxMacAddress.Text = GlobalVar.MacAddress[0];
+					WaitCmd();
+					comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
+					comboBoxDeviceName.SelectedIndex = 0;
+				}
 			}
 
 			#endregion
@@ -248,6 +258,37 @@ namespace S20_Power_Points
 		}
 		#endregion
 
+		#region Wait
+
+		private void WaitCmd()
+		{
+			int milliseconds = 200;
+			Thread.Sleep(milliseconds);
+		}
+		#endregion
+
+		#region Toggle Power
+		private void pictureBoxTogglePWR_Click(object sender, EventArgs e)
+		{
+			if (textBoxIP.Text != "")
+			{
+				if (GlobalVar.PowerStatusOn)
+				{
+					PowerOff();
+				}
+				else
+				{
+					PowerOn();
+				}
+			}
+			else
+			{
+				MessageBox.Show(@"No devices listed. Add new device first.");
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed.\n"));
+			}	
+		}
+		#endregion
+
 		#region Power Off
 
 		private void PowerOff()
@@ -310,7 +351,7 @@ namespace S20_Power_Points
 					GlobalVar.HexValue.Add("0");
 				}
 				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "1" && repeat++ < 5);
+			} while (GlobalVar.HexValue[0] == "1" && repeat++ < 3);
 		}
 		#endregion
 
@@ -373,7 +414,7 @@ namespace S20_Power_Points
 				}
 
 				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "0" && repeat++ < 5);
+			} while (GlobalVar.HexValue[0] == "0" && repeat++ < 3);
 		}
 		#endregion
 
@@ -410,7 +451,6 @@ namespace S20_Power_Points
 					packet = client.Receive(ref server);
 				}
 				Debug.WriteLine(Encoding.ASCII.GetString(packet));
-				GlobalVar.RX_Data = server.Address;
 				int i = 0;
 				GlobalVar.HexValue.Clear();
 				GlobalVar.HexValue.Add("");
@@ -435,15 +475,82 @@ namespace S20_Power_Points
 				} while (i++ < rxPacketLength - 1);
 				if (mode == "Discover")
 				{
-					GlobalVar.MacAddress.Add(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1]);
-					GlobalVar.ReverseMacAddress.Add(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1]);
+					if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0) //checks if Received IP Address is already registered.
+					{
+						MessageBox.Show(@"No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.");
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
+					}
+					else
+					{
+						var devicename = new DeviceName();
+						devicename.ShowDialog();
+						if (GlobalVar.CancelDiscover)
+						{
+							client.Close();
+							return;
+						}
+						GlobalVar.MacAddress.Add(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1]);
+						GlobalVar.ReverseMacAddress.Add(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1]);	
+						GlobalVar.RX_Data = server.Address;
+						
+						string[] splitString = GlobalVar.ReverseMacAddress[GlobalVar.ReverseMacAddress.Count - 1].Split(':');
+						var ii = 0;
+						foreach (string value in splitString)
+						{
+							if (value != "")
+							{
+								GlobalVar.ReverseMac[ii] = Convert.ToByte(value);
+								ii++;
+							}
+						}
+
+						splitString = GlobalVar.MacAddress[GlobalVar.MacAddress.Count - 1].Split(':');
+						var iii = 0;
+						foreach (string value in splitString)
+						{
+							if (value != "")
+							{
+								GlobalVar.Mac[iii] = Convert.ToByte(value);
+								iii++;
+							}
+						}
+						IPEndPoint endPoint = new IPEndPoint(GlobalVar.RX_Data, 10000);
+						//Construct data packet to turn S20 Power socket on
+					//	byte[] sendDataByte = { 0x68, 0x64, 0x00, 0xa5, 0x74, 0x6d, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x01, 0x8a, 0x00, 0x01, 0x00, 0x43, 0x25, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac,       0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x38, 0x38, 0x38, 0x38, 0x38, 0x38, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,    0x64, 0x64, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x04, 0x00, 0x20, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,0x10, 0x27, 0x2a, 0x79, 0x6f, 0xd0, 0x10, 0x27, 0x76, 0x69, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x6f, 0x72, 0x76, 0x69, 0x62, 0x6f, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0xa8, 0x01, 0xc8, 0xc0, 0xa8, 0x01, 0x01, 0xff, 0xff, 0xff, 0x00, 0x01, 0x01, 0x00, 0x0a, 0x00, 0xff, 0x00, 0xff };
+						//																68:64:00:a5:74:6d:ac:cf:23:36:06:78:20:20:20:20:20:20:				00:00:00:00:				04:00:01:8a:00:01											:00:43:25:ac:cf:23:36:06:78:20:20:20:20:20:20					:78:06:36:23:cf:ac:						20:20:20:20:20:20:38:38:38:38:38:38																				:63:63:64:64:20:20:20:20:20:20:20:20:20:20:20:20:												04:00:20:		00:		00:		00:	10:		00	:00:	00:	05:		00	:00:	00:10:27:2a:79:6f:d0:10:					27:76:69:63:65:6e:					74:65:72:2e:6f:					72:76:69:			62:6f:2e:63:6f:6d:				00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:																											c0:a8:01:c8:c0:a8:01:01:ff:ff:ff:00:01:01:00:0a:00:ff:00:ff
+						byte[] sendDataByte = new byte[GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd1.Length];
+						Array.Copy(GlobalVar.RenameCmd, 0, sendDataByte, 0, GlobalVar.RenameCmd.Length);
+						Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.RenameCmd.Length, GlobalVar.Mac.Length);
+						Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
+						Array.Copy(GlobalVar.RenameCmd1, 0, sendDataByte, GlobalVar.RenameCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.RenameCmd1.Length);
+
+						byte[] sendDataByte1 = new byte[sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.ReverseMac.Length];
+						Array.Copy(sendDataByte, 0, sendDataByte1, 0, sendDataByte.Length);
+						Array.Copy(GlobalVar.Mac, 0, sendDataByte1, sendDataByte.Length, GlobalVar.Mac.Length);
+						Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte1, sendDataByte.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
+						Array.Copy(GlobalVar.ReverseMac, 0, sendDataByte1, sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length, GlobalVar.ReverseMac.Length);
+
+						byte[] sendDataByte2 = new byte[sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length + GlobalVar.DeviceName.Length];
+						Array.Copy(sendDataByte1, 0, sendDataByte2, 0, sendDataByte1.Length);
+						Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte2, sendDataByte1.Length, GlobalVar.TwentiesBuffer.Length);
+						Array.Copy(GlobalVar.RenameCmd2, 0, sendDataByte2, sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length, GlobalVar.RenameCmd2.Length);
+						Array.Copy(GlobalVar.DeviceName, 0, sendDataByte2, sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length, GlobalVar.DeviceName.Length);
+
+						byte[] sendDataByte3 = new byte[sendDataByte2.Length + GlobalVar.RenameCmd3.Length];
+						Array.Copy(sendDataByte2, 0, sendDataByte3, 0, sendDataByte2.Length);
+						Array.Copy(GlobalVar.RenameCmd3, 0, sendDataByte3, sendDataByte2.Length, GlobalVar.RenameCmd3.Length);
+		
+						sendData(sendDataByte3, endPoint);
+					}
 				}
 			}
 			catch
 			{
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + comboBoxDeviceName.SelectedText + "within a predetermined time. Check your network connection.\n"));
+				if (textBoxIP.Text != "")
+				{
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " within a predetermined time. Check your network connection.\n"));					
+				}
 			}
-
 			client.Close();
 		}
 		#endregion
@@ -451,12 +558,6 @@ namespace S20_Power_Points
 		#region Discover //Used to get new devices on the network
 		private void pictureBoxAdd_Click(object sender, EventArgs e)
 		{
-			var devicename = new DeviceName();
-			devicename.ShowDialog();
-			if (GlobalVar.CancelDiscover)
-			{
-				return;
-			}
 			IPEndPoint endPoint = new IPEndPoint(GlobalVar.IP_Address_BCast, 10000);
 
 			byte[] buffer = { 0x68, 0x64, 0x00, 0x06, 0x71, 0x61 };
@@ -469,14 +570,19 @@ namespace S20_Power_Points
 				string mode = "Discover";
 				receiveData(rxPacket, rxPacketLength, mode); //Enable this when not testing without network.
 				//		GlobalVar.RX_Data = IPAddress.Parse("192.168.0.24"); //remove this line when not testing without network.
-				if (GlobalVar.RX_Data != null)
+
+				if (GlobalVar.RX_Data != null && GlobalVar.CancelDiscover == false)
 				{
 					GlobalVar.IpAddress.Add(GlobalVar.RX_Data.ToString());
 					comboBoxDeviceName.Items.Add(GlobalVar.Device_Name[GlobalVar.Device_Name.Count - 1]);
 					comboBoxDeviceName.SelectedIndex = comboBoxDeviceName.Items.Count - 1;
 					textBoxIP.Text = GlobalVar.RX_Data.ToString();
+					GlobalVar.RX_Data = null;
 					textBoxMacAddress.Text = GlobalVar.MacAddress[GlobalVar.MacAddress.Count() - 1];
-					buttonSubscribe_Click(null, null);
+					WaitCmd();
+					WaitCmd();
+					WaitCmd();
+					getStatus();
 				}
 			}
 			GlobalVar.dataReceived = false;
@@ -533,17 +639,12 @@ namespace S20_Power_Points
 				{
 					receiveData(rxPacket, rxPacketLength, mode);
 				} while (GlobalVar.HexValue[0] != "99:108:" && repeat++ < 5);
-				int milliseconds = 200;
-				Thread.Sleep(milliseconds);
+				WaitCmd();
 			}
 			catch
 			{
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Unable to reach network, ensure you have a network connection\n"));
 			}
-		}
-		private void buttonSubscribe_Click(object sender, EventArgs e)
-		{
-			
 		}
 		#endregion
 
@@ -555,62 +656,123 @@ namespace S20_Power_Points
 				MessageBox.Show(@"No devices listed, please select Discover to find new sockets.");
 				return;
 			}
-			IPEndPoint endPoint = new IPEndPoint(GlobalVar.IP_Address, 10000);
+			IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
 
 			byte[] buffer = { 0x68, 0x64, 0x00, 0x1E, 0x63, 0x6c, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac, 0x00, 0x00, 0x00, 0x00 };
 			sendData(buffer, endPoint);
 		}
 		#endregion
 
-		private void pictureBoxTogglePWR_Click(object sender, EventArgs e)
-		{
-			if (GlobalVar.PowerStatusOn)
-			{
-				PowerOff();
-			}
-			else
-			{
-				PowerOn();
-			}
-		}
-
+		#region Get Device Status
 		private void comboBoxDeviceName_SelectionChangeCommitted(object sender, EventArgs e)
 		{
-			getStatus();
+			getStatus();				
 		}
-
+		
 		private void getStatus()
 		{
-			textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
-			textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
-			comboBoxDeviceName.Text = GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex];
-			Subscribe();
-			if (GlobalVar.PowerStatus == 1)
+			if (GlobalVar.Device_Name.Count > 0)
 			{
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
-				pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
-				GlobalVar.PowerStatusOn = true;
+				textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+				textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
+				comboBoxDeviceName.Text = GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex];
+				Subscribe();
+				if (GlobalVar.PowerStatus == 1)
+				{
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
+						(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
+					pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
+					GlobalVar.PowerStatusOn = true;
+				}
+				else
+				{
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
+						(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
+					pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+					GlobalVar.PowerStatusOn = false;
+				}
 			}
 			else
 			{
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
-				pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
-				GlobalVar.PowerStatusOn = false;
+				MessageBox.Show(@"No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.");
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 			}
 		}
+		#endregion
 
+		#region Delete Device
 		private void pictureBoxDelete_Click(object sender, EventArgs e)
 		{
-			GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-			GlobalVar.MacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-			GlobalVar.Device_Name.RemoveAt(comboBoxDeviceName.SelectedIndex);
-			GlobalVar.ReverseMacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-			comboBoxDeviceName.Items.RemoveAt(comboBoxDeviceName.SelectedIndex);
-			textBoxIP.Text = GlobalVar.IpAddress[0];
-			textBoxMacAddress.Text = GlobalVar.MacAddress[0];
-			comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
-			comboBoxDeviceName.SelectedIndex = 0;
-			getStatus();
+			if (GlobalVar.Device_Name.Count > 0)
+			{
+				GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+				GlobalVar.MacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+				GlobalVar.Device_Name.RemoveAt(comboBoxDeviceName.SelectedIndex);
+				GlobalVar.ReverseMacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+				comboBoxDeviceName.Items.RemoveAt(comboBoxDeviceName.SelectedIndex);
+				if (GlobalVar.Device_Name.Count > 0)
+				{
+					textBoxIP.Text = GlobalVar.IpAddress[0];
+					textBoxMacAddress.Text = GlobalVar.MacAddress[0];
+					comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
+					comboBoxDeviceName.SelectedIndex = 0;
+					getStatus();
+				}
+				else
+				{
+					textBoxIP.Text = "";
+					textBoxMacAddress.Text = "";
+					comboBoxDeviceName.Text = "";
+				}
+			}
+			else
+			{
+				MessageBox.Show(@"No devices listed to delete.");
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices to delete.\n"));
+			}
+			
 		}
+		#endregion
+
+		#region Capture Data
+
+		private void buttonCaptureData_Click(object sender, EventArgs e)
+		{
+			//Send
+			IPEndPoint endPoint1 = new IPEndPoint(GlobalVar.IP_Address_BCast, 10000);
+			byte[] buffer1 = { 0x68, 0x64, 0x00, 0x2a, 0x71, 0x61, 0x00, 0x50, 0x1a, 0xc5, 0xf2, 0x83, 0x8d, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x8d, 0x83, 0xf2, 0xc5, 0x1a, 0x50, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x53, 0x4f, 0x43, 0x30, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x01 };
+			sendData(buffer1, endPoint1);
+
+			UdpClient client = new UdpClient(10000);
+			IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, 10000);
+
+			client.Client.ReceiveTimeout = 1000;
+			try
+			{
+				byte[] packet = client.Receive(ref server);
+				packet = client.Receive(ref server);
+				Debug.WriteLine(Encoding.ASCII.GetString(packet));
+
+				//Send
+				IPEndPoint endPoint = new IPEndPoint(GlobalVar.IP_Address_BCast, 10000);
+				byte[] buffer = {0x68, 0x64, 0x00, 0x2a, 0x71, 0x61, 0x00, 0x50, 0x1a, 0xc5, 0xf2, 0x83, 0x8d, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x8d, 0x83, 0xf2, 0xc5, 0x1a, 0x50, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x53, 0x4f, 0x43, 0x30, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x01};
+										//									68:64:00:2a:71:61:00:50:1a:c5:f2:83:8d:20:20:20:20:20:20:8d:83:f2:c5:1a:50:20:20:20:20:20:20:53:4f:43:30:30:32:00:00:00:00:00
+				sendData(buffer, endPoint);
+
+				////RX
+				//UdpClient client1 = new UdpClient(10000);
+				//IPEndPoint server1 = new IPEndPoint(IPAddress.Broadcast, 10000);
+				//byte[] packet1 = client1.Receive(ref server1);
+				//packet1 = client1.Receive(ref server1);
+
+				
+			}
+			catch
+			{
+			}
+			client.Close();
+		}
+
+		#endregion
 	}
 }
