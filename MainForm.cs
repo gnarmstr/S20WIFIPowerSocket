@@ -178,7 +178,6 @@ namespace S20_Power_Points
 		#region Instructions
 		private void buttonInstructions_Click(object sender, EventArgs e)
 		{
-
 			var instructions = new Instructions();
 			instructions.ShowDialog();
 		}
@@ -247,6 +246,7 @@ namespace S20_Power_Points
 				} while (i < GlobalVar.MacAddress.Count());
 			}
 
+			GlobalVar.MessageBoxData = "Settings and Data have been saved.";
 			var okMessage = new OkMessage();
 			okMessage.ShowDialog();
 		}
@@ -272,6 +272,8 @@ namespace S20_Power_Points
 		{
 			if (textBoxIP.Text != "")
 			{
+				Cursor.Current = Cursors.WaitCursor;
+
 				if (GlobalVar.PowerStatusOn)
 				{
 					PowerOff();
@@ -280,10 +282,15 @@ namespace S20_Power_Points
 				{
 					PowerOn();
 				}
+
+				Cursor.Current = Cursors.Default;
 			}
 			else
 			{
-				MessageBox.Show(@"No devices listed. Add new device first.");
+				GlobalVar.MessageBoxData = "No devices listed. Add new device first.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+				
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed.\n"));
 			}	
 		}
@@ -295,7 +302,9 @@ namespace S20_Power_Points
 		{
 			if (comboBoxDeviceName.Items.Count == 0)
 			{
-				MessageBox.Show(@"No devices listed, please select Discover to find new sockets.");
+				GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
 				return;
 			}
 			Subscribe();
@@ -308,7 +317,9 @@ namespace S20_Power_Points
 			{
 				if (comboBoxDeviceName.Items.Count == 0)
 				{
-					MessageBox.Show(@"No devices listed, please select Discover to find new sockets.");
+					GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+					var okMessage = new OkMessage();
+					okMessage.ShowDialog();
 					return;
 				}
 
@@ -335,7 +346,7 @@ namespace S20_Power_Points
 				int rxPacket = 22;
 				int rxPacketLength = 1;
 				string mode = "PowerStatus";
-				receiveData(rxPacket, rxPacketLength, mode);
+				receiveData(rxPacket, rxPacketLength, mode, repeat);
 				//Code to check if S20 Power is on or off. TO BE DONE
 				try
 				{
@@ -351,7 +362,7 @@ namespace S20_Power_Points
 					GlobalVar.HexValue.Add("0");
 				}
 				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "1" && repeat++ < 3);
+			} while (GlobalVar.HexValue[0] == "1" && repeat++ < 2);
 		}
 		#endregion
 
@@ -362,7 +373,9 @@ namespace S20_Power_Points
 			//	GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.24");
 			if (comboBoxDeviceName.Items.Count == 0)
 			{
-				MessageBox.Show(@"No devices listed, please select Discover to find new sockets.");
+				GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
 				return;
 			}
 			Subscribe();
@@ -396,7 +409,7 @@ namespace S20_Power_Points
 				int rxPacket = 22;
 				int rxPacketLength = 1;
 				string mode = "PowerStatus";
-				receiveData(rxPacket, rxPacketLength, mode);
+				receiveData(rxPacket, rxPacketLength, mode, repeat);
 
 				//Code to check if S20 Power is on or off. TO BE DONE
 				try
@@ -414,7 +427,7 @@ namespace S20_Power_Points
 				}
 
 				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "0" && repeat++ < 3);
+			} while (GlobalVar.HexValue[0] == "0" && repeat++ < 2);
 		}
 		#endregion
 
@@ -436,7 +449,7 @@ namespace S20_Power_Points
 		#endregion
 
 		#region Receive Data
-		public void receiveData(int rxPacket, int rxPacketLength, string mode)
+		public void receiveData(int rxPacket, int rxPacketLength, string mode, int repeat)
 		{
 			UdpClient client = new UdpClient(10000);
 			IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, 10000);
@@ -477,7 +490,9 @@ namespace S20_Power_Points
 				{
 					if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0) //checks if Received IP Address is already registered.
 					{
-						MessageBox.Show(@"No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.");
+						GlobalVar.MessageBoxData = "No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
+						var okMessage = new OkMessage();
+						okMessage.ShowDialog();
 						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 					}
 					else
@@ -489,8 +504,8 @@ namespace S20_Power_Points
 							client.Close();
 							return;
 						}
-						GlobalVar.MacAddress.Add(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1]);
-						GlobalVar.ReverseMacAddress.Add(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1]);	
+						GlobalVar.MacAddress.Add(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1));
+						GlobalVar.ReverseMacAddress.Add(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Remove(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Length - 1));
 						GlobalVar.RX_Data = server.Address;
 						
 						string[] splitString = GlobalVar.ReverseMacAddress[GlobalVar.ReverseMacAddress.Count - 1].Split(':');
@@ -548,7 +563,7 @@ namespace S20_Power_Points
 			{
 				if (textBoxIP.Text != "")
 				{
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " within a predetermined time. Check your network connection.\n"));					
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " within a predetermined time.\nCheck your network connection. Retry " + repeat + ".\n"));					
 				}
 			}
 			client.Close();
@@ -558,17 +573,19 @@ namespace S20_Power_Points
 		#region Discover //Used to get new devices on the network
 		private void pictureBoxAdd_Click(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			IPEndPoint endPoint = new IPEndPoint(GlobalVar.IP_Address_BCast, 10000);
 
 			byte[] buffer = { 0x68, 0x64, 0x00, 0x06, 0x71, 0x61 };
 			sendData(buffer, endPoint);
 
+			int repeat = 0;
 			if (GlobalVar.dataReceived)
 			{
 				int rxPacket = 7;
 				int rxPacketLength = 6;
 				string mode = "Discover";
-				receiveData(rxPacket, rxPacketLength, mode); //Enable this when not testing without network.
+				receiveData(rxPacket, rxPacketLength, mode, repeat); //Enable this when not testing without network.
 				//		GlobalVar.RX_Data = IPAddress.Parse("192.168.0.24"); //remove this line when not testing without network.
 
 				if (GlobalVar.RX_Data != null && GlobalVar.CancelDiscover == false)
@@ -586,6 +603,7 @@ namespace S20_Power_Points
 				}
 			}
 			GlobalVar.dataReceived = false;
+			Cursor.Current = Cursors.Default;
 		}
 		#endregion
 
@@ -637,8 +655,8 @@ namespace S20_Power_Points
 				string mode = "Subscribe";
 				do
 				{
-					receiveData(rxPacket, rxPacketLength, mode);
-				} while (GlobalVar.HexValue[0] != "99:108:" && repeat++ < 5);
+					receiveData(rxPacket, rxPacketLength, mode, repeat);
+				} while (GlobalVar.HexValue[0] != "99:108:" && repeat++ < 2);
 				WaitCmd();
 			}
 			catch
@@ -653,7 +671,9 @@ namespace S20_Power_Points
 		{
 			if (comboBoxDeviceName.Items.Count == 0)
 			{
-				MessageBox.Show(@"No devices listed, please select Discover to find new sockets.");
+				GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
 				return;
 			}
 			IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
@@ -694,7 +714,9 @@ namespace S20_Power_Points
 			}
 			else
 			{
-				MessageBox.Show(@"No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.");
+				GlobalVar.MessageBoxData = "No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 			}
 		}
@@ -703,6 +725,7 @@ namespace S20_Power_Points
 		#region Delete Device
 		private void pictureBoxDelete_Click(object sender, EventArgs e)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			if (GlobalVar.Device_Name.Count > 0)
 			{
 				GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
@@ -727,9 +750,12 @@ namespace S20_Power_Points
 			}
 			else
 			{
-				MessageBox.Show(@"No devices listed to delete.");
+				GlobalVar.MessageBoxData = "No devices listed to delete.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices to delete.\n"));
 			}
+			Cursor.Current = Cursors.Default;
 			
 		}
 		#endregion
@@ -774,5 +800,27 @@ namespace S20_Power_Points
 		}
 
 		#endregion
+
+		#region Scheduler
+		private void buttonSchedules_Click(object sender, EventArgs e)
+		{
+			if (comboBoxDeviceName.Items.Count != 0)
+			{
+				GlobalVar.MainFormLocxationX = Location.X;
+				GlobalVar.MainFormLocxationY = Location.Y;
+				Hide();
+				var schedules = new Schedules();
+				schedules.ShowDialog();
+				Show();
+			}
+			else
+			{
+				GlobalVar.MessageBoxData = "You must have a Device registered before you can use the scheduler.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+			}
+		}
+		#endregion
+
 	}
 }

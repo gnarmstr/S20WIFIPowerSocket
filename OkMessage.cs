@@ -16,6 +16,7 @@ namespace S20_Power_Points
 			BackgroundImage = Resources.Button_Green;
 			BackgroundImageLayout = ImageLayout.Stretch;
 			panel1.BackgroundImage = Resources.BlackBackground;
+			labelMessage.Text = GlobalVar.MessageBoxData;
 		}
 
 		protected override CreateParams CreateParams

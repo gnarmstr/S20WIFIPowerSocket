@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms.VisualStyles;
 
 namespace S20_Power_Points
 {
@@ -13,6 +14,10 @@ namespace S20_Power_Points
 		public static string SettingsPath;
 
 		public static bool PowerStatusOn;
+
+		public static string MessageBoxData;
+
+		public static bool ToggleEvent;
 
 		public static bool CancelDiscover;
 
@@ -74,6 +79,26 @@ namespace S20_Power_Points
 		public static List<string> Device_Name = new List<String>();
 
 		public static bool dataReceived;
+
+		public static List<string> Schedule_Name = new List<String>();
+
+		public static List<DateTime> Schedule_Time = new List<DateTime>();
+
+		public static List<bool> Schedule_Mon = new List<bool>();
+
+		public static List<bool> Schedule_Tue = new List<bool>();
+
+		public static List<bool> Schedule_Wed = new List<bool>();
+
+		public static List<bool> Schedule_Thu = new List<bool>();
+
+		public static List<bool> Schedule_Fri = new List<bool>();
+
+		public static List<bool> Schedule_Sat = new List<bool>();
+
+		public static List<bool> Schedule_Sun = new List<bool>();
+
+		public static List<bool> Schedule_Toggle = new List<bool>();
 
 
 		public static int receiveTimeOut;

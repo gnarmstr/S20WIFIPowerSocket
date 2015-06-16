@@ -94,7 +94,7 @@
 			this.buttonMainTitle.Name = "buttonMainTitle";
 			this.buttonMainTitle.Size = new System.Drawing.Size(806, 43);
 			this.buttonMainTitle.TabIndex = 96;
-			this.buttonMainTitle.Text = "DVA COMPENSATION (MRCA) CALCULATOR";
+			this.buttonMainTitle.Text = "S20 WIFI SOCKET CONTROL - INSTRUCTIONS";
 			this.buttonMainTitle.UseVisualStyleBackColor = false;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);

@@ -124,6 +124,7 @@ namespace S20_Power_Points
 			Profiles,
 			AppSettings,
 			DeviceSettings,
+			Schedules,
 			Other
 		};
 

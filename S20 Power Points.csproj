@@ -87,6 +87,7 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -100,6 +101,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScheduleName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScheduleName.Designer.cs">
+      <DependentUpon>ScheduleName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Schedules.Designer.cs">
+      <DependentUpon>Schedules.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviceName.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +154,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ScheduleName.resx">
+      <DependentUpon>ScheduleName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schedules.resx">
+      <DependentUpon>Schedules.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviceName.resx">
       <DependentUpon>DeviceName.cs</DependentUpon>
     </EmbeddedResource>

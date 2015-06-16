@@ -35,6 +35,8 @@
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
+			this.checkBoxVixen = new System.Windows.Forms.CheckBox();
+			this.label5 = new System.Windows.Forms.Label();
 			this.buttonCaptureData = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
@@ -51,8 +53,6 @@
 			this.buttonInstructions = new System.Windows.Forms.Button();
 			this.buttonSettings = new System.Windows.Forms.Button();
 			this.buttonSchedules = new System.Windows.Forms.Button();
-			this.label5 = new System.Windows.Forms.Label();
-			this.checkBoxVixen = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.SaveAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.panelMainPoints.SuspendLayout();
@@ -70,7 +70,7 @@
 			// SaveAll
 			// 
 			this.SaveAll.BackColor = System.Drawing.Color.Transparent;
-			this.SaveAll.Location = new System.Drawing.Point(512, 479);
+			this.SaveAll.Location = new System.Drawing.Point(537, 479);
 			this.SaveAll.Name = "SaveAll";
 			this.SaveAll.Size = new System.Drawing.Size(200, 40);
 			this.SaveAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -103,7 +103,7 @@
 			this.buttonMainTitle.Name = "buttonMainTitle";
 			this.buttonMainTitle.Size = new System.Drawing.Size(677, 43);
 			this.buttonMainTitle.TabIndex = 88;
-			this.buttonMainTitle.Text = "Ver 1.0               S20 Power Socket Control                    ";
+			this.buttonMainTitle.Text = "Ver 1.0                  S20 Power Socket Control                       ";
 			this.buttonMainTitle.UseVisualStyleBackColor = true;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);
@@ -134,6 +134,27 @@
 			this.panelMainPoints.Size = new System.Drawing.Size(740, 534);
 			this.panelMainPoints.TabIndex = 83;
 			// 
+			// checkBoxVixen
+			// 
+			this.checkBoxVixen.AutoSize = true;
+			this.checkBoxVixen.Location = new System.Drawing.Point(711, 17);
+			this.checkBoxVixen.Name = "checkBoxVixen";
+			this.checkBoxVixen.Size = new System.Drawing.Size(22, 21);
+			this.checkBoxVixen.TabIndex = 107;
+			this.checkBoxVixen.UseVisualStyleBackColor = true;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label5.Location = new System.Drawing.Point(564, 14);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(152, 25);
+			this.label5.TabIndex = 106;
+			this.label5.Text = "Vixen 3 Control:";
+			// 
 			// buttonCaptureData
 			// 
 			this.buttonCaptureData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -144,6 +165,7 @@
 			this.buttonCaptureData.TabIndex = 105;
 			this.buttonCaptureData.Text = "Capture Data";
 			this.buttonCaptureData.UseVisualStyleBackColor = true;
+			this.buttonCaptureData.Visible = false;
 			this.buttonCaptureData.Click += new System.EventHandler(this.buttonCaptureData_Click);
 			// 
 			// label4
@@ -152,11 +174,11 @@
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label4.Location = new System.Drawing.Point(12, 286);
+			this.label4.Location = new System.Drawing.Point(12, 280);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(45, 25);
+			this.label4.Size = new System.Drawing.Size(51, 25);
 			this.label4.TabIndex = 104;
-			this.label4.Text = "Log";
+			this.label4.Text = "Log:";
 			// 
 			// richTextBoxLog
 			// 
@@ -205,9 +227,9 @@
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label1.Location = new System.Drawing.Point(12, 14);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(129, 25);
+			this.label1.Size = new System.Drawing.Size(135, 25);
 			this.label1.TabIndex = 98;
-			this.label1.Text = "Device Name";
+			this.label1.Text = "Device Name:";
 			// 
 			// label3
 			// 
@@ -217,9 +239,9 @@
 			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label3.Location = new System.Drawing.Point(12, 186);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(201, 25);
+			this.label3.Size = new System.Drawing.Size(207, 25);
 			this.label3.TabIndex = 100;
-			this.label3.Text = "Device MAC Address";
+			this.label3.Text = "Device MAC Address:";
 			// 
 			// buttonSocketData
 			// 
@@ -231,6 +253,7 @@
 			this.buttonSocketData.TabIndex = 91;
 			this.buttonSocketData.Text = "Socket Data";
 			this.buttonSocketData.UseVisualStyleBackColor = true;
+			this.buttonSocketData.Visible = false;
 			this.buttonSocketData.Click += new System.EventHandler(this.buttonSocketData_Click);
 			// 
 			// comboBoxDeviceName
@@ -239,7 +262,7 @@
 			this.comboBoxDeviceName.Location = new System.Drawing.Point(17, 52);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
 			this.comboBoxDeviceName.Size = new System.Drawing.Size(213, 28);
-			this.comboBoxDeviceName.TabIndex = 96;
+			this.comboBoxDeviceName.TabIndex = 1;
 			this.comboBoxDeviceName.SelectionChangeCommitted += new System.EventHandler(this.comboBoxDeviceName_SelectionChangeCommitted);
 			// 
 			// label2
@@ -250,9 +273,9 @@
 			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label2.Location = new System.Drawing.Point(12, 99);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(173, 25);
+			this.label2.Size = new System.Drawing.Size(179, 25);
 			this.label2.TabIndex = 99;
-			this.label2.Text = "Device IP Address";
+			this.label2.Text = "Device IP Address:";
 			// 
 			// textBoxIP
 			// 
@@ -288,7 +311,7 @@
 			this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
 			this.buttonSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.buttonSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonSettings.Location = new System.Drawing.Point(375, 61);
+			this.buttonSettings.Location = new System.Drawing.Point(374, 61);
 			this.buttonSettings.Name = "buttonSettings";
 			this.buttonSettings.Size = new System.Drawing.Size(149, 34);
 			this.buttonSettings.TabIndex = 91;
@@ -306,27 +329,7 @@
 			this.buttonSchedules.TabIndex = 92;
 			this.buttonSchedules.Text = "Schedules";
 			this.buttonSchedules.UseVisualStyleBackColor = false;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.BackColor = System.Drawing.Color.Transparent;
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label5.Location = new System.Drawing.Point(575, 14);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(130, 25);
-			this.label5.TabIndex = 106;
-			this.label5.Text = "Vixen Control";
-			// 
-			// checkBoxVixen
-			// 
-			this.checkBoxVixen.AutoSize = true;
-			this.checkBoxVixen.Location = new System.Drawing.Point(711, 17);
-			this.checkBoxVixen.Name = "checkBoxVixen";
-			this.checkBoxVixen.Size = new System.Drawing.Size(22, 21);
-			this.checkBoxVixen.TabIndex = 107;
-			this.checkBoxVixen.UseVisualStyleBackColor = true;
+			this.buttonSchedules.Click += new System.EventHandler(this.buttonSchedules_Click);
 			// 
 			// MainForm
 			// 
@@ -371,7 +374,6 @@
 		private System.Windows.Forms.Panel panelMainPoints;
 		private System.Windows.Forms.Button buttonInstructions;
 		private System.Windows.Forms.Button buttonSocketData;
-		private System.Windows.Forms.ComboBox comboBoxDeviceName;
 		private System.Windows.Forms.TextBox textBoxIP;
 		private System.Windows.Forms.Button buttonSettings;
 		private System.Windows.Forms.TextBox textBoxMacAddress;
@@ -387,6 +389,7 @@
 		private System.Windows.Forms.Button buttonSchedules;
 		private System.Windows.Forms.CheckBox checkBoxVixen;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.ComboBox comboBoxDeviceName;
 	}
 }
 

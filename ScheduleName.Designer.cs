@@ -1,6 +1,6 @@
 ﻿namespace S20_Power_Points
 {
-	partial class DeviceName
+	partial class ScheduleName
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -33,7 +33,7 @@
 			this.pictureBoxOK = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.textBoxDeviceName = new System.Windows.Forms.TextBox();
+			this.textBoxScheduleName = new System.Windows.Forms.TextBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
@@ -46,7 +46,7 @@
 			// pictureBoxCancel
 			// 
 			this.pictureBoxCancel.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxCancel.Location = new System.Drawing.Point(431, 74);
+			this.pictureBoxCancel.Location = new System.Drawing.Point(534, 81);
 			this.pictureBoxCancel.Name = "pictureBoxCancel";
 			this.pictureBoxCancel.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxCancel.TabIndex = 15;
@@ -57,7 +57,7 @@
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(321, 74);
+			this.pictureBoxOK.Location = new System.Drawing.Point(424, 81);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 14;
@@ -73,29 +73,29 @@
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label1.Location = new System.Drawing.Point(13, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(201, 25);
+			this.label1.Size = new System.Drawing.Size(238, 25);
 			this.label1.TabIndex = 21;
-			this.label1.Text = "Enter Device name:";
+			this.label1.Text = "Enter Scheduled name:";
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
-			this.panel1.Controls.Add(this.textBoxDeviceName);
+			this.panel1.Controls.Add(this.textBoxScheduleName);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.pictureBoxCancel);
 			this.panel1.Controls.Add(this.pictureBoxOK);
 			this.panel1.Location = new System.Drawing.Point(12, 63);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(560, 173);
+			this.panel1.Size = new System.Drawing.Size(626, 173);
 			this.panel1.TabIndex = 59;
 			// 
-			// textBoxDeviceName
+			// textBoxScheduleName
 			// 
-			this.textBoxDeviceName.Location = new System.Drawing.Point(230, 24);
-			this.textBoxDeviceName.MaxLength = 16;
-			this.textBoxDeviceName.Name = "textBoxDeviceName";
-			this.textBoxDeviceName.Size = new System.Drawing.Size(281, 26);
-			this.textBoxDeviceName.TabIndex = 59;
+			this.textBoxScheduleName.Location = new System.Drawing.Point(333, 24);
+			this.textBoxScheduleName.MaxLength = 16;
+			this.textBoxScheduleName.Name = "textBoxScheduleName";
+			this.textBoxScheduleName.Size = new System.Drawing.Size(281, 26);
+			this.textBoxScheduleName.TabIndex = 59;
 			// 
 			// toolTip1
 			// 
@@ -111,9 +111,9 @@
 			this.buttonMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.buttonMainTitle.Location = new System.Drawing.Point(12, 12);
 			this.buttonMainTitle.Name = "buttonMainTitle";
-			this.buttonMainTitle.Size = new System.Drawing.Size(511, 43);
+			this.buttonMainTitle.Size = new System.Drawing.Size(577, 43);
 			this.buttonMainTitle.TabIndex = 90;
-			this.buttonMainTitle.Text = "S20 WIFI SOCKET CONTROL - DEVICE NAME";
+			this.buttonMainTitle.Text = "S20 WIFI SOCKET CONTROL - SCHEDULED NAME";
 			this.buttonMainTitle.UseVisualStyleBackColor = false;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);
@@ -122,27 +122,27 @@
 			// pictureBoxClose
 			// 
 			this.pictureBoxClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxClose.Location = new System.Drawing.Point(529, 12);
+			this.pictureBoxClose.Location = new System.Drawing.Point(595, 12);
 			this.pictureBoxClose.Name = "pictureBoxClose";
 			this.pictureBoxClose.Size = new System.Drawing.Size(43, 43);
 			this.pictureBoxClose.TabIndex = 89;
 			this.pictureBoxClose.TabStop = false;
 			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
 			// 
-			// DeviceName
+			// ScheduleName
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Info;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.ClientSize = new System.Drawing.Size(580, 250);
+			this.ClientSize = new System.Drawing.Size(650, 250);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(580, 250);
-			this.MinimumSize = new System.Drawing.Size(580, 250);
-			this.Name = "DeviceName";
+			this.MaximumSize = new System.Drawing.Size(650, 250);
+			this.MinimumSize = new System.Drawing.Size(650, 250);
+			this.Name = "ScheduleName";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Cervical  Spine Movement";
 			this.Load += new System.EventHandler(this.DeviceName_Load);
@@ -164,6 +164,6 @@
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Button buttonMainTitle;
 		private System.Windows.Forms.PictureBox pictureBoxClose;
-		private System.Windows.Forms.TextBox textBoxDeviceName;
+		private System.Windows.Forms.TextBox textBoxScheduleName;
 	}
 }
