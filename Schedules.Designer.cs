@@ -53,6 +53,7 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -135,7 +136,7 @@
 			this.checkBoxSun.TabIndex = 11;
 			this.checkBoxSun.Text = "Sun";
 			this.checkBoxSun.UseVisualStyleBackColor = true;
-			this.checkBoxSun.Leave += new System.EventHandler(this.checkBoxSun_Leave);
+			this.checkBoxSun.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxSun_MouseClick);
 			// 
 			// checkBoxSat
 			// 
@@ -149,7 +150,7 @@
 			this.checkBoxSat.TabIndex = 10;
 			this.checkBoxSat.Text = "Sat";
 			this.checkBoxSat.UseVisualStyleBackColor = true;
-			this.checkBoxSat.Leave += new System.EventHandler(this.checkBoxSat_Leave);
+			this.checkBoxSat.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxSat_MouseClick);
 			// 
 			// checkBoxFri
 			// 
@@ -163,7 +164,7 @@
 			this.checkBoxFri.TabIndex = 9;
 			this.checkBoxFri.Text = "Fri";
 			this.checkBoxFri.UseVisualStyleBackColor = true;
-			this.checkBoxFri.Leave += new System.EventHandler(this.checkBoxFri_Leave);
+			this.checkBoxFri.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxFri_MouseClick);
 			// 
 			// checkBoxThu
 			// 
@@ -177,7 +178,7 @@
 			this.checkBoxThu.TabIndex = 8;
 			this.checkBoxThu.Text = "Thu";
 			this.checkBoxThu.UseVisualStyleBackColor = true;
-			this.checkBoxThu.Leave += new System.EventHandler(this.checkBoxThu_Leave);
+			this.checkBoxThu.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxThu_MouseClick);
 			// 
 			// checkBoxWed
 			// 
@@ -191,7 +192,7 @@
 			this.checkBoxWed.TabIndex = 7;
 			this.checkBoxWed.Text = "Wed";
 			this.checkBoxWed.UseVisualStyleBackColor = true;
-			this.checkBoxWed.Leave += new System.EventHandler(this.checkBoxWed_Leave);
+			this.checkBoxWed.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxWed_MouseClick);
 			// 
 			// checkBoxTue
 			// 
@@ -205,7 +206,7 @@
 			this.checkBoxTue.TabIndex = 6;
 			this.checkBoxTue.Text = "Tue";
 			this.checkBoxTue.UseVisualStyleBackColor = true;
-			this.checkBoxTue.Leave += new System.EventHandler(this.checkBoxTue_Leave);
+			this.checkBoxTue.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxTue_MouseClick);
 			// 
 			// checkBoxMon
 			// 
@@ -219,7 +220,7 @@
 			this.checkBoxMon.TabIndex = 5;
 			this.checkBoxMon.Text = "Mon";
 			this.checkBoxMon.UseVisualStyleBackColor = true;
-			this.checkBoxMon.Leave += new System.EventHandler(this.checkBoxMon_Leave);
+			this.checkBoxMon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.checkBoxMon_MouseClick);
 			// 
 			// buttonEvent
 			// 
@@ -419,5 +420,6 @@
 		private System.Windows.Forms.CheckBox checkBoxWed;
 		private System.Windows.Forms.CheckBox checkBoxTue;
 		private System.Windows.Forms.CheckBox checkBoxMon;
+		private System.Windows.Forms.Timer timer1;
 	}
 }

@@ -20,6 +20,8 @@ using System.Net;
 using System.Net.Sockets;
 using Microsoft.Office.Interop.Excel;
 using DataTable = System.Data.DataTable;
+using Timer = System.Threading.Timer;
+using Microsoft.Win32.TaskScheduler;
 
 #endregion
 
@@ -42,6 +44,8 @@ namespace S20_Power_Points
 		}
 
 		#endregion
+
+
 
 		#region Used to allow graphgic refresh and draw before display to stop flickering
 		protected override CreateParams CreateParams

@@ -58,6 +58,7 @@ namespace S20_Power_Points
 
 		private void pictureBoxCancel_Click(object sender, EventArgs e)
 		{
+			GlobalVar.CancelRequest = true;
 			Close();
 		}
 
@@ -66,7 +67,13 @@ namespace S20_Power_Points
 			if (textBoxScheduleName.Text != "")
 			{
 				GlobalVar.Schedule_Name.Add(textBoxScheduleName.Text);
+				GlobalVar.CancelRequest = false;
 			}
+			else
+			{
+				GlobalVar.CancelRequest = true;
+			}
+			
 			Close();
 		}
 

@@ -100,6 +100,8 @@ namespace S20_Power_Points
 
 		public static List<bool> Schedule_Toggle = new List<bool>();
 
+		public static bool CancelRequest;
+
 
 		public static int receiveTimeOut;
 
