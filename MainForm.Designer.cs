@@ -53,6 +53,7 @@
 			this.buttonInstructions = new System.Windows.Forms.Button();
 			this.buttonSettings = new System.Windows.Forms.Button();
 			this.buttonSchedules = new System.Windows.Forms.Button();
+			this.timerCheckSchedules = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.SaveAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.panelMainPoints.SuspendLayout();
@@ -258,6 +259,7 @@
 			// 
 			// comboBoxDeviceName
 			// 
+			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxDeviceName.FormattingEnabled = true;
 			this.comboBoxDeviceName.Location = new System.Drawing.Point(17, 52);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
@@ -331,6 +333,11 @@
 			this.buttonSchedules.UseVisualStyleBackColor = false;
 			this.buttonSchedules.Click += new System.EventHandler(this.buttonSchedules_Click);
 			// 
+			// timerCheckSchedules
+			// 
+			this.timerCheckSchedules.Interval = 750;
+			this.timerCheckSchedules.Tick += new System.EventHandler(this.timerCheckSchedules_Tick);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -390,6 +397,7 @@
 		private System.Windows.Forms.CheckBox checkBoxVixen;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox comboBoxDeviceName;
+		private System.Windows.Forms.Timer timerCheckSchedules;
 	}
 }
 

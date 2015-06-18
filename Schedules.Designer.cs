@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.pictureBoxCancel = new System.Windows.Forms.PictureBox();
 			this.pictureBoxOK = new System.Windows.Forms.PictureBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label6 = new System.Windows.Forms.Label();
@@ -52,31 +51,16 @@
 			this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
-			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pictureBoxCancel
-			// 
-			this.pictureBoxCancel.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxCancel.Location = new System.Drawing.Point(553, 389);
-			this.pictureBoxCancel.Name = "pictureBoxCancel";
-			this.pictureBoxCancel.Size = new System.Drawing.Size(80, 80);
-			this.pictureBoxCancel.TabIndex = 15;
-			this.pictureBoxCancel.TabStop = false;
-			this.pictureBoxCancel.Tag = "8";
-			this.pictureBoxCancel.Click += new System.EventHandler(this.pictureBoxCancel_Click);
 			// 
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(445, 389);
+			this.pictureBoxOK.Location = new System.Drawing.Point(553, 383);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 14;
@@ -105,7 +89,6 @@
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.comboBoxDeviceName);
 			this.panel1.Controls.Add(this.dateTimePicker1);
-			this.panel1.Controls.Add(this.pictureBoxCancel);
 			this.panel1.Controls.Add(this.pictureBoxOK);
 			this.panel1.Location = new System.Drawing.Point(12, 63);
 			this.panel1.Name = "panel1";
@@ -295,6 +278,7 @@
 			// 
 			// comboBoxSchedulerName
 			// 
+			this.comboBoxSchedulerName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSchedulerName.FormattingEnabled = true;
 			this.comboBoxSchedulerName.Location = new System.Drawing.Point(284, 22);
 			this.comboBoxSchedulerName.Name = "comboBoxSchedulerName";
@@ -316,6 +300,7 @@
 			// 
 			// comboBoxDeviceName
 			// 
+			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxDeviceName.FormattingEnabled = true;
 			this.comboBoxDeviceName.Location = new System.Drawing.Point(284, 75);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
@@ -332,7 +317,7 @@
 			this.dateTimePicker1.Size = new System.Drawing.Size(157, 26);
 			this.dateTimePicker1.TabIndex = 3;
 			this.dateTimePicker1.Value = new System.DateTime(2015, 6, 16, 21, 32, 0, 0);
-			this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+			this.dateTimePicker1.Leave += new System.EventHandler(this.dateTimePicker1_ValueChanged);
 			// 
 			// toolTip1
 			// 
@@ -348,23 +333,13 @@
 			this.buttonMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.buttonMainTitle.Location = new System.Drawing.Point(12, 12);
 			this.buttonMainTitle.Name = "buttonMainTitle";
-			this.buttonMainTitle.Size = new System.Drawing.Size(597, 43);
+			this.buttonMainTitle.Size = new System.Drawing.Size(646, 43);
 			this.buttonMainTitle.TabIndex = 90;
 			this.buttonMainTitle.Text = "S20 WIFI SOCKET CONTROL - SCHEDULER";
 			this.buttonMainTitle.UseVisualStyleBackColor = false;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);
 			this.buttonMainTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseUp);
-			// 
-			// pictureBoxClose
-			// 
-			this.pictureBoxClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxClose.Location = new System.Drawing.Point(615, 12);
-			this.pictureBoxClose.Name = "pictureBoxClose";
-			this.pictureBoxClose.Size = new System.Drawing.Size(43, 43);
-			this.pictureBoxClose.TabIndex = 89;
-			this.pictureBoxClose.TabStop = false;
-			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
 			// 
 			// Schedules
 			// 
@@ -374,7 +349,6 @@
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.ClientSize = new System.Drawing.Size(670, 550);
 			this.Controls.Add(this.buttonMainTitle);
-			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximumSize = new System.Drawing.Size(670, 550);
@@ -383,25 +357,21 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Cervical  Spine Movement";
 			this.Load += new System.EventHandler(this.DeviceName_Load);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		public System.Windows.Forms.PictureBox pictureBoxCancel;
 		private System.Windows.Forms.PictureBox pictureBoxOK;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Button buttonMainTitle;
-		private System.Windows.Forms.PictureBox pictureBoxClose;
 		private System.Windows.Forms.DateTimePicker dateTimePicker1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ComboBox comboBoxDeviceName;
@@ -420,6 +390,5 @@
 		private System.Windows.Forms.CheckBox checkBoxWed;
 		private System.Windows.Forms.CheckBox checkBoxTue;
 		private System.Windows.Forms.CheckBox checkBoxMon;
-		private System.Windows.Forms.Timer timer1;
 	}
 }

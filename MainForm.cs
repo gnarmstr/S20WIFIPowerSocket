@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -19,6 +20,8 @@ using GemBox.Spreadsheet;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Office.Interop.Excel;
+using Quartz;
+using Quartz.Impl;
 using DataTable = System.Data.DataTable;
 using Timer = System.Threading.Timer;
 using Microsoft.Win32.TaskScheduler;
@@ -41,11 +44,21 @@ namespace S20_Power_Points
 			{
 				getStatus();
 			}
+
+			if (!Directory.Exists(GlobalVar.DocumnetsFolder))
+			{
+				Directory.CreateDirectory(GlobalVar.DocumnetsFolder);
+				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
+			}
+			if (!Directory.Exists(GlobalVar.DocumnetsFolder + @"\ToDo"))
+			{
+				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
+			}
+			timerCheckSchedules.Enabled = true;
+
 		}
 
 		#endregion
-
-
 
 		#region Used to allow graphgic refresh and draw before display to stop flickering
 		protected override CreateParams CreateParams
@@ -72,6 +85,7 @@ namespace S20_Power_Points
 			GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.255");
 			GlobalVar.receiveTimeOut = 1000;
 			GlobalVar.PowerStatusOn = false;
+			GlobalVar.NoSaveMsg = false;
 
 	//		panelMainPoints.BackgroundImage = Resources.powerbutton;
 			BackgroundImageLayout = ImageLayout.Stretch;
@@ -129,6 +143,7 @@ namespace S20_Power_Points
 					line = "DeviceName";
 					i++;
 				} while (i < GlobalVar.DeviceNumber);
+
 				if (GlobalVar.Device_Name.Count > 0)
 				{
 					textBoxIP.Text = GlobalVar.IpAddress[0];
@@ -137,6 +152,41 @@ namespace S20_Power_Points
 					comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
 					comboBoxDeviceName.SelectedIndex = 0;
 				}
+			}
+
+			i = 0;
+
+			GlobalVar.SchedulerNumber = profile.GetSetting(XmlProfileSettings.SettingType.Schedules, "SchedulerNumber", 0);
+			line = "Schedule_Name";
+			if (GlobalVar.SchedulerNumber > 0)
+			{
+				do
+				{
+					GlobalVar.Schedule_Name.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, ""));
+					line = "ScheduleDeviceName";
+					GlobalVar.ScheduleDeviceName.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, ""));
+					line = "Schedule_Time";
+					string timeAdd = (profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, "19:00:00"));
+					GlobalVar.Schedule_Time.Add(DateTime.Parse(timeAdd, CultureInfo.CurrentCulture));
+					line = "Schedule_Toggle";
+					GlobalVar.Schedule_Toggle.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, true));
+					line = "Schedule_Mon";
+					GlobalVar.Schedule_Mon.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Tue";
+					GlobalVar.Schedule_Tue.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Wed";
+					GlobalVar.Schedule_Wed.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Thu";
+					GlobalVar.Schedule_Thu.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Fri";
+					GlobalVar.Schedule_Fri.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Sat";
+					GlobalVar.Schedule_Sat.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Sun";
+					GlobalVar.Schedule_Sun.Add(profile.GetSetting(XmlProfileSettings.SettingType.Schedules, line + i, false));
+					line = "Schedule_Name";
+					i++;
+				} while (i < GlobalVar.SchedulerNumber);
 			}
 
 			#endregion
@@ -197,6 +247,9 @@ namespace S20_Power_Points
 						e.Cancel = true;
 						break;
 					case 1:
+						GlobalVar.MainFormLocxationX = Location.X;
+						GlobalVar.MainFormLocxationY = Location.Y + 100;
+						GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
 						Save();
 						break;
 					case 2:
@@ -214,7 +267,7 @@ namespace S20_Power_Points
 		#endregion
 
 		#region Save Data
-		private void Save()
+		public static void Save()
 		{
 			var profile = new XmlProfileSettings();
 
@@ -228,15 +281,16 @@ namespace S20_Power_Points
 			//}
 
 			string line;
-			if (comboBoxDeviceName.Items.Count > 0)
+			if (GlobalVar.comboBoxDeviceName > 0)
 			{
-				GlobalVar.DeviceNumber = comboBoxDeviceName.Items.Count;
+				GlobalVar.DeviceNumber = GlobalVar.comboBoxDeviceName;
 				profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, "DeviceNumber", GlobalVar.DeviceNumber.ToString());
 				int i = 0;
 				line = "DeviceName";
 				do
 				{
-					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i,Convert.ToString(comboBoxDeviceName.Items[i]));
+					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i,
+						Convert.ToString(GlobalVar.Device_Name[i]));
 					line = "DeviceIP";
 					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, GlobalVar.IpAddress[i]);
 					line = "DeviceMAC";
@@ -248,16 +302,56 @@ namespace S20_Power_Points
 					line = "DeviceName";
 					i++;
 				} while (i < GlobalVar.MacAddress.Count());
-			}
 
-			GlobalVar.MessageBoxData = "Settings and Data have been saved.";
-			var okMessage = new OkMessage();
-			okMessage.ShowDialog();
+			}
+			if (GlobalVar.Schedule_Name.Count > 0)
+			{
+				GlobalVar.SchedulerNumber = GlobalVar.Schedule_Name.Count;
+				profile.PutSetting(XmlProfileSettings.SettingType.Schedules, "SchedulerNumber", GlobalVar.SchedulerNumber);
+				int i = 0;
+				line = "Schedule_Name";
+				do
+				{
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, Convert.ToString(GlobalVar.Schedule_Name[i]));
+					line = "ScheduleDeviceName";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, Convert.ToString(GlobalVar.ScheduleDeviceName[i]));
+					line = "Schedule_Time";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Time[i].ToString());
+					line = "Schedule_Toggle";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Toggle[i]);
+					line = "Schedule_Mon";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Mon[i]);
+					line = "Schedule_Tue";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Tue[i]);
+					line = "Schedule_Wed";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Wed[i]);
+					line = "Schedule_Thu";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Thu[i]);
+					line = "Schedule_Fri";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Fri[i]);
+					line = "Schedule_Sat";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Sat[i]);
+					line = "Schedule_Sun";
+					profile.PutSetting(XmlProfileSettings.SettingType.Schedules, line + i, GlobalVar.Schedule_Sun[i]);
+					line = "Schedule_Name";
+					i++;
+				} while (i < GlobalVar.Schedule_Name.Count());
+			}
+			if (!GlobalVar.NoSaveMsg)
+			{
+				GlobalVar.MessageBoxData = "Settings and Data have been saved.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+			}
+			
 		}
 			#endregion
 
 		private void SaveAll_Click(object sender, EventArgs e)
 		{
+			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y + 100;
 			Save();
 		}
 		#endregion
@@ -805,7 +899,7 @@ namespace S20_Power_Points
 
 		#endregion
 
-		#region Scheduler
+		#region Load Scheduler
 		private void buttonSchedules_Click(object sender, EventArgs e)
 		{
 			if (comboBoxDeviceName.Items.Count != 0)
@@ -822,6 +916,39 @@ namespace S20_Power_Points
 				GlobalVar.MessageBoxData = "You must have a Device registered before you can use the scheduler.";
 				var okMessage = new OkMessage();
 				okMessage.ShowDialog();
+			}
+		}
+		#endregion
+
+		#region Timer
+		private void timerCheckSchedules_Tick(object sender, EventArgs e)
+		{
+			string[] scheduleFiles = Directory.GetFiles(GlobalVar.DocumnetsFolder + @"\ToDo");
+
+			if (scheduleFiles.Any())
+			{
+				//	 Open the file to read from. 
+				using (StreamReader sr = File.OpenText(scheduleFiles[0]))
+				{
+					var i = 0;
+					string [] s = new string[100];
+					string s1;
+					while ((s1 = sr.ReadLine()) != null)
+					{
+						s[i] = s1;
+						i++;
+					}
+					comboBoxDeviceName.Text = s[0];
+					if ( s[1].Contains("On") )
+					{
+						PowerOn();
+					}
+					else
+					{
+						PowerOff();
+					}
+				}
+				File.Delete(scheduleFiles[0]);
 			}
 		}
 		#endregion

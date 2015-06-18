@@ -10,8 +10,7 @@ namespace S20_Power_Points
 	{
 		public OkMessage()
 		{
-			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X + 50, ActiveForm.Location.Y + 150);
+			Location = new Point(GlobalVar.MainFormLocxationX + 60, GlobalVar.MainFormLocxationY + 10);
 			InitializeComponent();
 			BackgroundImage = Resources.Button_Green;
 			BackgroundImageLayout = ImageLayout.Stretch;

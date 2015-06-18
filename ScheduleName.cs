@@ -13,7 +13,7 @@ namespace S20_Power_Points
 	{
 		public ScheduleName()
 		{
-			Location = new Point(GlobalVar.MainFormLocxationX + 80, GlobalVar.MainFormLocxationY + 100);
+			Location = new Point(GlobalVar.MainFormLocxationX + 60, GlobalVar.MainFormLocxationY + 10);
 			InitializeComponent();
 			pictureBoxClose.BackgroundImage = Resources.Close;
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
@@ -66,6 +66,18 @@ namespace S20_Power_Points
 		{
 			if (textBoxScheduleName.Text != "")
 			{
+				foreach (var compare in GlobalVar.Schedule_Name)
+				{
+					if (textBoxScheduleName.Text == compare)
+					{
+						Hide();
+						GlobalVar.MessageBoxData = "There is already a Schedule with that name. Please enter new name.";
+						var okMessage = new OkMessage();
+						okMessage.ShowDialog();
+						Show();
+						return;
+					}
+				}
 				GlobalVar.Schedule_Name.Add(textBoxScheduleName.Text);
 				GlobalVar.CancelRequest = false;
 			}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -11,6 +12,8 @@ namespace S20_Power_Points
 {
 	class GlobalVar
 	{
+		public static string DocumnetsFolder = (Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents\\S20 WIFI Control"));
+
 		public static string SettingsPath;
 
 		public static bool PowerStatusOn;
@@ -78,9 +81,13 @@ namespace S20_Power_Points
 
 		public static List<string> Device_Name = new List<String>();
 
+		public static int comboBoxDeviceName;
+
 		public static bool dataReceived;
 
 		public static List<string> Schedule_Name = new List<String>();
+
+		public static List<string> ScheduleDeviceName = new List<String>();
 
 		public static List<DateTime> Schedule_Time = new List<DateTime>();
 
@@ -102,8 +109,9 @@ namespace S20_Power_Points
 
 		public static bool CancelRequest;
 
-
 		public static int receiveTimeOut;
+
+		public static int SchedulerNumber;
 
 		public static int DeviceNumber;
 
@@ -113,7 +121,7 @@ namespace S20_Power_Points
 
 		public static int offsetY;
 
-
+		public static bool NoSaveMsg;
 
 
 		public static bool startup;
