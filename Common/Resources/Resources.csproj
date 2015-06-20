@@ -146,6 +146,8 @@
     <None Include="Resources\BlackBackground.jpg" />
     <None Include="Resources\Off.png" />
     <None Include="Resources\On.png" />
+    <None Include="Resources\Yes.png" />
+    <None Include="Resources\No1.png" />
     <Content Include="Vixen Messaging.png" />
   </ItemGroup>
   <ItemGroup />

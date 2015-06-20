@@ -125,6 +125,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NewDeviceMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDeviceMessage.Designer.cs">
+      <DependentUpon>NewDeviceMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegisterDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterDevice.Designer.cs">
+      <DependentUpon>RegisterDevice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Scheduler\ScheduleName.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +178,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="NewDeviceMessage.resx">
+      <DependentUpon>NewDeviceMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegisterDevice.resx">
+      <DependentUpon>RegisterDevice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scheduler\ScheduleName.resx">
       <DependentUpon>ScheduleName.cs</DependentUpon>
     </EmbeddedResource>

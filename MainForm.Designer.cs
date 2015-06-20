@@ -124,7 +124,7 @@
 			this.buttonCaptureData.Name = "buttonCaptureData";
 			this.buttonCaptureData.Size = new System.Drawing.Size(213, 52);
 			this.buttonCaptureData.TabIndex = 105;
-			this.buttonCaptureData.Text = "Capture Data";
+			this.buttonCaptureData.Text = "Register New Device";
 			this.buttonCaptureData.UseVisualStyleBackColor = true;
 			this.buttonCaptureData.Visible = false;
 			this.buttonCaptureData.Click += new System.EventHandler(this.buttonCaptureData_Click);
@@ -213,7 +213,7 @@
 			this.buttonSocketData.Size = new System.Drawing.Size(220, 52);
 			this.buttonSocketData.TabIndex = 91;
 			this.buttonSocketData.Text = "Socket Data";
-			this.buttonSocketData.UseVisualStyleBackColor = true;
+			this.buttonSocketData.UseVisualStyleBackColor = false;
 			this.buttonSocketData.Visible = false;
 			this.buttonSocketData.Click += new System.EventHandler(this.buttonSocketData_Click);
 			// 

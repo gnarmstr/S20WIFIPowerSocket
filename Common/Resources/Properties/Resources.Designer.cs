@@ -153,6 +153,16 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap No {
+            get {
+                object obj = ResourceManager.GetObject("No", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Off {
             get {
                 object obj = ResourceManager.GetObject("Off", resourceCulture);
@@ -196,6 +206,16 @@ namespace Common.Resources.Properties {
         public static System.Drawing.Bitmap Power_On {
             get {
                 object obj = ResourceManager.GetObject("Power_On", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Yes {
+            get {
+                object obj = ResourceManager.GetObject("Yes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
