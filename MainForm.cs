@@ -32,6 +32,9 @@ namespace S20_Power_Points
 {
 	public partial class MainForm : Form
 	{
+		// TO DO LIST
+		// Add timezone control
+
 		#region Initialization
 
 		public MainForm()
@@ -78,7 +81,6 @@ namespace S20_Power_Points
 		{
 			GlobalVar.SettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
 				"Property Management and Analysis");
-			SaveAll.Image = Tools.ResizeImage(Resources.Save, 130, 30);
 			
 			GlobalVar.startup = true;
 			GlobalVar.dataReceived = false;
@@ -87,12 +89,10 @@ namespace S20_Power_Points
 			GlobalVar.PowerStatusOn = false;
 			GlobalVar.NoSaveMsg = false;
 
-	//		panelMainPoints.BackgroundImage = Resources.powerbutton;
 			BackgroundImageLayout = ImageLayout.Stretch;
 			buttonInstructions.BackgroundImage = Resources.button_Blue_Small;
 			pictureBoxClose.BackgroundImage = Resources.Close;
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
-			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Unknown;
 			pictureBoxDelete.BackgroundImage = Resources.delete;
 			pictureBoxAdd.BackgroundImage = Resources.add;
 			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
@@ -197,12 +197,6 @@ namespace S20_Power_Points
 		#region Main Form Load
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			if (GlobalVar.FirstTimeStart)
-			{
-				var firstTime = new FirstTime();
-				firstTime.ShowDialog();
-				GlobalVar.FirstTimeStart = false;
-			}
 		}
 		#endregion
 
@@ -240,27 +234,12 @@ namespace S20_Power_Points
 		#region Close Application
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-				e.Cancel = false;
-				switch (SaveMessage.SaveClose)
-				{
-					case 0:
-						e.Cancel = true;
-						break;
-					case 1:
-						GlobalVar.MainFormLocxationX = Location.X;
-						GlobalVar.MainFormLocxationY = Location.Y + 100;
-						GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
-						Save();
-						break;
-					case 2:
-						break;
-				}
+			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
+			Save();
 		}
 
 		private void pictureBoxClose_Click(object sender, EventArgs e)
 		{
-			var saveMessage = new SaveMessage();
-			saveMessage.ShowDialog();
 			Close();
 		}
 
@@ -273,12 +252,6 @@ namespace S20_Power_Points
 
 			#region Profiles
 			profile.PutSetting(XmlProfileSettings.SettingType.Profiles, "PowerStatus", GlobalVar.PowerStatus);
-
-
-			//using (Stream file = File.OpenWrite(@"c:\users\geoff\documents\PowerCmd.txt"))
-			//{
-			//	file.Write(GlobalVar.PwrCmd, 0, GlobalVar.PwrCmd.Length);
-			//}
 
 			string line;
 			if (GlobalVar.comboBoxDeviceName > 0)
@@ -303,6 +276,10 @@ namespace S20_Power_Points
 					i++;
 				} while (i < GlobalVar.MacAddress.Count());
 
+			}
+			else
+			{
+				File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\S20 Socket Control\Settings.xml");
 			}
 			if (GlobalVar.Schedule_Name.Count > 0)
 			{
@@ -337,23 +314,9 @@ namespace S20_Power_Points
 					i++;
 				} while (i < GlobalVar.Schedule_Name.Count());
 			}
-			if (!GlobalVar.NoSaveMsg)
-			{
-				GlobalVar.MessageBoxData = "Settings and Data have been saved.";
-				var okMessage = new OkMessage();
-				okMessage.ShowDialog();
-			}
-			
 		}
 			#endregion
 
-		private void SaveAll_Click(object sender, EventArgs e)
-		{
-			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
-			GlobalVar.MainFormLocxationX = Location.X;
-			GlobalVar.MainFormLocxationY = Location.Y + 100;
-			Save();
-		}
 		#endregion
 
 		#region Wait
@@ -368,6 +331,8 @@ namespace S20_Power_Points
 		#region Toggle Power
 		private void pictureBoxTogglePWR_Click(object sender, EventArgs e)
 		{
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
 			if (textBoxIP.Text != "")
 			{
 				Cursor.Current = Cursors.WaitCursor;
@@ -388,9 +353,9 @@ namespace S20_Power_Points
 				GlobalVar.MessageBoxData = "No devices listed. Add new device first.";
 				var okMessage = new OkMessage();
 				okMessage.ShowDialog();
-				
+
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed.\n"));
-			}	
+			}
 		}
 		#endregion
 
@@ -588,6 +553,8 @@ namespace S20_Power_Points
 				{
 					if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0) //checks if Received IP Address is already registered.
 					{
+						GlobalVar.MainFormLocxationX = Location.X;
+						GlobalVar.MainFormLocxationY = Location.Y;
 						GlobalVar.MessageBoxData = "No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
 						var okMessage = new OkMessage();
 						okMessage.ShowDialog();
@@ -702,6 +669,8 @@ namespace S20_Power_Points
 			}
 			GlobalVar.dataReceived = false;
 			Cursor.Current = Cursors.Default;
+			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
+			Save();
 		}
 		#endregion
 
@@ -823,28 +792,60 @@ namespace S20_Power_Points
 		#region Delete Device
 		private void pictureBoxDelete_Click(object sender, EventArgs e)
 		{
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
 			Cursor.Current = Cursors.WaitCursor;
 			if (GlobalVar.Device_Name.Count > 0)
 			{
-				GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-				GlobalVar.MacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-				GlobalVar.Device_Name.RemoveAt(comboBoxDeviceName.SelectedIndex);
-				GlobalVar.ReverseMacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
-				comboBoxDeviceName.Items.RemoveAt(comboBoxDeviceName.SelectedIndex);
-				if (GlobalVar.Device_Name.Count > 0)
+				try
 				{
-					textBoxIP.Text = GlobalVar.IpAddress[0];
-					textBoxMacAddress.Text = GlobalVar.MacAddress[0];
-					comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
-					comboBoxDeviceName.SelectedIndex = 0;
-					getStatus();
+					for (int i = 0; i < GlobalVar.Schedule_Name.Count; i++)
+					{
+						if (GlobalVar.ScheduleDeviceName[i] == comboBoxDeviceName.Text)
+						{
+							using (TaskService ts = new TaskService())
+							{
+									ts.RootFolder.DeleteTask(GlobalVar.Schedule_Name[i]);
+							}
+							GlobalVar.ScheduleDeviceName.RemoveAt(i);
+							GlobalVar.Schedule_Time.RemoveAt(i);
+							GlobalVar.Schedule_Toggle.RemoveAt(i);
+							GlobalVar.Schedule_Mon.RemoveAt(i);
+							GlobalVar.Schedule_Tue.RemoveAt(i);
+							GlobalVar.Schedule_Wed.RemoveAt(i);
+							GlobalVar.Schedule_Thu.RemoveAt(i);
+							GlobalVar.Schedule_Fri.RemoveAt(i);
+							GlobalVar.Schedule_Sat.RemoveAt(i);
+							GlobalVar.Schedule_Sun.RemoveAt(i);
+							GlobalVar.Schedule_Name.RemoveAt(i);
+							i--;
+						}
+					}
 				}
-				else
+				catch
 				{
-					textBoxIP.Text = "";
-					textBoxMacAddress.Text = "";
-					comboBoxDeviceName.Text = "";
 				}
+				//		GlobalVar.ScheduleDeviceName comboBoxDeviceName.SelectedIndex
+					GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+					GlobalVar.MacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+					GlobalVar.Device_Name.RemoveAt(comboBoxDeviceName.SelectedIndex);
+					GlobalVar.ReverseMacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+					comboBoxDeviceName.Items.RemoveAt(comboBoxDeviceName.SelectedIndex);
+					if (GlobalVar.Device_Name.Count > 0)
+					{
+						textBoxIP.Text = GlobalVar.IpAddress[0];
+						textBoxMacAddress.Text = GlobalVar.MacAddress[0];
+						comboBoxDeviceName.Text = GlobalVar.Device_Name[0];
+						comboBoxDeviceName.SelectedIndex = 0;
+						getStatus();
+					}
+					else
+					{
+						textBoxIP.Text = "";
+						textBoxMacAddress.Text = "";
+						comboBoxDeviceName.Text = "";
+					}
+				
 			}
 			else
 			{
@@ -854,7 +855,8 @@ namespace S20_Power_Points
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices to delete.\n"));
 			}
 			Cursor.Current = Cursors.Default;
-			
+			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
+			Save();
 		}
 		#endregion
 
@@ -902,13 +904,14 @@ namespace S20_Power_Points
 		#region Load Scheduler
 		private void buttonSchedules_Click(object sender, EventArgs e)
 		{
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
 			if (comboBoxDeviceName.Items.Count != 0)
 			{
-				GlobalVar.MainFormLocxationX = Location.X;
-				GlobalVar.MainFormLocxationY = Location.Y;
 				Hide();
 				var schedules = new Schedules();
 				schedules.ShowDialog();
+				BringToFront();
 				Show();
 			}
 			else

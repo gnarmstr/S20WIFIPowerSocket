@@ -125,16 +125,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScheduleName.cs">
+    <Compile Include="Scheduler\ScheduleName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScheduleName.Designer.cs">
+    <Compile Include="Scheduler\ScheduleName.Designer.cs">
       <DependentUpon>ScheduleName.cs</DependentUpon>
     </Compile>
-    <Compile Include="Schedules.cs">
+    <Compile Include="Scheduler\Schedules.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Schedules.Designer.cs">
+    <Compile Include="Scheduler\Schedules.Designer.cs">
       <DependentUpon>Schedules.cs</DependentUpon>
     </Compile>
     <Compile Include="DeviceName.cs">
@@ -150,23 +150,11 @@
     <Compile Include="Instructions.Designer.cs">
       <DependentUpon>Instructions.cs</DependentUpon>
     </Compile>
-    <Compile Include="FirstTime.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FirstTime.Designer.cs">
-      <DependentUpon>FirstTime.cs</DependentUpon>
-    </Compile>
     <Compile Include="OkMessage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OkMessage.Designer.cs">
       <DependentUpon>OkMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SaveMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaveMessage.Designer.cs">
-      <DependentUpon>SaveMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="XmlProfileSettings.cs" />
     <Compile Include="GlobalVar.cs" />
@@ -178,10 +166,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ScheduleName.resx">
+    <EmbeddedResource Include="Scheduler\ScheduleName.resx">
       <DependentUpon>ScheduleName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Schedules.resx">
+    <EmbeddedResource Include="Scheduler\Schedules.resx">
       <DependentUpon>Schedules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeviceName.resx">
@@ -190,14 +178,8 @@
     <EmbeddedResource Include="Instructions.resx">
       <DependentUpon>Instructions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FirstTime.resx">
-      <DependentUpon>FirstTime.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="OkMessage.resx">
       <DependentUpon>OkMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaveMessage.resx">
-      <DependentUpon>SaveMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

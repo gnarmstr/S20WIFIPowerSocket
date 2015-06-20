@@ -387,6 +387,7 @@ namespace S20_Power_Points
 		}
 		#endregion
 
+		#region Button and Value change actions
 		private void pictureBoxOK_Click(object sender, EventArgs e)
 		{
 			GlobalVar.NoSaveMsg = false;
@@ -456,5 +457,6 @@ namespace S20_Power_Points
 		{
 			SchedulerUpdate();
 		}
+		#endregion
 	}
 }

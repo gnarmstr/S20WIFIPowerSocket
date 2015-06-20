@@ -30,13 +30,10 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.SaveAll = new System.Windows.Forms.PictureBox();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
-			this.checkBoxVixen = new System.Windows.Forms.CheckBox();
-			this.label5 = new System.Windows.Forms.Label();
 			this.buttonCaptureData = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
@@ -54,7 +51,6 @@
 			this.buttonSettings = new System.Windows.Forms.Button();
 			this.buttonSchedules = new System.Windows.Forms.Button();
 			this.timerCheckSchedules = new System.Windows.Forms.Timer(this.components);
-			((System.ComponentModel.ISupportInitialize)(this.SaveAll)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.panelMainPoints.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
@@ -67,19 +63,6 @@
 			this.toolTip1.AutoPopDelay = 8000;
 			this.toolTip1.InitialDelay = 500;
 			this.toolTip1.ReshowDelay = 100;
-			// 
-			// SaveAll
-			// 
-			this.SaveAll.BackColor = System.Drawing.Color.Transparent;
-			this.SaveAll.Location = new System.Drawing.Point(537, 479);
-			this.SaveAll.Name = "SaveAll";
-			this.SaveAll.Size = new System.Drawing.Size(200, 40);
-			this.SaveAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this.SaveAll.TabIndex = 70;
-			this.SaveAll.TabStop = false;
-			this.SaveAll.Tag = "20";
-			this.toolTip1.SetToolTip(this.SaveAll, "This will Save all settings and lists. ");
-			this.SaveAll.Click += new System.EventHandler(this.SaveAll_Click);
 			// 
 			// printDialog1
 			// 
@@ -102,9 +85,10 @@
 			this.buttonMainTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.buttonMainTitle.Location = new System.Drawing.Point(8, 12);
 			this.buttonMainTitle.Name = "buttonMainTitle";
-			this.buttonMainTitle.Size = new System.Drawing.Size(677, 43);
+			this.buttonMainTitle.Size = new System.Drawing.Size(691, 43);
 			this.buttonMainTitle.TabIndex = 88;
-			this.buttonMainTitle.Text = "Ver 1.0                  S20 Power Socket Control                       ";
+			this.buttonMainTitle.Text = "Ver 1.3                   S20 Power Socket Control                               " +
+    "   ";
 			this.buttonMainTitle.UseVisualStyleBackColor = true;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
 			this.buttonMainTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseMove);
@@ -114,8 +98,6 @@
 			// 
 			this.panelMainPoints.BackColor = System.Drawing.Color.Transparent;
 			this.panelMainPoints.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.panelMainPoints.Controls.Add(this.checkBoxVixen);
-			this.panelMainPoints.Controls.Add(this.label5);
 			this.panelMainPoints.Controls.Add(this.buttonCaptureData);
 			this.panelMainPoints.Controls.Add(this.label4);
 			this.panelMainPoints.Controls.Add(this.richTextBoxLog);
@@ -123,7 +105,6 @@
 			this.panelMainPoints.Controls.Add(this.pictureBoxDelete);
 			this.panelMainPoints.Controls.Add(this.pictureBoxTogglePWR);
 			this.panelMainPoints.Controls.Add(this.label1);
-			this.panelMainPoints.Controls.Add(this.SaveAll);
 			this.panelMainPoints.Controls.Add(this.label3);
 			this.panelMainPoints.Controls.Add(this.buttonSocketData);
 			this.panelMainPoints.Controls.Add(this.comboBoxDeviceName);
@@ -134,27 +115,6 @@
 			this.panelMainPoints.Name = "panelMainPoints";
 			this.panelMainPoints.Size = new System.Drawing.Size(740, 534);
 			this.panelMainPoints.TabIndex = 83;
-			// 
-			// checkBoxVixen
-			// 
-			this.checkBoxVixen.AutoSize = true;
-			this.checkBoxVixen.Location = new System.Drawing.Point(711, 17);
-			this.checkBoxVixen.Name = "checkBoxVixen";
-			this.checkBoxVixen.Size = new System.Drawing.Size(22, 21);
-			this.checkBoxVixen.TabIndex = 107;
-			this.checkBoxVixen.UseVisualStyleBackColor = true;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.BackColor = System.Drawing.Color.Transparent;
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label5.Location = new System.Drawing.Point(564, 14);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(152, 25);
-			this.label5.TabIndex = 106;
-			this.label5.Text = "Vixen 3 Control:";
 			// 
 			// buttonCaptureData
 			// 
@@ -183,10 +143,10 @@
 			// 
 			// richTextBoxLog
 			// 
-			this.richTextBoxLog.Location = new System.Drawing.Point(17, 314);
+			this.richTextBoxLog.Location = new System.Drawing.Point(21, 320);
 			this.richTextBoxLog.Name = "richTextBoxLog";
 			this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.richTextBoxLog.Size = new System.Drawing.Size(716, 147);
+			this.richTextBoxLog.Size = new System.Drawing.Size(701, 185);
 			this.richTextBoxLog.TabIndex = 96;
 			this.richTextBoxLog.Text = "";
 			// 
@@ -213,7 +173,7 @@
 			// pictureBoxTogglePWR
 			// 
 			this.pictureBoxTogglePWR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(367, 52);
+			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(431, 50);
 			this.pictureBoxTogglePWR.Name = "pictureBoxTogglePWR";
 			this.pictureBoxTogglePWR.Size = new System.Drawing.Size(213, 215);
 			this.pictureBoxTogglePWR.TabIndex = 101;
@@ -360,7 +320,6 @@
 			this.Text = " ";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.SaveAll)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
 			this.panelMainPoints.ResumeLayout(false);
 			this.panelMainPoints.PerformLayout();
@@ -374,7 +333,6 @@
 		#endregion
 
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.PictureBox SaveAll;
 		private System.Windows.Forms.PrintDialog printDialog1;
 		private System.Windows.Forms.PictureBox pictureBoxClose;
 		private System.Windows.Forms.Button buttonMainTitle;
@@ -394,8 +352,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonCaptureData;
 		private System.Windows.Forms.Button buttonSchedules;
-		private System.Windows.Forms.CheckBox checkBoxVixen;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox comboBoxDeviceName;
 		private System.Windows.Forms.Timer timerCheckSchedules;
 	}

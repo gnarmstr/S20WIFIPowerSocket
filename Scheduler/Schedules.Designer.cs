@@ -60,7 +60,7 @@
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(553, 383);
+			this.pictureBoxOK.Location = new System.Drawing.Point(563, 393);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 14;
@@ -272,9 +272,9 @@
 			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label3.Location = new System.Drawing.Point(9, 25);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(253, 25);
+			this.label3.Size = new System.Drawing.Size(158, 25);
 			this.label3.TabIndex = 102;
-			this.label3.Text = "Current Selected Schedule:";
+			this.label3.Text = "Schedule Name:";
 			// 
 			// comboBoxSchedulerName
 			// 
@@ -294,9 +294,9 @@
 			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label2.Location = new System.Drawing.Point(9, 78);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(195, 25);
+			this.label2.Size = new System.Drawing.Size(180, 25);
 			this.label2.TabIndex = 100;
-			this.label2.Text = "Select Device Name:";
+			this.label2.Text = "Associated Device:";
 			// 
 			// comboBoxDeviceName
 			// 

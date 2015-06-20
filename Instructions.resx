@@ -118,20 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label85.Text" xml:space="preserve">
-    <value>1. All calculations are based on tables and formulas from the GARP M policy and will automatically adjust any allocated points based on age, combining rating and sex.
+    <value>1. S20 WIFI Control can control all your S20 Devices either manually, by Scheduling a time or controlled by Sequencing software that has the ability to add command, for example Vixen 3.
 
-2. Enter your age at your next Birthday
+2. First time use you will need to add a device, if a device is not found then ensure you have the deives plugged in and registered through the WIWO mobile app, this is only required once.
 
-3. Enter the "Maximum Weekly payment" as per DVA website as this figure is updated annually. See MRC04 link on the DVA Links tab.
+3. Once all your devices are added you can add any number of schedules and associate them with a device.
 
-4. Click the "Life Style Assessment" button and go through each area within the Life Style Form. This is used for your final compensation payout.
-
-5. Select an area on the Skeleton that you have an accepted condition in and answer any questions. Points will be allocated based on your selection and adjusted for age or combining if required.
-
-6. Select the "Whole" buttons and "Joint pain" as required. Generally DVA will take the higher of the two for example Whole Left Arm is compared to the Rating given by the arm. Also as each arm is treated as a Whole then each rating for Wrist, Elbow, Shoulder and Fingers only the highest will be used. This program automatically does this and just displays the final rating for you.
-
-7. Also select the check boxes if the accepted condition was contributed from War/Non War like service (example: MEAO) and uncheck the box for peace service (Example: Humanitarian, Exercises or in Australia)
-
-8. That’s it, as you go through and make changes the Final Payout and Compensation Factor will change.</value>
+</value>
   </data>
 </root>
