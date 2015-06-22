@@ -33,7 +33,7 @@ namespace S20_Power_Points
 	public partial class MainForm : Form
 	{
 		// TO DO LIST
-		// Add checking for IPaddress change, automatically every 30sec.
+		// Add checking for IPaddress change due to DHCP, automatically every 30sec.
 
 		#region Initialization
 
@@ -97,8 +97,6 @@ namespace S20_Power_Points
 			pictureBoxAdd.BackgroundImage = Resources.add;
 			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
 			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
-			buttonSocketData.BackgroundImage = Resources.button_Blue_Small;
-			buttonCaptureData.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
 		}
 
@@ -397,6 +395,7 @@ namespace S20_Power_Points
 				okMessage.ShowDialog();
 				return;
 			}
+
 			Subscribe();
 			if (GlobalVar.dataReceived == false)
 			{
@@ -574,8 +573,14 @@ namespace S20_Power_Points
 							GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] = GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] + packet[i + rxPacket] + ":";
 							GlobalVar.PowerStatus = Convert.ToInt16(packet[23]);
 							break;
+						case "RediscoverIP":
+							GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] = GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] + packet[i + rxPacket] + ":";
+							GlobalVar.RX_Data = server.Address;
+							break;
 					}
 				} while (i++ < rxPacketLength - 1);
+
+				#region If Mode is Discover
 				if (mode == "Discover")
 				{
 					if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0) //checks if Received IP Address is already registered.
@@ -652,6 +657,7 @@ namespace S20_Power_Points
 						sendData(sendDataByte3, endPoint);
 					}
 				}
+				#endregion
 			}
 			catch
 			{
@@ -661,6 +667,59 @@ namespace S20_Power_Points
 				}
 			}
 			client.Close();
+		}
+		#endregion
+
+		#region Rediscover of IP Addresses on all S20 Sockets
+
+		private void RediscoverDevice()
+		{
+			if (GlobalVar.Device_Name.Count > 0)
+			{
+				int repeat = 0;
+				int i = comboBoxDeviceName.SelectedIndex;
+				do
+				{
+					//possibly add Subscribe(); //if rediscover is not enough.
+					// covert Macaddress to byte
+					string[] splitString = GlobalVar.MacAddress[i].Split(':');
+					var mac = 0;
+					foreach (string value in splitString)
+					{
+						if (value != "")
+						{
+							GlobalVar.Mac[mac] = Convert.ToByte(value);
+							mac++;
+						}
+					}
+
+					//Send data
+					IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(GlobalVar.IpAddress[i]), 10000);
+					//Construct data packet to rediscover IP Address on all S20 Power sockets
+					byte[] sendDataByte = new byte[GlobalVar.RediscoverCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length];
+					Array.Copy(GlobalVar.RediscoverCmd, 0, sendDataByte, 0, GlobalVar.RediscoverCmd.Length);
+					Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.RediscoverCmd.Length, GlobalVar.Mac.Length);
+					Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.RediscoverCmd.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
+					sendData(sendDataByte, endPoint);
+
+					//Receive data
+					int rxPacket = 7; //This is the position in the received data packet where to start.
+					int rxPacketLength = 6; //This is the number of bytes to save.
+					string mode = "RediscoverIP";
+					receiveData(rxPacket, rxPacketLength, mode, repeat);
+
+					// Update IP address table
+					if (GlobalVar.MacAddress[i] == (GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1)));
+					{
+						GlobalVar.IpAddress[i] = GlobalVar.RX_Data.ToString();
+						if (comboBoxDeviceName.SelectedItem.ToString() == GlobalVar.Device_Name[i])
+						{
+							textBoxIP.Text = GlobalVar.RX_Data.ToString();
+						}
+					}
+
+				} while (i++ < GlobalVar.Device_Name.Count - 1);
+			}
 		}
 		#endregion
 
@@ -721,8 +780,9 @@ namespace S20_Power_Points
 
 		#region Subscribe
 
-		private void Subscribe()
+		private void Subscribe() //required before any communications with device.
 		{
+			RediscoverDevice(); //CHecks if IP address has changed and update if it has.
 			int repeat = 0;
 			try
 			{
@@ -760,7 +820,6 @@ namespace S20_Power_Points
 				Array.Copy(sendDataByte, 0, sendDataByte1, 0, sendDataByte.Length);
 				Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte1, sendDataByte.Length, GlobalVar.TwentiesBuffer.Length);
 
-//				byte[] buffer = { 0x68, 0x64, 0x00, 0x1e, 0x63, 0x6c, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
 				sendData(sendDataByte1, endPoint);
 				int rxPacket = 4;
 				int rxPacketLength = 2;
@@ -775,23 +834,6 @@ namespace S20_Power_Points
 			{
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Unable to reach network, ensure you have a network connection\n"));
 			}
-		}
-		#endregion
-
-		#region Socket Data
-		private void buttonSocketData_Click(object sender, EventArgs e)
-		{
-			//if (comboBoxDeviceName.Items.Count == 0)
-			//{
-			//	GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
-			//	var okMessage = new OkMessage();
-			//	okMessage.ShowDialog();
-			//	return;
-			//}
-			IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
-
-			byte[] buffer = { 0x68, 0x64, 0x00, 0x1E, 0x63, 0x6c, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac, 0x00, 0x00, 0x00, 0x00 };
-			sendData(buffer, endPoint);
 		}
 		#endregion
 
@@ -981,12 +1023,7 @@ namespace S20_Power_Points
 				sendData(buffer14, endPoint14);
 				WaitCmd15();
 			} while (i++ < 2);
-			WaitCmd6000();
-		}
-
-		private void buttonCaptureData_Click(object sender, EventArgs e)
-		{
-			
+			WaitCmd6000(); //ensures enough time for device to register with network.
 		}
 
 		#endregion
@@ -1046,5 +1083,17 @@ namespace S20_Power_Points
 		}
 		#endregion
 
+		#region Software Settings Form
+		private void buttonSettings_Click(object sender, EventArgs e)
+		{
+			Hide();
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
+			var settings = new Settings();
+			settings.ShowDialog();
+			BringToFront();
+			Show();
+		}
+		#endregion
 	}
 }

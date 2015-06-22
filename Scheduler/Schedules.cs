@@ -246,9 +246,9 @@ namespace S20_Power_Points
 					sw.WriteLine(@"set /a counter=0");
 					sw.WriteLine(@":numbers");
 					sw.WriteLine(@"set /a counter=%counter%+1");
-					sw.WriteLine(@"if exist ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @" > ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @"_" + deviceStatus + @" >> ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @" > " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @"_" + deviceStatus + @" >> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
 					sw.WriteLine(@"goto :eof)");
 					sw.WriteLine(@"goto :numbers");
 				}
@@ -280,8 +280,6 @@ namespace S20_Power_Points
 
 			using (TaskService ts = new TaskService())
 			{
-				//if (checkBoxMon.Checked | checkBoxTue.Checked | checkBoxWed.Checked | checkBoxThu.Checked | checkBoxFri.Checked | checkBoxSat.Checked | checkBoxSun.Checked)
-				//{
 					bool dayAdded = false;
 
 					TaskDefinition td = ts.NewTask();
@@ -369,7 +367,6 @@ namespace S20_Power_Points
 					td.Actions.Add(new ExecAction(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat", null, GlobalVar.DocumnetsFolder + @"\"));
 					
 				ts.RootFolder.RegisterTaskDefinition(GlobalVar.Schedule_Name[comboBoxSchedulerName.SelectedIndex], td);
-				//}
 			}
 		}
 		#endregion

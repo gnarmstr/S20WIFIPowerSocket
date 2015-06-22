@@ -13,7 +13,7 @@ namespace S20_Power_Points
 	internal class GlobalVar
 	{
 		public static string DocumnetsFolder =
-			(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents\\S20 WIFI Control"));
+			(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents\\S20WIFIControl"));
 
 		public static string SettingsPath;
 
@@ -65,6 +65,8 @@ namespace S20_Power_Points
 		};
 
 		public static byte[] SubscribeCmd = {0x68, 0x64, 0x00, 0x1e, 0x63, 0x6c};
+
+		public static byte[] RediscoverCmd = { 0x68, 0x64, 0x00, 0x12, 0x71, 0x67 };
 
 		public static byte[] On = {0x00, 0x00, 0x00, 0x00, 0x01};
 

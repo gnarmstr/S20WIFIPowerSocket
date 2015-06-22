@@ -34,7 +34,6 @@
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
-			this.buttonCaptureData = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
 			this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
@@ -42,7 +41,6 @@
 			this.pictureBoxTogglePWR = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
-			this.buttonSocketData = new System.Windows.Forms.Button();
 			this.comboBoxDeviceName = new System.Windows.Forms.ComboBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxIP = new System.Windows.Forms.TextBox();
@@ -98,7 +96,6 @@
 			// 
 			this.panelMainPoints.BackColor = System.Drawing.Color.Transparent;
 			this.panelMainPoints.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.panelMainPoints.Controls.Add(this.buttonCaptureData);
 			this.panelMainPoints.Controls.Add(this.label4);
 			this.panelMainPoints.Controls.Add(this.richTextBoxLog);
 			this.panelMainPoints.Controls.Add(this.pictureBoxAdd);
@@ -106,7 +103,6 @@
 			this.panelMainPoints.Controls.Add(this.pictureBoxTogglePWR);
 			this.panelMainPoints.Controls.Add(this.label1);
 			this.panelMainPoints.Controls.Add(this.label3);
-			this.panelMainPoints.Controls.Add(this.buttonSocketData);
 			this.panelMainPoints.Controls.Add(this.comboBoxDeviceName);
 			this.panelMainPoints.Controls.Add(this.label2);
 			this.panelMainPoints.Controls.Add(this.textBoxIP);
@@ -115,19 +111,6 @@
 			this.panelMainPoints.Name = "panelMainPoints";
 			this.panelMainPoints.Size = new System.Drawing.Size(740, 534);
 			this.panelMainPoints.TabIndex = 83;
-			// 
-			// buttonCaptureData
-			// 
-			this.buttonCaptureData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonCaptureData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonCaptureData.Location = new System.Drawing.Point(256, 474);
-			this.buttonCaptureData.Name = "buttonCaptureData";
-			this.buttonCaptureData.Size = new System.Drawing.Size(213, 52);
-			this.buttonCaptureData.TabIndex = 105;
-			this.buttonCaptureData.Text = "Register New Device";
-			this.buttonCaptureData.UseVisualStyleBackColor = true;
-			this.buttonCaptureData.Visible = false;
-			this.buttonCaptureData.Click += new System.EventHandler(this.buttonCaptureData_Click);
 			// 
 			// label4
 			// 
@@ -204,19 +187,6 @@
 			this.label3.TabIndex = 100;
 			this.label3.Text = "Device MAC Address:";
 			// 
-			// buttonSocketData
-			// 
-			this.buttonSocketData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonSocketData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.buttonSocketData.Location = new System.Drawing.Point(17, 474);
-			this.buttonSocketData.Name = "buttonSocketData";
-			this.buttonSocketData.Size = new System.Drawing.Size(220, 52);
-			this.buttonSocketData.TabIndex = 91;
-			this.buttonSocketData.Text = "Socket Data";
-			this.buttonSocketData.UseVisualStyleBackColor = false;
-			this.buttonSocketData.Visible = false;
-			this.buttonSocketData.Click += new System.EventHandler(this.buttonSocketData_Click);
-			// 
 			// comboBoxDeviceName
 			// 
 			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -279,6 +249,7 @@
 			this.buttonSettings.TabIndex = 91;
 			this.buttonSettings.Text = "Settings";
 			this.buttonSettings.UseVisualStyleBackColor = false;
+			this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
 			// 
 			// buttonSchedules
 			// 
@@ -338,7 +309,6 @@
 		private System.Windows.Forms.Button buttonMainTitle;
 		private System.Windows.Forms.Panel panelMainPoints;
 		private System.Windows.Forms.Button buttonInstructions;
-		private System.Windows.Forms.Button buttonSocketData;
 		private System.Windows.Forms.TextBox textBoxIP;
 		private System.Windows.Forms.Button buttonSettings;
 		private System.Windows.Forms.TextBox textBoxMacAddress;
@@ -350,7 +320,6 @@
 		private System.Windows.Forms.PictureBox pictureBoxAdd;
 		private System.Windows.Forms.PictureBox pictureBoxDelete;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Button buttonCaptureData;
 		private System.Windows.Forms.Button buttonSchedules;
 		private System.Windows.Forms.ComboBox comboBoxDeviceName;
 		private System.Windows.Forms.Timer timerCheckSchedules;
