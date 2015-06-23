@@ -86,6 +86,7 @@ namespace S20_Power_Points
 			GlobalVar.PowerStatusOn = false;
 			GlobalVar.NoSaveMsg = false;
 			GlobalVar.ReDiscover = false;
+			GlobalVar.PowerStatus = 3;
 
 			BackgroundImageLayout = ImageLayout.Stretch;
 			buttonInstructions.BackgroundImage = Resources.button_Blue_Small;
@@ -109,18 +110,8 @@ namespace S20_Power_Points
 
 			#region Profiles
 
-			//try
-			//{
-			//	FileStream stream = File.OpenRead(@"c:\users\geoff\documents\PowerCmd.txt");
-			//	stream.Read(GlobalVar.PwrCmd, 0, GlobalVar.PwrCmd.Length);
-			//	stream.Close();
-			//}
-			//catch
-			//{
-				
-			//}
 			GlobalVar.DeviceNumber = profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, "DeviceNumber", 0);
-			GlobalVar.PowerStatus = profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, "PowerStatus", 0);
+	//		GlobalVar.PowerStatus = profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, "PowerStatus", 0);
 			string line;
 			int i = 0;
 			line = "DeviceName";
@@ -363,11 +354,15 @@ namespace S20_Power_Points
 
 				if (GlobalVar.PowerStatusOn)
 				{
-					PowerOff();
+					GlobalVar.TogglePower = GlobalVar.Off;
+					TogglePower();
+//					PowerOff();
 				}
 				else
 				{
-					PowerOn();
+					GlobalVar.TogglePower = GlobalVar.On;
+					TogglePower();
+//					PowerOn();
 				}
 
 				Cursor.Current = Cursors.Default;
@@ -377,21 +372,21 @@ namespace S20_Power_Points
 				GlobalVar.MessageBoxData = "No devices listed. Add new device first.";
 				var okMessage = new OkMessage();
 				okMessage.ShowDialog();
-
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed.\n"));
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed. Add new device first.\n"));
 			}
 		}
 		#endregion
 
-		#region Power Off
+		#region Toggle Power
 
-		private void PowerOff()
+		private void TogglePower()
 		{
 			if (comboBoxDeviceName.Items.Count == 0)
 			{
-				GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+				GlobalVar.MessageBoxData = "No new devices found";
 				var okMessage = new OkMessage();
 				okMessage.ShowDialog();
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 				return;
 			}
 
@@ -403,13 +398,85 @@ namespace S20_Power_Points
 			int repeat = 0;
 			do
 			{
-				if (comboBoxDeviceName.Items.Count == 0)
+				string[] splitString = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex].Split(':');
+				var i = 0;
+				foreach (string value in splitString)
 				{
-					GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
-					var okMessage = new OkMessage();
-					okMessage.ShowDialog();
-					return;
+					if (value != "")
+					{
+						GlobalVar.Mac[i] = Convert.ToByte(value);
+						i++;
+					}
 				}
+
+				IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
+				//Construct data packet to turn S20 Power socket off
+				byte[] sendDataByte = new byte[GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.TogglePower.Length];
+				Array.Copy(GlobalVar.PwrCmd, 0, sendDataByte, 0, GlobalVar.PwrCmd.Length);
+				Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.PwrCmd.Length, GlobalVar.Mac.Length);
+				Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
+				Array.Copy(GlobalVar.TogglePower, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.TogglePower.Length);
+				sendData(sendDataByte, endPoint);
+
+				int rxPacket = 22;
+				int rxPacketLength = 1;
+				string mode = "PowerStatus";
+				receiveData(rxPacket, rxPacketLength, mode, repeat);
+				//Code to check if S20 Power is on or off. TO BE DONE
+				try
+				{
+					if (GlobalVar.HexValue[0] == "0")
+					{
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+						GlobalVar.PowerStatusOn = false;
+					}
+					else
+					{
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
+						GlobalVar.PowerStatusOn = true;
+					}
+				}
+				catch
+				{
+					GlobalVar.HexValue.Add("0");
+				}
+				
+			} while (GlobalVar.dataReceived == false && repeat++ < 2);
+			GlobalVar.dataReceived = false;
+		}
+		#endregion
+
+		#region Power Off
+
+		private void PowerOff()
+		{
+			if (comboBoxDeviceName.Items.Count == 0)
+			{
+				GlobalVar.MessageBoxData = "No devices found";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
+				return;
+			}
+
+			Subscribe();
+			if (GlobalVar.dataReceived == false)
+			{
+				return;
+			}
+			int repeat = 0;
+			do
+			{
+				//if (comboBoxDeviceName.Items.Count == 0)
+				//{
+				//	GlobalVar.MessageBoxData = "No devices found";
+				//	var okMessage = new OkMessage();
+				//	okMessage.ShowDialog();
+				//	richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
+				//	return;
+				//}
 
 				string[] splitString = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex].Split(':');
 				var i = 0;
@@ -461,9 +528,10 @@ namespace S20_Power_Points
 			//	GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.24");
 			if (comboBoxDeviceName.Items.Count == 0)
 			{
-				GlobalVar.MessageBoxData = "No devices listed, please select Discover to find new sockets.";
+				GlobalVar.MessageBoxData = "No devices found";
 				var okMessage = new OkMessage();
 				okMessage.ShowDialog();
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 				return;
 			}
 			Subscribe();
@@ -588,6 +656,11 @@ namespace S20_Power_Points
 					{
 						GlobalVar.dataReceived = false;
 						GlobalVar.CancelDiscover = true;
+						GlobalVar.MainFormLocxationX = Location.X;
+						GlobalVar.MainFormLocxationY = Location.Y;
+						GlobalVar.MessageBoxData = "No new devices found.";
+						var okMessage = new OkMessage();
+						okMessage.ShowDialog();
 						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 					}
 					else
@@ -711,7 +784,7 @@ namespace S20_Power_Points
 					int rxPacketLength = 6; //This is the number of bytes to save.
 					string mode = "RediscoverIP";
 					receiveData(rxPacket, rxPacketLength, mode, repeat);
-
+					WaitCmd();
 					try
 					{
 						// Update IP address table
@@ -876,19 +949,22 @@ namespace S20_Power_Points
 				textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
 				comboBoxDeviceName.Text = GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex];
 				Subscribe();
-				if (GlobalVar.PowerStatus == 1)
+				switch (GlobalVar.PowerStatus)
 				{
-					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
-						(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
-					pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
-					GlobalVar.PowerStatusOn = true;
-				}
-				else
-				{
-					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
-						(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
-					pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
-					GlobalVar.PowerStatusOn = false;
+					case 1:
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
+						GlobalVar.PowerStatusOn = true;
+						break;
+					case 0:
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+						GlobalVar.PowerStatusOn = false;
+						break;
+					case 3:
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " can not be found, please ensure you are connected to your local network and that the device is plugged in and switched on at the mains.\n"));
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Unknown;
+						break;
 				}
 			}
 			else
@@ -1131,11 +1207,15 @@ namespace S20_Power_Points
 					comboBoxDeviceName.Text = s[0];
 					if ( s[1].Contains("On") )
 					{
-						PowerOn();
+						GlobalVar.TogglePower = GlobalVar.On;
+						TogglePower();
+		//				PowerOn();
 					}
 					else
 					{
-						PowerOff();
+						GlobalVar.TogglePower = GlobalVar.Off;
+						TogglePower();
+		//				PowerOff();
 					}
 				}
 				File.Delete(scheduleFiles[0]);

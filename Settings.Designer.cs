@@ -33,23 +33,23 @@
 			this.pictureBoxOK = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.textBoxSSID = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.textBoxPasword = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
 			this.textBoxDeviceName = new System.Windows.Forms.TextBox();
+			this.textBoxUsername = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-			this.textBoxUsername = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.textBoxPasword = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.textBoxSSID = new System.Windows.Forms.TextBox();
-			this.label5 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pictureBoxCancel
@@ -99,6 +99,74 @@
 			this.panel1.Size = new System.Drawing.Size(626, 525);
 			this.panel1.TabIndex = 59;
 			// 
+			// textBoxSSID
+			// 
+			this.textBoxSSID.Location = new System.Drawing.Point(398, 249);
+			this.textBoxSSID.MaxLength = 16;
+			this.textBoxSSID.Name = "textBoxSSID";
+			this.textBoxSSID.Size = new System.Drawing.Size(199, 26);
+			this.textBoxSSID.TabIndex = 67;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label5.Location = new System.Drawing.Point(17, 250);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(346, 25);
+			this.label5.TabIndex = 66;
+			this.label5.Text = "Home WIFI Netwrok Name (SSID):";
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.label4);
+			this.groupBox1.Controls.Add(this.textBoxPasword);
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Controls.Add(this.label3);
+			this.groupBox1.Controls.Add(this.textBoxDeviceName);
+			this.groupBox1.Controls.Add(this.textBoxUsername);
+			this.groupBox1.Controls.Add(this.label2);
+			this.groupBox1.Location = new System.Drawing.Point(7, -1);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(616, 191);
+			this.groupBox1.TabIndex = 65;
+			this.groupBox1.TabStop = false;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.BackColor = System.Drawing.Color.Transparent;
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label4.Location = new System.Drawing.Point(191, 22);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(264, 25);
+			this.label4.TabIndex = 64;
+			this.label4.Text = "Remote Login Information:";
+			// 
+			// textBoxPasword
+			// 
+			this.textBoxPasword.Location = new System.Drawing.Point(292, 154);
+			this.textBoxPasword.MaxLength = 16;
+			this.textBoxPasword.Name = "textBoxPasword";
+			this.textBoxPasword.PasswordChar = '*';
+			this.textBoxPasword.Size = new System.Drawing.Size(298, 26);
+			this.textBoxPasword.TabIndex = 63;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.BackColor = System.Drawing.Color.Transparent;
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label3.Location = new System.Drawing.Point(12, 153);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(113, 25);
+			this.label3.TabIndex = 62;
+			this.label3.Text = "Password:";
+			// 
 			// textBoxDeviceName
 			// 
 			this.textBoxDeviceName.Location = new System.Drawing.Point(292, 65);
@@ -106,6 +174,26 @@
 			this.textBoxDeviceName.Name = "textBoxDeviceName";
 			this.textBoxDeviceName.Size = new System.Drawing.Size(298, 26);
 			this.textBoxDeviceName.TabIndex = 59;
+			// 
+			// textBoxUsername
+			// 
+			this.textBoxUsername.Location = new System.Drawing.Point(292, 110);
+			this.textBoxUsername.MaxLength = 16;
+			this.textBoxUsername.Name = "textBoxUsername";
+			this.textBoxUsername.Size = new System.Drawing.Size(298, 26);
+			this.textBoxUsername.TabIndex = 61;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.BackColor = System.Drawing.Color.Transparent;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label2.Location = new System.Drawing.Point(12, 109);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(117, 25);
+			this.label2.TabIndex = 60;
+			this.label2.Text = "Username:";
 			// 
 			// toolTip1
 			// 
@@ -139,94 +227,6 @@
 			this.pictureBoxClose.TabStop = false;
 			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
 			// 
-			// textBoxUsername
-			// 
-			this.textBoxUsername.Location = new System.Drawing.Point(292, 110);
-			this.textBoxUsername.MaxLength = 16;
-			this.textBoxUsername.Name = "textBoxUsername";
-			this.textBoxUsername.Size = new System.Drawing.Size(298, 26);
-			this.textBoxUsername.TabIndex = 61;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label2.Location = new System.Drawing.Point(12, 109);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(117, 25);
-			this.label2.TabIndex = 60;
-			this.label2.Text = "Username:";
-			// 
-			// textBoxPasword
-			// 
-			this.textBoxPasword.Location = new System.Drawing.Point(292, 154);
-			this.textBoxPasword.MaxLength = 16;
-			this.textBoxPasword.Name = "textBoxPasword";
-			this.textBoxPasword.PasswordChar = '*';
-			this.textBoxPasword.Size = new System.Drawing.Size(298, 26);
-			this.textBoxPasword.TabIndex = 63;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.BackColor = System.Drawing.Color.Transparent;
-			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label3.Location = new System.Drawing.Point(12, 153);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 25);
-			this.label3.TabIndex = 62;
-			this.label3.Text = "Password:";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.BackColor = System.Drawing.Color.Transparent;
-			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label4.Location = new System.Drawing.Point(191, 22);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(264, 25);
-			this.label4.TabIndex = 64;
-			this.label4.Text = "Remote Login Information:";
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Controls.Add(this.textBoxPasword);
-			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Controls.Add(this.textBoxDeviceName);
-			this.groupBox1.Controls.Add(this.textBoxUsername);
-			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(7, -1);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(616, 191);
-			this.groupBox1.TabIndex = 65;
-			this.groupBox1.TabStop = false;
-			// 
-			// textBoxSSID
-			// 
-			this.textBoxSSID.Location = new System.Drawing.Point(398, 249);
-			this.textBoxSSID.MaxLength = 16;
-			this.textBoxSSID.Name = "textBoxSSID";
-			this.textBoxSSID.Size = new System.Drawing.Size(199, 26);
-			this.textBoxSSID.TabIndex = 67;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.BackColor = System.Drawing.Color.Transparent;
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label5.Location = new System.Drawing.Point(17, 250);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(346, 25);
-			this.label5.TabIndex = 66;
-			this.label5.Text = "Home WIFI Netwrok Name (SSID):";
-			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -248,9 +248,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
 			this.ResumeLayout(false);
 
 		}

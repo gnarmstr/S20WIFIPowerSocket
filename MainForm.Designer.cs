@@ -270,7 +270,7 @@
 			// 
 			// timerCheckSchedules
 			// 
-			this.timerCheckSchedules.Interval = 750;
+			this.timerCheckSchedules.Interval = 500;
 			this.timerCheckSchedules.Tick += new System.EventHandler(this.timerCheckSchedules_Tick);
 			// 
 			// MainForm

@@ -140,7 +140,6 @@
     <None Include="Resources\Range_of_ Motion.png" />
     <None Include="Resources\powerbutton.jpg" />
     <None Include="Resources\PowerOn.jpg" />
-    <None Include="Resources\PowerOn.png" />
     <None Include="Resources\Power_On.png" />
     <None Include="Resources\Power_Off.png" />
     <None Include="Resources\BlackBackground.jpg" />
@@ -148,6 +147,7 @@
     <None Include="Resources\On.png" />
     <None Include="Resources\Yes.png" />
     <None Include="Resources\No1.png" />
+    <None Include="Resources\PowerOn.png" />
     <Content Include="Vixen Messaging.png" />
   </ItemGroup>
   <ItemGroup />
