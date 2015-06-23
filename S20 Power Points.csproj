@@ -131,12 +131,6 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewDeviceMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewDeviceMessage.Designer.cs">
-      <DependentUpon>NewDeviceMessage.cs</DependentUpon>
-    </Compile>
     <Compile Include="RegisterDevice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,9 +180,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewDeviceMessage.resx">
-      <DependentUpon>NewDeviceMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegisterDevice.resx">
       <DependentUpon>RegisterDevice.cs</DependentUpon>

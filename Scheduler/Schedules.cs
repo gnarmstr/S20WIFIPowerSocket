@@ -18,7 +18,7 @@ namespace S20_Power_Points
 		#region Settings
 		public Schedules()
 		{
-			Location = new Point(GlobalVar.MainFormLocxationX + 60, GlobalVar.MainFormLocxationY + 10);
+			Location = new Point(GlobalVar.MainFormLocxationX + 10, GlobalVar.MainFormLocxationY);
 			InitializeComponent();
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;

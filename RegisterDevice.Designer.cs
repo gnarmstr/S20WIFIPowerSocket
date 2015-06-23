@@ -29,15 +29,16 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterDevice));
 			this.pictureBoxCancel = new System.Windows.Forms.PictureBox();
 			this.pictureBoxOK = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxPassword = new System.Windows.Forms.TextBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-			this.label2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -72,7 +73,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label1.Location = new System.Drawing.Point(3, 166);
+			this.label1.Location = new System.Drawing.Point(3, 198);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(270, 25);
 			this.label1.TabIndex = 21;
@@ -91,9 +92,20 @@
 			this.panel1.Size = new System.Drawing.Size(626, 325);
 			this.panel1.TabIndex = 59;
 			// 
+			// label2
+			// 
+			this.label2.BackColor = System.Drawing.Color.Transparent;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.ForeColor = System.Drawing.Color.Crimson;
+			this.label2.Location = new System.Drawing.Point(15, 12);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(593, 170);
+			this.label2.TabIndex = 60;
+			this.label2.Text = resources.GetString("label2.Text");
+			// 
 			// textBoxPassword
 			// 
-			this.textBoxPassword.Location = new System.Drawing.Point(316, 166);
+			this.textBoxPassword.Location = new System.Drawing.Point(316, 198);
 			this.textBoxPassword.MaxLength = 16;
 			this.textBoxPassword.Name = "textBoxPassword";
 			this.textBoxPassword.Size = new System.Drawing.Size(281, 26);
@@ -130,19 +142,6 @@
 			this.pictureBoxClose.TabIndex = 89;
 			this.pictureBoxClose.TabStop = false;
 			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
-			// 
-			// label2
-			// 
-			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.Crimson;
-			this.label2.Location = new System.Drawing.Point(15, 30);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(593, 120);
-			this.label2.TabIndex = 60;
-			this.label2.Text = "Please set your Orvibo S20 socket to pair mode (rapidly blinking RED light) befor" +
-    "e continuing. This can be done by holding the button in for around 5 seconds unt" +
-    "il the Red light start flashes.";
 			// 
 			// RegisterDevice
 			// 

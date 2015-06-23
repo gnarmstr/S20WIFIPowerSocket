@@ -186,6 +186,7 @@
 			this.label3.Size = new System.Drawing.Size(207, 25);
 			this.label3.TabIndex = 100;
 			this.label3.Text = "Device MAC Address:";
+			this.label3.Visible = false;
 			// 
 			// comboBoxDeviceName
 			// 
@@ -208,6 +209,7 @@
 			this.label2.Size = new System.Drawing.Size(179, 25);
 			this.label2.TabIndex = 99;
 			this.label2.Text = "Device IP Address:";
+			this.label2.Visible = false;
 			// 
 			// textBoxIP
 			// 
@@ -216,6 +218,7 @@
 			this.textBoxIP.ReadOnly = true;
 			this.textBoxIP.Size = new System.Drawing.Size(213, 26);
 			this.textBoxIP.TabIndex = 97;
+			this.textBoxIP.Visible = false;
 			// 
 			// textBoxMacAddress
 			// 
@@ -224,6 +227,7 @@
 			this.textBoxMacAddress.ReadOnly = true;
 			this.textBoxMacAddress.Size = new System.Drawing.Size(213, 26);
 			this.textBoxMacAddress.TabIndex = 97;
+			this.textBoxMacAddress.Visible = false;
 			// 
 			// buttonInstructions
 			// 

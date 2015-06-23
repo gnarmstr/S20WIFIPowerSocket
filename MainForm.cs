@@ -33,7 +33,7 @@ namespace S20_Power_Points
 	public partial class MainForm : Form
 	{
 		// TO DO LIST
-		// Add checking for IPaddress change due to DHCP, automatically every 30sec.
+		// Check when muliple devices need to be added, check for multiple receive data and if it gets stored.
 
 		#region Initialization
 
@@ -79,15 +79,13 @@ namespace S20_Power_Points
 
 		private void Settings()
 		{
-			GlobalVar.SettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				"Property Management and Analysis");
-			
 			GlobalVar.startup = true;
 			GlobalVar.dataReceived = false;
 			GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.255");
 			GlobalVar.receiveTimeOut = 1000;
 			GlobalVar.PowerStatusOn = false;
 			GlobalVar.NoSaveMsg = false;
+			GlobalVar.ReDiscover = false;
 
 			BackgroundImageLayout = ImageLayout.Stretch;
 			buttonInstructions.BackgroundImage = Resources.button_Blue_Small;
@@ -98,6 +96,7 @@ namespace S20_Power_Points
 			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
 			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
+			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
 		}
 
 		#endregion
@@ -317,11 +316,11 @@ namespace S20_Power_Points
 
 		#endregion
 
-		#region Wait 6000
+		#region Wait 7000
 
-		private void WaitCmd6000()
+		private void WaitCmd7000()
 		{
-			int milliseconds = 6000;
+			int milliseconds = 7000;
 			Thread.Sleep(milliseconds);
 		}
 		#endregion
@@ -552,7 +551,6 @@ namespace S20_Power_Points
 				{
 					packet = client.Receive(ref server);
 				}
-				Debug.WriteLine(Encoding.ASCII.GetString(packet));
 				int i = 0;
 				GlobalVar.HexValue.Clear();
 				GlobalVar.HexValue.Add("");
@@ -577,6 +575,9 @@ namespace S20_Power_Points
 							GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] = GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] + packet[i + rxPacket] + ":";
 							GlobalVar.RX_Data = server.Address;
 							break;
+						case "Register":
+							GlobalVar.HexValue[i] = "True";
+							break;
 					}
 				} while (i++ < rxPacketLength - 1);
 
@@ -585,11 +586,8 @@ namespace S20_Power_Points
 				{
 					if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0) //checks if Received IP Address is already registered.
 					{
-						GlobalVar.MainFormLocxationX = Location.X;
-						GlobalVar.MainFormLocxationY = Location.Y;
-						GlobalVar.MessageBoxData = "No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
-						var okMessage = new OkMessage();
-						okMessage.ShowDialog();
+						GlobalVar.dataReceived = false;
+						GlobalVar.CancelDiscover = true;
 						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 					}
 					else
@@ -598,6 +596,7 @@ namespace S20_Power_Points
 						GlobalVar.MainFormLocxationY = Location.Y;
 						var devicename = new DeviceName();
 						devicename.ShowDialog();
+						GlobalVar.ReDiscover = true;
 						if (GlobalVar.CancelDiscover)
 						{
 							client.Close();
@@ -630,8 +629,6 @@ namespace S20_Power_Points
 						}
 						IPEndPoint endPoint = new IPEndPoint(GlobalVar.RX_Data, 10000);
 						//Construct data packet to turn S20 Power socket on
-					//	byte[] sendDataByte = { 0x68, 0x64, 0x00, 0xa5, 0x74, 0x6d, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x01, 0x8a, 0x00, 0x01, 0x00, 0x43, 0x25, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac,       0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x38, 0x38, 0x38, 0x38, 0x38, 0x38, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,    0x64, 0x64, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x04, 0x00, 0x20, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00,0x10, 0x27, 0x2a, 0x79, 0x6f, 0xd0, 0x10, 0x27, 0x76, 0x69, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x6f, 0x72, 0x76, 0x69, 0x62, 0x6f, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0xa8, 0x01, 0xc8, 0xc0, 0xa8, 0x01, 0x01, 0xff, 0xff, 0xff, 0x00, 0x01, 0x01, 0x00, 0x0a, 0x00, 0xff, 0x00, 0xff };
-						//																68:64:00:a5:74:6d:ac:cf:23:36:06:78:20:20:20:20:20:20:				00:00:00:00:				04:00:01:8a:00:01											:00:43:25:ac:cf:23:36:06:78:20:20:20:20:20:20					:78:06:36:23:cf:ac:						20:20:20:20:20:20:38:38:38:38:38:38																				:63:63:64:64:20:20:20:20:20:20:20:20:20:20:20:20:												04:00:20:		00:		00:		00:	10:		00	:00:	00:	05:		00	:00:	00:10:27:2a:79:6f:d0:10:					27:76:69:63:65:6e:					74:65:72:2e:6f:					72:76:69:			62:6f:2e:63:6f:6d:				00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:																											c0:a8:01:c8:c0:a8:01:01:ff:ff:ff:00:01:01:00:0a:00:ff:00:ff
 						byte[] sendDataByte = new byte[GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd1.Length];
 						Array.Copy(GlobalVar.RenameCmd, 0, sendDataByte, 0, GlobalVar.RenameCmd.Length);
 						Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.RenameCmd.Length, GlobalVar.Mac.Length);
@@ -661,9 +658,16 @@ namespace S20_Power_Points
 			}
 			catch
 			{
-				if (textBoxIP.Text != "")
+				if (mode == "Register")
 				{
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " within a predetermined time.\nCheck your network connection. Retry " + repeat + ".\n"));					
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from within a predetermined time.\nCheck your network connection or make sure the new device has a flashing red light.\n"));
+				}
+				else
+				{
+					if (textBoxIP.Text != "")
+					{
+						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Did not recieve a response from " + GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " within a predetermined time.\nCheck your network connection. Retry.\n"));					
+					}
 				}
 			}
 			client.Close();
@@ -708,14 +712,20 @@ namespace S20_Power_Points
 					string mode = "RediscoverIP";
 					receiveData(rxPacket, rxPacketLength, mode, repeat);
 
-					// Update IP address table
-					if (GlobalVar.MacAddress[i] == (GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1)));
+					try
 					{
-						GlobalVar.IpAddress[i] = GlobalVar.RX_Data.ToString();
-						if (comboBoxDeviceName.SelectedItem.ToString() == GlobalVar.Device_Name[i])
+						// Update IP address table
+						if (GlobalVar.MacAddress[i] == (GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1)));
 						{
-							textBoxIP.Text = GlobalVar.RX_Data.ToString();
+							GlobalVar.IpAddress[i] = GlobalVar.RX_Data.ToString();
+							if (comboBoxDeviceName.SelectedItem.ToString() == GlobalVar.Device_Name[i])
+							{
+								textBoxIP.Text = GlobalVar.RX_Data.ToString();
+							}
 						}
+					}
+					catch
+					{
 					}
 
 				} while (i++ < GlobalVar.Device_Name.Count - 1);
@@ -723,25 +733,18 @@ namespace S20_Power_Points
 		}
 		#endregion
 
-		#region Discover //Used to get new devices on the network
+		#region Discover. Used to Add new devices on the network
+
 		private void pictureBoxAdd_Click(object sender, EventArgs e)
 		{
-			Cursor.Current = Cursors.WaitCursor;
-			GlobalVar.MainFormLocxationX = Location.X;
-			GlobalVar.MainFormLocxationY = Location.Y;
-			var newDeviceMessage = new NewDeviceMessage();
-			newDeviceMessage.ShowDialog();
-			switch (GlobalVar.NewDeviceChoice)
-			{
-				case "Discover":
-					break;
-				case "Register":
-					registerNewDevcice();
-					break;
-				case "Cancel":
-					return;
-			}
+			GlobalVar.ReDiscover = true;
+			AddNewDevice();
+		}
 
+		private void AddNewDevice()
+		{
+			//added the line below, will need to check
+			GlobalVar.dataReceived = false;
 			Cursor.Current = Cursors.WaitCursor;
 			IPEndPoint endPoint = new IPEndPoint(GlobalVar.IP_Address_BCast, 10000);
 
@@ -757,25 +760,47 @@ namespace S20_Power_Points
 				receiveData(rxPacket, rxPacketLength, mode, repeat); //Enable this when not testing without network.
 				//		GlobalVar.RX_Data = IPAddress.Parse("192.168.0.24"); //remove this line when not testing without network.
 
-				if (GlobalVar.RX_Data != null && GlobalVar.CancelDiscover == false)
+				try
 				{
-					GlobalVar.IpAddress.Add(GlobalVar.RX_Data.ToString());
-					comboBoxDeviceName.Items.Add(GlobalVar.Device_Name[GlobalVar.Device_Name.Count - 1]);
-					comboBoxDeviceName.SelectedIndex = comboBoxDeviceName.Items.Count - 1;
-					textBoxIP.Text = GlobalVar.RX_Data.ToString();
-					GlobalVar.RX_Data = null;
-					textBoxMacAddress.Text = GlobalVar.MacAddress[GlobalVar.MacAddress.Count() - 1];
-					WaitCmd();
-					WaitCmd();
-					WaitCmd();
-					getStatus();
+					if (GlobalVar.RX_Data != null && GlobalVar.CancelDiscover == false)
+					{
+						GlobalVar.IpAddress.Add(GlobalVar.RX_Data.ToString());
+						comboBoxDeviceName.Items.Add(GlobalVar.Device_Name[GlobalVar.Device_Name.Count - 1]);
+						comboBoxDeviceName.SelectedIndex = comboBoxDeviceName.Items.Count - 1;
+						textBoxIP.Text = GlobalVar.RX_Data.ToString();
+						GlobalVar.RX_Data = null;
+						textBoxMacAddress.Text = GlobalVar.MacAddress[GlobalVar.MacAddress.Count() - 1];
+						WaitCmd();
+						WaitCmd();
+						WaitCmd();
+						getStatus();
+					}
+					else
+					{
+						GlobalVar.MainFormLocxationX = Location.X;
+						GlobalVar.MainFormLocxationY = Location.Y;
+						registerNewDevcice();
+					}
 				}
+				catch
+				{
+					GlobalVar.MainFormLocxationX = Location.X;
+					GlobalVar.MainFormLocxationY = Location.Y;
+					registerNewDevcice();
+				}
+			}
+			else
+			{
+				GlobalVar.MainFormLocxationX = Location.X;
+				GlobalVar.MainFormLocxationY = Location.Y;
+				registerNewDevcice();
 			}
 			GlobalVar.dataReceived = false;
 			Cursor.Current = Cursors.Default;
 			GlobalVar.comboBoxDeviceName = comboBoxDeviceName.Items.Count;
 			Save();
 		}
+
 		#endregion
 
 		#region Subscribe
@@ -824,10 +849,10 @@ namespace S20_Power_Points
 				int rxPacket = 4;
 				int rxPacketLength = 2;
 				string mode = "Subscribe";
-				do
-				{
+		//		do
+		//		{
 					receiveData(rxPacket, rxPacketLength, mode, repeat);
-				} while (GlobalVar.HexValue[0] != "99:108:" && repeat++ < 2);
+		//		} while (GlobalVar.HexValue[0] != "99:108:" && repeat++ < 0);
 				WaitCmd();
 			}
 			catch
@@ -951,79 +976,114 @@ namespace S20_Power_Points
 
 		private void registerNewDevcice()
 		{
-			var registerDevice = new RegisterDevice();
-			registerDevice.ShowDialog();
+			if (GlobalVar.ReDiscover)
+			{
+				var registerDevice = new RegisterDevice();
+				registerDevice.ShowDialog();
 
-			Cursor.Current = Cursors.WaitCursor;
-			if (GlobalVar.CancelRegistration)
-			{
-				return;
-			}
+				Cursor.Current = Cursors.WaitCursor;
+				if (GlobalVar.CancelRegistration)
+				{
+					return;
+				}
 
-			int pwdLength = GlobalVar.WifiPassword.Length;
-			int i = 0;
-			do
-			{
-				GlobalVar.WifiPasswordArray.Add(0x05);
-			} while (i++ < pwdLength - 1);
-
-			//Send Broadcast password
-			i = 0;
-			do
-			{
-				IPEndPoint endPoint1 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
-				byte[] buffer1 = { 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05 };// 0x63, 0x6c, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };// 0x68, 0x64, 0x00, 0x1e, 0x63, 0x6c, 0xac, 0xcf, 0x23, 0x36, 0x06, 0x78, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x78, 0x06, 0x36, 0x23, 0xcf, 0xac, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 }; // 0x68, 0x64, 0x00, 0x2a, 0x71, 0x61, 0x00, 0x50, 0x1a, 0xc5, 0xf2, 0x83, 0x8d, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x8d, 0x83, 0xf2, 0xc5, 0x1a, 0x50, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x53, 0x4f, 0x43, 0x30, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x01 };								 
-				sendData(buffer1, endPoint1);
-				WaitCmd15();
-			} while (i++ < 199);
-			i = 0;
-			do
-			{
-				IPEndPoint endPoint2 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
-				byte[] buffer2 = { 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05 };
-				sendData(buffer2, endPoint2);
-				WaitCmd15();
-			} while (i++ < 2);
-
-			//Following is the wireless password
-			char[] arr = GlobalVar.WifiPassword.ToCharArray();
-			foreach (var value in arr)
-			{
-				int ii = 0;
-				decimal decValue = value;
-				var tmp = GlobalVar.WifiPasswordArrayNumber.ToList();
+				int pwdLength = GlobalVar.WifiPassword.Length;
+				int i = 0;
 				do
 				{
-					tmp.Add(0x05);
-				} while (ii++ < decValue - 1);
+					GlobalVar.WifiPasswordArray.Add(0x05);
+				} while (i++ < pwdLength - 1);
 
-				IPEndPoint endPoint3 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
-				byte[] buffer3 = tmp.ToArray();
-				sendData(buffer3, endPoint3);
-				WaitCmd5();
+				//Send Broadcast password
+				i = 0;
+				do
+				{
+					IPEndPoint endPoint1 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
+					byte[] buffer1 =
+					{
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05
+					};
+					sendData(buffer1, endPoint1);
+					WaitCmd15();
+				} while (i++ < 199);
+				i = 0;
+				do
+				{
+					IPEndPoint endPoint2 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
+					byte[] buffer2 =
+					{
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05
+					};
+					sendData(buffer2, endPoint2);
+					WaitCmd15();
+				} while (i++ < 2);
+
+				//Following is the wireless password
+				char[] arr = GlobalVar.WifiPassword.ToCharArray();
+				foreach (var value in arr)
+				{
+					int ii = 0;
+					decimal decValue = value;
+					var tmp = GlobalVar.WifiPasswordArrayNumber.ToList();
+					do
+					{
+						tmp.Add(0x05);
+					} while (ii++ < decValue - 1);
+
+					IPEndPoint endPoint3 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
+					byte[] buffer3 = tmp.ToArray();
+					sendData(buffer3, endPoint3);
+					WaitCmd5();
+
+				}
+				//End of Password
+
+				i = 0;
+				do
+				{
+					IPEndPoint endPoint13 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
+					byte[] buffer13 =
+					{
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+						0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05
+					};
+					sendData(buffer13, endPoint13);
+					WaitCmd15();
+				} while (i++ < 2);
+
+				//332 packets plus password length.
+				i = 0;
+				do
+				{
+					IPEndPoint endPoint14 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
+					byte[] buffer14 = GlobalVar.WifiPasswordArray.ToArray();
+					sendData(buffer14, endPoint14);
+					WaitCmd15();
+				} while (i++ < 2);
+				WaitCmd7000(); //ensures enough time for device to register with network.
+
+				int repeat = 0;
+				int rxPacket = 1;
+				int rxPacketLength = 1;
+				string mode = "Register";
+				receiveData(rxPacket, rxPacketLength, mode, repeat);
+				
+
+				GlobalVar.ReDiscover = false;
+				AddNewDevice();
 
 			}
-			//End of Password
-
-			i = 0;
-			do
-			{
-				IPEndPoint endPoint13 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
-				byte[] buffer13 = { 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05 };
-				sendData(buffer13, endPoint13);
-				WaitCmd15();
-			} while (i++ < 2);
-
-			//332 packets plus password length.
-			i = 0;
-			do
-			{
-				IPEndPoint endPoint14 = new IPEndPoint(GlobalVar.IP_Address_BCast, 49999);
-				byte[] buffer14 = GlobalVar.WifiPasswordArray.ToArray();
-				sendData(buffer14, endPoint14);
-				WaitCmd15();
-			} while (i++ < 2);
-			WaitCmd6000(); //ensures enough time for device to register with network.
 		}
 
 		#endregion

@@ -13,7 +13,7 @@ namespace S20_Power_Points
 	{
 		public Settings()
 		{
-			Location = new Point(GlobalVar.MainFormLocxationX + 60, GlobalVar.MainFormLocxationY + 80);
+			Location = new Point(GlobalVar.MainFormLocxationX + 10, GlobalVar.MainFormLocxationY);
 			InitializeComponent();
 			pictureBoxClose.BackgroundImage = Resources.Close;
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;

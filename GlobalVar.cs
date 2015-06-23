@@ -25,6 +25,8 @@ namespace S20_Power_Points
 
 		public static bool CancelDiscover;
 
+		public static bool ReDiscover;
+
 		public static bool CancelRegistration;
 
 		public static string WifiPassword;
