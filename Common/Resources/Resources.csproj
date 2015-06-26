@@ -148,6 +148,13 @@
     <None Include="Resources\Yes.png" />
     <None Include="Resources\No1.png" />
     <None Include="Resources\PowerOn.png" />
+    <None Include="Resources\Power_Off_85.png" />
+    <None Include="Resources\Power_Off_90.png" />
+    <None Include="Resources\Power_Off_95.png" />
+    <None Include="Resources\Power_Off_80.png" />
+    <None Include="Resources\Power_Off_50.png" />
+    <None Include="Resources\Power_Off_60.png" />
+    <None Include="Resources\Power_Off_70.png" />
     <Content Include="Vixen Messaging.png" />
   </ItemGroup>
   <ItemGroup />

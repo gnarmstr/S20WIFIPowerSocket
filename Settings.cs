@@ -21,6 +21,7 @@ namespace S20_Power_Points
 			pictureBoxCancel.Image = Tools.GetIcon(Resources.Cancel, 40);
 			BackgroundImage = Resources.BlackBackground;
 			BackgroundImageLayout = ImageLayout.Stretch;
+			textBoxPassword.Text = GlobalVar.WifiPassword;
 		}
 
 		protected override CreateParams CreateParams
@@ -63,7 +64,7 @@ namespace S20_Power_Points
 
 		private void pictureBoxOK_Click(object sender, EventArgs e)
 		{
-
+			GlobalVar.WifiPassword = textBoxPassword.Text;
 			Close();
 		}
 

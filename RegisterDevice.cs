@@ -19,6 +19,7 @@ namespace S20_Power_Points
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
 			BackgroundImageLayout = ImageLayout.Stretch;
+			textBoxPassword.Text = GlobalVar.WifiPassword;
 		}
 
 		protected override CreateParams CreateParams

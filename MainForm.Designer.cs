@@ -85,7 +85,7 @@
 			this.buttonMainTitle.Name = "buttonMainTitle";
 			this.buttonMainTitle.Size = new System.Drawing.Size(691, 43);
 			this.buttonMainTitle.TabIndex = 88;
-			this.buttonMainTitle.Text = "Ver 1.3                   S20 Power Socket Control                               " +
+			this.buttonMainTitle.Text = "Ver 1.0                   S20 Power Socket Control                               " +
     "   ";
 			this.buttonMainTitle.UseVisualStyleBackColor = true;
 			this.buttonMainTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMainTitle_MouseDown);
@@ -136,7 +136,7 @@
 			// pictureBoxAdd
 			// 
 			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxAdd.Location = new System.Drawing.Point(246, 50);
+			this.pictureBoxAdd.Location = new System.Drawing.Point(246, 135);
 			this.pictureBoxAdd.Name = "pictureBoxAdd";
 			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 36);
 			this.pictureBoxAdd.TabIndex = 103;
@@ -146,7 +146,7 @@
 			// pictureBoxDelete
 			// 
 			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxDelete.Location = new System.Drawing.Point(299, 50);
+			this.pictureBoxDelete.Location = new System.Drawing.Point(299, 135);
 			this.pictureBoxDelete.Name = "pictureBoxDelete";
 			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 36);
 			this.pictureBoxDelete.TabIndex = 102;
@@ -169,7 +169,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label1.Location = new System.Drawing.Point(12, 14);
+			this.label1.Location = new System.Drawing.Point(12, 99);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(135, 25);
 			this.label1.TabIndex = 98;
@@ -186,13 +186,12 @@
 			this.label3.Size = new System.Drawing.Size(207, 25);
 			this.label3.TabIndex = 100;
 			this.label3.Text = "Device MAC Address:";
-			this.label3.Visible = false;
 			// 
 			// comboBoxDeviceName
 			// 
 			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxDeviceName.FormattingEnabled = true;
-			this.comboBoxDeviceName.Location = new System.Drawing.Point(17, 52);
+			this.comboBoxDeviceName.Location = new System.Drawing.Point(17, 137);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
 			this.comboBoxDeviceName.Size = new System.Drawing.Size(213, 28);
 			this.comboBoxDeviceName.TabIndex = 1;
@@ -204,21 +203,19 @@
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label2.Location = new System.Drawing.Point(12, 99);
+			this.label2.Location = new System.Drawing.Point(12, 14);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(179, 25);
 			this.label2.TabIndex = 99;
 			this.label2.Text = "Device IP Address:";
-			this.label2.Visible = false;
 			// 
 			// textBoxIP
 			// 
-			this.textBoxIP.Location = new System.Drawing.Point(18, 137);
+			this.textBoxIP.Location = new System.Drawing.Point(18, 52);
 			this.textBoxIP.Name = "textBoxIP";
 			this.textBoxIP.ReadOnly = true;
 			this.textBoxIP.Size = new System.Drawing.Size(213, 26);
 			this.textBoxIP.TabIndex = 97;
-			this.textBoxIP.Visible = false;
 			// 
 			// textBoxMacAddress
 			// 
@@ -227,7 +224,6 @@
 			this.textBoxMacAddress.ReadOnly = true;
 			this.textBoxMacAddress.Size = new System.Drawing.Size(213, 26);
 			this.textBoxMacAddress.TabIndex = 97;
-			this.textBoxMacAddress.Visible = false;
 			// 
 			// buttonInstructions
 			// 

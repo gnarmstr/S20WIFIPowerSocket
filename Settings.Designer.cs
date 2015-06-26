@@ -45,6 +45,8 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
+			this.textBoxPassword = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -89,6 +91,8 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
+			this.panel1.Controls.Add(this.textBoxPassword);
+			this.panel1.Controls.Add(this.label6);
 			this.panel1.Controls.Add(this.textBoxSSID);
 			this.panel1.Controls.Add(this.label5);
 			this.panel1.Controls.Add(this.pictureBoxCancel);
@@ -227,6 +231,27 @@
 			this.pictureBoxClose.TabStop = false;
 			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
 			// 
+			// textBoxPassword
+			// 
+			this.textBoxPassword.Location = new System.Drawing.Point(398, 209);
+			this.textBoxPassword.MaxLength = 16;
+			this.textBoxPassword.Name = "textBoxPassword";
+			this.textBoxPassword.PasswordChar = '*';
+			this.textBoxPassword.Size = new System.Drawing.Size(199, 26);
+			this.textBoxPassword.TabIndex = 69;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.BackColor = System.Drawing.Color.Transparent;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label6.Location = new System.Drawing.Point(17, 210);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(165, 25);
+			this.label6.TabIndex = 68;
+			this.label6.Text = "WIFI Password:";
+			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -273,5 +298,7 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox textBoxPassword;
+		private System.Windows.Forms.Label label6;
 	}
 }
