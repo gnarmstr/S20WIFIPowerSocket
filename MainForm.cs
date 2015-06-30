@@ -58,7 +58,6 @@ namespace S20_Power_Points
 				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
 			}
 			timerCheckSchedules.Enabled = true;
-
 		}
 
 		#endregion
@@ -98,6 +97,7 @@ namespace S20_Power_Points
 			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
 			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+			
 		}
 
 		#endregion
@@ -452,145 +452,6 @@ namespace S20_Power_Points
 		}
 		#endregion
 
-		#region Power Off
-
-		private void PowerOff()
-		{
-			if (comboBoxDeviceName.Items.Count == 0)
-			{
-				GlobalVar.MessageBoxData = "No devices found";
-				var okMessage = new OkMessage();
-				okMessage.ShowDialog();
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
-				return;
-			}
-
-			Subscribe();
-			if (GlobalVar.dataReceived == false)
-			{
-				return;
-			}
-			int repeat = 0;
-			do
-			{
-				//if (comboBoxDeviceName.Items.Count == 0)
-				//{
-				//	GlobalVar.MessageBoxData = "No devices found";
-				//	var okMessage = new OkMessage();
-				//	okMessage.ShowDialog();
-				//	richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
-				//	return;
-				//}
-
-				string[] splitString = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex].Split(':');
-				var i = 0;
-				foreach (string value in splitString)
-				{
-					if (value != "")
-					{
-						GlobalVar.Mac[i] = Convert.ToByte(value);
-						i++;
-					}
-				}
-
-				IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
-				//Construct data packet to turn S20 Power socket off
-				byte[] sendDataByte = new byte[GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Off.Length];
-				Array.Copy(GlobalVar.PwrCmd, 0, sendDataByte, 0, GlobalVar.PwrCmd.Length);
-				Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.PwrCmd.Length, GlobalVar.Mac.Length);
-				Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
-				Array.Copy(GlobalVar.Off, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.Off.Length);
-				sendData(sendDataByte, endPoint);
-
-				int rxPacket = 22;
-				int rxPacketLength = 1;
-				string mode = "PowerStatus";
-				receiveData(rxPacket, rxPacketLength, mode, repeat);
-				//Code to check if S20 Power is on or off. TO BE DONE
-				try
-				{
-					if (GlobalVar.HexValue[0] == "0")
-					{
-						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
-						GlobalVar.PowerStatusOn = false;
-					}
-				}
-				catch
-				{
-					GlobalVar.HexValue.Add("0");
-				}
-				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "1" && repeat++ < 2);
-		}
-		#endregion
-
-		#region Power On
-
-		private void PowerOn()
-		{
-			//	GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.24");
-			if (comboBoxDeviceName.Items.Count == 0)
-			{
-				GlobalVar.MessageBoxData = "No devices found";
-				var okMessage = new OkMessage();
-				okMessage.ShowDialog();
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
-				return;
-			}
-			Subscribe();
-			if (GlobalVar.dataReceived == false)
-			{
-				return;
-			}
-			int repeat = 0;
-			do
-			{
-				string[] splitString = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex].Split(':');
-				var i = 0;
-				foreach (string value in splitString)
-				{
-					if (value != "")
-					{
-						GlobalVar.Mac[i] = Convert.ToByte(value);
-						i++;
-					}
-				}
-
-				IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(textBoxIP.Text), 10000);
-				//Construct data packet to turn S20 Power socket on
-				byte[] sendDataByte = new byte[GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.On.Length];
-				Array.Copy(GlobalVar.PwrCmd, 0, sendDataByte, 0, GlobalVar.PwrCmd.Length);
-				Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.PwrCmd.Length, GlobalVar.Mac.Length);
-				Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.Mac.Length, GlobalVar.TwentiesBuffer.Length);
-				Array.Copy(GlobalVar.On, 0, sendDataByte, GlobalVar.PwrCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.On.Length);
-				sendData(sendDataByte, endPoint);
-
-				int rxPacket = 22;
-				int rxPacketLength = 1;
-				string mode = "PowerStatus";
-				receiveData(rxPacket, rxPacketLength, mode, repeat);
-
-				//Code to check if S20 Power is on or off. TO BE DONE
-				try
-				{
-					if (GlobalVar.HexValue[0] == "1")
-					{
-						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
-						GlobalVar.PowerStatusOn = true;
-					}
-				}
-				catch
-				{
-					GlobalVar.HexValue.Add("0");
-				}
-
-				GlobalVar.dataReceived = false;
-			} while (GlobalVar.HexValue[0] == "0" && repeat++ < 2);
-		}
-		#endregion
-
 		#region Send Data
 		private void sendData(byte[] buffer, IPEndPoint endPoint)
 		{
@@ -627,19 +488,10 @@ namespace S20_Power_Points
 					int i = 0;
 					GlobalVar.HexValue.Clear();
 					GlobalVar.HexValue.Add("");
-					GlobalVar.ReverseHexValue.Clear();
-					GlobalVar.ReverseHexValue.Add("");
 					do
 					{
 						switch (mode)
 						{
-							case "Discover":
-								GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] = GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] +
-								                                                     packet[i + rxPacket] + ":";
-								GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1] = packet[i + rxPacket] + ":" +
-								                                                                   GlobalVar.ReverseHexValue[
-									                                                                   GlobalVar.ReverseHexValue.Count() - 1];
-								break;
 							case "PowerStatus":
 								GlobalVar.HexValue[i] = packet[i + rxPacket].ToString("X");
 								break;
@@ -658,108 +510,6 @@ namespace S20_Power_Points
 								break;
 						}
 					} while (i++ < rxPacketLength - 1);
-
-					#region If Mode is Discover
-
-					if (mode == "Discover")
-					{
-						if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0)
-							//checks if Received IP Address is already registered.
-						{
-							GlobalVar.dataReceived = false;
-							GlobalVar.CancelDiscover = true;
-							GlobalVar.MainFormLocxationX = Location.X;
-							GlobalVar.MainFormLocxationY = Location.Y;
-							GlobalVar.MessageBoxData = "No new devices found.";
-							var okMessage = new OkMessage();
-							okMessage.ShowDialog();
-							richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
-						}
-						else
-						{
-							GlobalVar.MainFormLocxationX = Location.X;
-							GlobalVar.MainFormLocxationY = Location.Y;
-							var devicename = new DeviceName();
-							devicename.ShowDialog();
-							GlobalVar.ReDiscover = true;
-							if (GlobalVar.CancelDiscover)
-							{
-								client.Close();
-								return;
-							}
-							GlobalVar.MacAddress.Add(
-								GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(
-									GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1));
-							GlobalVar.ReverseMacAddress.Add(
-								GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Remove(
-									GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Length - 1));
-							GlobalVar.RX_Data = server.Address;
-
-							string[] splitString = GlobalVar.ReverseMacAddress[GlobalVar.ReverseMacAddress.Count - 1].Split(':');
-							var ii = 0;
-							foreach (string value in splitString)
-							{
-								if (value != "")
-								{
-									GlobalVar.ReverseMac[ii] = Convert.ToByte(value);
-									ii++;
-								}
-							}
-
-							splitString = GlobalVar.MacAddress[GlobalVar.MacAddress.Count - 1].Split(':');
-							var iii = 0;
-							foreach (string value in splitString)
-							{
-								if (value != "")
-								{
-									GlobalVar.Mac[iii] = Convert.ToByte(value);
-									iii++;
-								}
-							}
-							IPEndPoint endPoint = new IPEndPoint(GlobalVar.RX_Data, 10000);
-							//Rename Socket
-							byte[] sendDataByte =
-								new byte[
-									GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length +
-									GlobalVar.RenameCmd1.Length];
-							Array.Copy(GlobalVar.RenameCmd, 0, sendDataByte, 0, GlobalVar.RenameCmd.Length);
-							Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.RenameCmd.Length, GlobalVar.Mac.Length);
-							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length,
-								GlobalVar.TwentiesBuffer.Length);
-							Array.Copy(GlobalVar.RenameCmd1, 0, sendDataByte,
-								GlobalVar.RenameCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.RenameCmd1.Length);
-
-							byte[] sendDataByte1 =
-								new byte[
-									sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.ReverseMac.Length];
-							Array.Copy(sendDataByte, 0, sendDataByte1, 0, sendDataByte.Length);
-							Array.Copy(GlobalVar.Mac, 0, sendDataByte1, sendDataByte.Length, GlobalVar.Mac.Length);
-							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte1, sendDataByte.Length + GlobalVar.Mac.Length,
-								GlobalVar.TwentiesBuffer.Length);
-							Array.Copy(GlobalVar.ReverseMac, 0, sendDataByte1,
-								sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length, GlobalVar.ReverseMac.Length);
-
-							byte[] sendDataByte2 =
-								new byte[
-									sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length +
-									GlobalVar.DeviceName.Length];
-							Array.Copy(sendDataByte1, 0, sendDataByte2, 0, sendDataByte1.Length);
-							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte2, sendDataByte1.Length, GlobalVar.TwentiesBuffer.Length);
-							Array.Copy(GlobalVar.RenameCmd2, 0, sendDataByte2, sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length,
-								GlobalVar.RenameCmd2.Length);
-							Array.Copy(GlobalVar.DeviceName, 0, sendDataByte2,
-								sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length,
-								GlobalVar.DeviceName.Length);
-
-							byte[] sendDataByte3 = new byte[sendDataByte2.Length + GlobalVar.RenameCmd3.Length];
-							Array.Copy(sendDataByte2, 0, sendDataByte3, 0, sendDataByte2.Length);
-							Array.Copy(GlobalVar.RenameCmd3, 0, sendDataByte3, sendDataByte2.Length, GlobalVar.RenameCmd3.Length);
-
-							sendData(sendDataByte3, endPoint);
-						}
-					}
-
-					#endregion
 				}
 				catch
 				{
@@ -853,11 +603,10 @@ namespace S20_Power_Points
 
 		private void AddNewDevice()
 		{
-
+			int rxIncr = 0;
 			int rxPacket = 7;
 			int rxPacketLength = 6;
-			string mode = "Discover";
-			int repeat = 0;
+			bool repeatRx = true;
 
 			//added the line below, will need to check
 			GlobalVar.dataReceived = false;
@@ -869,8 +618,141 @@ namespace S20_Power_Points
 			
 			if (GlobalVar.dataReceived)
 			{
-				receiveData(rxPacket, rxPacketLength, mode, repeat); //Enable this when not testing without network.
-				//		GlobalVar.RX_Data = IPAddress.Parse("192.168.0.24"); //remove this line when not testing without network.
+				do
+				{
+			//		receiveData(rxPacket, rxPacketLength, mode, repeat); //Enable this when not testing without network.
+
+					int i = 0;
+					GlobalVar.HexValue.Clear();
+					GlobalVar.HexValue.Add("");
+					GlobalVar.ReverseHexValue.Clear();
+					GlobalVar.ReverseHexValue.Add("");
+
+					UdpClient client = new UdpClient(10000);
+					IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, 10000);
+
+					client.Client.ReceiveTimeout = GlobalVar.receiveTimeOut;
+
+					try
+					{
+						byte[] packet = client.Receive(ref server);
+						do
+						{
+							GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] = GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1] +
+																				 packet[i + rxPacket] + ":";
+							GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1] = packet[i + rxPacket] + ":" +
+																						   GlobalVar.ReverseHexValue[
+																							   GlobalVar.ReverseHexValue.Count() - 1];
+						} while (i++ < rxPacketLength - 1);
+
+						if (Array.IndexOf(GlobalVar.IpAddress.ToArray(), server.Address.ToString()) >= 0)
+						//checks if Received IP Address is already registered.
+						{
+						}
+						else
+						{ //Will do this if its a new IP Address.
+							repeatRx = false;
+							GlobalVar.MainFormLocxationX = Location.X;
+							GlobalVar.MainFormLocxationY = Location.Y;
+							var devicename = new DeviceName();
+							devicename.ShowDialog();
+							GlobalVar.ReDiscover = true;
+							if (GlobalVar.CancelDiscover)
+							{
+								client.Close();
+								return;
+							}
+							GlobalVar.MacAddress.Add(
+								GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(
+									GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1));
+							GlobalVar.ReverseMacAddress.Add(
+								GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Remove(
+									GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Length - 1));
+							GlobalVar.RX_Data = server.Address;
+
+							string[] splitString = GlobalVar.ReverseMacAddress[GlobalVar.ReverseMacAddress.Count - 1].Split(':');
+							var ii = 0;
+							foreach (string value in splitString)
+							{
+								if (value != "")
+								{
+									GlobalVar.ReverseMac[ii] = Convert.ToByte(value);
+									ii++;
+								}
+							}
+
+							splitString = GlobalVar.MacAddress[GlobalVar.MacAddress.Count - 1].Split(':');
+							var iii = 0;
+							foreach (string value in splitString)
+							{
+								if (value != "")
+								{
+									GlobalVar.Mac[iii] = Convert.ToByte(value);
+									iii++;
+								}
+							}
+							IPEndPoint endPoint1 = new IPEndPoint(GlobalVar.RX_Data, 10000);
+							//Rename Socket
+							byte[] sendDataByte =
+								new byte[
+									GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length +
+									GlobalVar.RenameCmd1.Length];
+							Array.Copy(GlobalVar.RenameCmd, 0, sendDataByte, 0, GlobalVar.RenameCmd.Length);
+							Array.Copy(GlobalVar.Mac, 0, sendDataByte, GlobalVar.RenameCmd.Length, GlobalVar.Mac.Length);
+							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte, GlobalVar.RenameCmd.Length + GlobalVar.Mac.Length,
+								GlobalVar.TwentiesBuffer.Length);
+							Array.Copy(GlobalVar.RenameCmd1, 0, sendDataByte,
+								GlobalVar.RenameCmd.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.Mac.Length, GlobalVar.RenameCmd1.Length);
+
+							byte[] sendDataByte1 =
+								new byte[
+									sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.ReverseMac.Length];
+							Array.Copy(sendDataByte, 0, sendDataByte1, 0, sendDataByte.Length);
+							Array.Copy(GlobalVar.Mac, 0, sendDataByte1, sendDataByte.Length, GlobalVar.Mac.Length);
+							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte1, sendDataByte.Length + GlobalVar.Mac.Length,
+								GlobalVar.TwentiesBuffer.Length);
+							Array.Copy(GlobalVar.ReverseMac, 0, sendDataByte1,
+								sendDataByte.Length + GlobalVar.Mac.Length + GlobalVar.TwentiesBuffer.Length, GlobalVar.ReverseMac.Length);
+
+							byte[] sendDataByte2 =
+								new byte[
+									sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length +
+									GlobalVar.DeviceName.Length];
+							Array.Copy(sendDataByte1, 0, sendDataByte2, 0, sendDataByte1.Length);
+							Array.Copy(GlobalVar.TwentiesBuffer, 0, sendDataByte2, sendDataByte1.Length, GlobalVar.TwentiesBuffer.Length);
+							Array.Copy(GlobalVar.RenameCmd2, 0, sendDataByte2, sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length,
+								GlobalVar.RenameCmd2.Length);
+							Array.Copy(GlobalVar.DeviceName, 0, sendDataByte2,
+								sendDataByte1.Length + GlobalVar.TwentiesBuffer.Length + GlobalVar.RenameCmd2.Length,
+								GlobalVar.DeviceName.Length);
+
+							byte[] sendDataByte3 = new byte[sendDataByte2.Length + GlobalVar.RenameCmd3.Length];
+							Array.Copy(sendDataByte2, 0, sendDataByte3, 0, sendDataByte2.Length);
+							Array.Copy(GlobalVar.RenameCmd3, 0, sendDataByte3, sendDataByte2.Length, GlobalVar.RenameCmd3.Length);
+
+							sendData(sendDataByte3, endPoint1);
+						}
+
+					}
+					catch
+					{ }
+
+					client.Close();
+				} while (rxIncr++ < GlobalVar.IpAddress.Count * 2 & repeatRx);
+
+				if (repeatRx)
+				//checks if Received IP Address is already registered.
+				{
+					GlobalVar.dataReceived = false;
+					GlobalVar.CancelDiscover = true;
+					GlobalVar.MainFormLocxationX = Location.X;
+					GlobalVar.MainFormLocxationY = Location.Y;
+					GlobalVar.MessageBoxData = "No new devices found. If you still have a registered device then please try again.";
+					var okMessage = new OkMessage();
+					okMessage.ShowDialog();
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
+				}
+
 				WaitCmd();
 				try
 				{
@@ -1252,13 +1134,11 @@ namespace S20_Power_Points
 					{
 						GlobalVar.TogglePower = GlobalVar.On;
 						TogglePower();
-		//				PowerOn();
 					}
 					else
 					{
 						GlobalVar.TogglePower = GlobalVar.Off;
 						TogglePower();
-		//				PowerOff();
 					}
 				}
 				File.Delete(scheduleFiles[0]);

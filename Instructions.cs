@@ -11,15 +11,15 @@ namespace S20_Power_Points
 		public Instructions()
 		{
 			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X, ActiveForm.Location.Y);
+				Location = new Point(ActiveForm.Location.X, ActiveForm.Location.Y - 20);
 			InitializeComponent();
 			pictureBoxClose.BackgroundImage = Resources.Close;
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
-			MinimumSize = new Size(605, 645);
-			MaximumSize = new Size(605, 645);	
+			MinimumSize = new Size(605, 600);
+			MaximumSize = new Size(605, 600);	
 			BackgroundImage = Resources.BlackBackground;
 			BackgroundImageLayout = ImageLayout.Stretch;
-			panel1.BackgroundImage = Resources.Background_Blue;
+			panel1.BackgroundImage = Resources.BlackBackground;
 		}
 
 		protected override CreateParams CreateParams
