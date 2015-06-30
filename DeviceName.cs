@@ -67,6 +67,20 @@ namespace S20_Power_Points
 		{
 			if (textBoxDeviceName.Text != "")
 			{
+				foreach (var compare in GlobalVar.Device_Name)
+				{
+					if (textBoxDeviceName.Text == compare)
+					{
+						Hide();
+						GlobalVar.MessageBoxData = "There is already a Device with that name. Please enter new name.";
+						var okMessage = new OkMessage();
+						okMessage.ShowDialog();
+						Show();
+						textBoxDeviceName.Text = "";
+						return;
+					}
+				}
+				
 				var result = string.Join(" ", textBoxDeviceName.Text.Select(c => String.Format("{0:X2}", Convert.ToInt32(c))));
 
 				string[] hexValuesSplit = result.Split(' ');

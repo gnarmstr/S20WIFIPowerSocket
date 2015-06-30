@@ -120,10 +120,10 @@
   <data name="label85.Text" xml:space="preserve">
     <value>1. S20 WIFI Control can control all your S20 Devices either manually, by Scheduling a time or controlled by Sequencing software that has the ability to add command, for example Vixen 3.
 
-2. First time use you will need to add a device, if a device is not found then ensure you have the deives plugged in and registered through the WIWO mobile app, this is only required once.
+2. First time use you will need to add a device, if a device is not found then ensure you have the deives plugged in and the red light is flashing fast.
 
 3. Once all your devices are added you can add any number of schedules and associate them with a device.
 
-</value>
+4. This application must remain running for any scheduled or Sequencer tasks to be triggered.</value>
   </data>
 </root>

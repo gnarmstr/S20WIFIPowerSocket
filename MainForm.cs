@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -33,13 +34,13 @@ namespace S20_Power_Points
 	public partial class MainForm : Form
 	{
 		// TO DO LIST
-		// Check when muliple devices need to be added, check for multiple receive data and if it gets stored.
 
 		#region Initialization
 
 		public MainForm()
 		{
 			InitializeComponent();
+			NetworkChange.NetworkAvailabilityChanged += AvailabilityChanged;
 			Settings();
 			LoadData();
 			GlobalVar.startup = false;
@@ -53,11 +54,42 @@ namespace S20_Power_Points
 				Directory.CreateDirectory(GlobalVar.DocumnetsFolder);
 				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
 			}
-			if (!Directory.Exists(GlobalVar.DocumnetsFolder + @"\ToDo"))
+			Directory.Delete(GlobalVar.DocumnetsFolder + @"\ToDo", true);
+			Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
+
+			for (int i = 0; i < GlobalVar.Device_Name.Count; i++)
 			{
-				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_On.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_On>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_Off.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_Off>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
 			}
 			timerCheckSchedules.Enabled = true;
+
 		}
 
 		#endregion
@@ -96,8 +128,8 @@ namespace S20_Power_Points
 			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
 			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
-			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
-			
+			pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off1;
+
 		}
 
 		#endregion
@@ -318,6 +350,7 @@ namespace S20_Power_Points
 		}
 		#endregion
 
+		#region Wait
 		#region Wait 200
 
 		private void WaitCmd()
@@ -344,42 +377,48 @@ namespace S20_Power_Points
 			Thread.Sleep(milliseconds);
 		}
 		#endregion
+		#endregion
 
-		#region Toggle Power
+		#region Toggle Power Button
 		private void pictureBoxTogglePWR_Click(object sender, EventArgs e)
 		{
-			GlobalVar.MainFormLocxationX = Location.X;
-			GlobalVar.MainFormLocxationY = Location.Y;
-			if (textBoxIP.Text != "")
+			if (NetworkInterface.GetIsNetworkAvailable())
 			{
-				Cursor.Current = Cursors.WaitCursor;
-
-				if (GlobalVar.PowerStatusOn)
+				GlobalVar.MainFormLocxationX = Location.X;
+				GlobalVar.MainFormLocxationY = Location.Y;
+				if (textBoxIP.Text != "")
 				{
-					GlobalVar.TogglePower = GlobalVar.Off;
-					TogglePower();
-//					PowerOff();
+					Cursor.Current = Cursors.WaitCursor;
+
+					if (GlobalVar.PowerStatusOn)
+					{
+						GlobalVar.TogglePower = GlobalVar.Off;
+						TogglePower();
+					}
+					else
+					{
+						GlobalVar.TogglePower = GlobalVar.On;
+						TogglePower();
+					}
+
+					Cursor.Current = Cursors.Default;
 				}
 				else
 				{
-					GlobalVar.TogglePower = GlobalVar.On;
-					TogglePower();
-//					PowerOn();
+					GlobalVar.MessageBoxData = "No devices listed. Add new device first.";
+					var okMessage = new OkMessage();
+					okMessage.ShowDialog();
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed. Add new device first.\n"));
 				}
-
-				Cursor.Current = Cursors.Default;
 			}
 			else
 			{
-				GlobalVar.MessageBoxData = "No devices listed. Add new device first.";
-				var okMessage = new OkMessage();
-				okMessage.ShowDialog();
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No devices listed. Add new device first.\n"));
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No network connection detected, please connect to your local network.\n"));
 			}
 		}
 		#endregion
 
-		#region Toggle Power
+		#region Toggle Power Code
 
 		private void TogglePower()
 		{
@@ -432,13 +471,13 @@ namespace S20_Power_Points
 					if (GlobalVar.HexValue[0] == "0")
 					{
 						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off1;
 						GlobalVar.PowerStatusOn = false;
 					}
 					else
 					{
 						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, (GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
+						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On1;
 						GlobalVar.PowerStatusOn = true;
 					}
 				}
@@ -597,8 +636,15 @@ namespace S20_Power_Points
 
 		private void pictureBoxAdd_Click(object sender, EventArgs e)
 		{
-			GlobalVar.ReDiscover = true;
-			AddNewDevice();
+			if (NetworkInterface.GetIsNetworkAvailable())
+			{
+				GlobalVar.ReDiscover = true;
+				AddNewDevice();
+			}
+			else
+			{
+			richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No network connection detected, please connect to your local network.\n"));				
+			}
 		}
 
 		private void AddNewDevice()
@@ -864,36 +910,64 @@ namespace S20_Power_Points
 		
 		private void getStatus()
 		{
-			if (GlobalVar.Device_Name.Count > 0)
+			if (NetworkInterface.GetIsNetworkAvailable())
 			{
-				textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
-				textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
-				comboBoxDeviceName.Text = GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex];
-				Subscribe();
-				switch (GlobalVar.PowerStatus)
+				pictureBoxNetworkConnection.BackgroundImage = Resources.NetworkOn;
+				if (GlobalVar.Device_Name.Count > 0)
 				{
-					case 1:
-						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_On;
-						GlobalVar.PowerStatusOn = true;
-						break;
-					case 0:
-						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
-						GlobalVar.PowerStatusOn = false;
-						break;
-					case 3:
-						richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " can not be found, please ensure you are connected to your local network and that the device is plugged in and switched on at the mains.\n"));
-						pictureBoxTogglePWR.BackgroundImage = Resources.Power_Unknown;
-						break;
+					textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+					textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
+					comboBoxDeviceName.Text = GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex];
+					Subscribe();
+					switch (GlobalVar.PowerStatus)
+					{
+						case 1:
+							richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
+								(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch On.\n"));
+							pictureBoxTogglePWR.BackgroundImage = Resources.Power_On1;
+							GlobalVar.PowerStatusOn = true;
+							break;
+						case 0:
+							richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
+								(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] + " is switch Off.\n"));
+							pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off1;
+							GlobalVar.PowerStatusOn = false;
+							break;
+						case 3:
+							richTextBoxLog.Text = richTextBoxLog.Text.Insert(0,
+								(GlobalVar.Device_Name[comboBoxDeviceName.SelectedIndex] +
+								 " can not be found, please ensure you are connected to your local network and that the device is plugged in and switched on at the mains.\n"));
+							pictureBoxTogglePWR.BackgroundImage = Resources.Power_Unknown;
+							break;
+					}
+				}
+				else
+				{
+					GlobalVar.MessageBoxData =
+						"No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
+					var okMessage = new OkMessage();
+					okMessage.ShowDialog();
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
 				}
 			}
 			else
 			{
-				GlobalVar.MessageBoxData = "No new devices found. If you do have some that have not been registered then please ensure you have registered initially through WIWO software first.";
-				var okMessage = new OkMessage();
-				okMessage.ShowDialog();
-				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No new devices found.\n"));
+				pictureBoxNetworkConnection.BackgroundImage = Resources.NetworkOff;
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("No network connection detected, please connect to your local network.\n"));
+			}
+		}
+		#endregion
+
+		#region Monitors for network connection
+		private void AvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+		{
+			if (e.IsAvailable)
+			{
+				pictureBoxNetworkConnection.BackgroundImage = Resources.NetworkOn;
+			}
+			else
+			{
+				pictureBoxNetworkConnection.BackgroundImage = Resources.NetworkOff;
 			}
 		}
 		#endregion
@@ -1071,7 +1145,7 @@ namespace S20_Power_Points
 
 				WaitCmdLong(); //ensures enough time for device to register with network.
 
-				pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off;
+				pictureBoxTogglePWR.BackgroundImage = Resources.Power_Off1;
 
 				int repeat = 0;
 				int rxPacket = 1;
@@ -1110,7 +1184,7 @@ namespace S20_Power_Points
 		}
 		#endregion
 
-		#region Timer
+		#region Timer to check for any requests from Vixen 3 or the Windows scheduler.
 		private void timerCheckSchedules_Tick(object sender, EventArgs e)
 		{
 			string[] scheduleFiles = Directory.GetFiles(GlobalVar.DocumnetsFolder + @"\ToDo");
@@ -1130,6 +1204,8 @@ namespace S20_Power_Points
 						i++;
 					}
 					comboBoxDeviceName.Text = s[0];
+					textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+					textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
 					if ( s[1].Contains("On") )
 					{
 						GlobalVar.TogglePower = GlobalVar.On;

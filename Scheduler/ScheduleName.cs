@@ -75,6 +75,7 @@ namespace S20_Power_Points
 						var okMessage = new OkMessage();
 						okMessage.ShowDialog();
 						Show();
+						textBoxScheduleName.Text = "";
 						return;
 					}
 				}

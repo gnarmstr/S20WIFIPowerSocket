@@ -33,6 +33,8 @@
 			this.pictureBoxOK = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.textBoxPassword = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			this.textBoxSSID = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -45,8 +47,6 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-			this.textBoxPassword = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxCancel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOK)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -103,13 +103,36 @@
 			this.panel1.Size = new System.Drawing.Size(626, 525);
 			this.panel1.TabIndex = 59;
 			// 
+			// textBoxPassword
+			// 
+			this.textBoxPassword.Location = new System.Drawing.Point(403, 22);
+			this.textBoxPassword.MaxLength = 16;
+			this.textBoxPassword.Name = "textBoxPassword";
+			this.textBoxPassword.PasswordChar = '*';
+			this.textBoxPassword.Size = new System.Drawing.Size(199, 26);
+			this.textBoxPassword.TabIndex = 69;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.BackColor = System.Drawing.Color.Transparent;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label6.Location = new System.Drawing.Point(22, 23);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(165, 25);
+			this.label6.TabIndex = 68;
+			this.label6.Text = "WIFI Password:";
+			this.toolTip1.SetToolTip(this.label6, "Used when registering a new device.");
+			// 
 			// textBoxSSID
 			// 
-			this.textBoxSSID.Location = new System.Drawing.Point(398, 249);
+			this.textBoxSSID.Location = new System.Drawing.Point(403, 62);
 			this.textBoxSSID.MaxLength = 16;
 			this.textBoxSSID.Name = "textBoxSSID";
 			this.textBoxSSID.Size = new System.Drawing.Size(199, 26);
 			this.textBoxSSID.TabIndex = 67;
+			this.textBoxSSID.Visible = false;
 			// 
 			// label5
 			// 
@@ -117,11 +140,12 @@
 			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label5.Location = new System.Drawing.Point(17, 250);
+			this.label5.Location = new System.Drawing.Point(22, 63);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(346, 25);
 			this.label5.TabIndex = 66;
 			this.label5.Text = "Home WIFI Netwrok Name (SSID):";
+			this.label5.Visible = false;
 			// 
 			// groupBox1
 			// 
@@ -132,11 +156,12 @@
 			this.groupBox1.Controls.Add(this.textBoxDeviceName);
 			this.groupBox1.Controls.Add(this.textBoxUsername);
 			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Location = new System.Drawing.Point(7, -1);
+			this.groupBox1.Location = new System.Drawing.Point(3, 106);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(616, 191);
 			this.groupBox1.TabIndex = 65;
 			this.groupBox1.TabStop = false;
+			this.groupBox1.Visible = false;
 			// 
 			// label4
 			// 
@@ -230,27 +255,6 @@
 			this.pictureBoxClose.TabIndex = 89;
 			this.pictureBoxClose.TabStop = false;
 			this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
-			// 
-			// textBoxPassword
-			// 
-			this.textBoxPassword.Location = new System.Drawing.Point(398, 209);
-			this.textBoxPassword.MaxLength = 16;
-			this.textBoxPassword.Name = "textBoxPassword";
-			this.textBoxPassword.PasswordChar = '*';
-			this.textBoxPassword.Size = new System.Drawing.Size(199, 26);
-			this.textBoxPassword.TabIndex = 69;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.BackColor = System.Drawing.Color.Transparent;
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label6.Location = new System.Drawing.Point(17, 210);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(165, 25);
-			this.label6.TabIndex = 68;
-			this.label6.Text = "WIFI Password:";
 			// 
 			// Settings
 			// 

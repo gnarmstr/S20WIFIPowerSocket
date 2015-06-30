@@ -133,9 +133,19 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap No {
+        public static System.Drawing.Bitmap NetworkOff {
             get {
-                object obj = ResourceManager.GetObject("No", resourceCulture);
+                object obj = ResourceManager.GetObject("NetworkOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap NetworkOn {
+            get {
+                object obj = ResourceManager.GetObject("NetworkOn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,6 +193,16 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Power_Off1 {
+            get {
+                object obj = ResourceManager.GetObject("Power_Off1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Power_On {
             get {
                 object obj = ResourceManager.GetObject("Power_On", resourceCulture);
@@ -193,9 +213,9 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Power_Unknown {
+        public static System.Drawing.Bitmap Power_On1 {
             get {
-                object obj = ResourceManager.GetObject("Power_Unknown", resourceCulture);
+                object obj = ResourceManager.GetObject("Power_On1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +223,9 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Yes {
+        public static System.Drawing.Bitmap Power_Unknown {
             get {
-                object obj = ResourceManager.GetObject("Yes", resourceCulture);
+                object obj = ResourceManager.GetObject("Power_Unknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

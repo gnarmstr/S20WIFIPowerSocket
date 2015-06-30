@@ -111,6 +111,7 @@
 			this.textBoxPassword.PasswordChar = '*';
 			this.textBoxPassword.Size = new System.Drawing.Size(281, 26);
 			this.textBoxPassword.TabIndex = 59;
+			this.toolTip1.SetToolTip(this.textBoxPassword, "Password is from the settings page.");
 			// 
 			// toolTip1
 			// 

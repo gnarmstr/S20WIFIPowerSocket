@@ -91,55 +91,9 @@
     <None Include="Resources\accept.png" />
     <None Include="Resources\control_play_blue.png" />
     <None Include="Save.png" />
-    <None Include="Range of Motion Table3.5.11.jpg" />
-    <None Include="Resources\human-bones.bmp" />
-    <None Include="Resources\human-bones.jpg" />
-    <None Include="Resources\human-bones.png" />
-    <None Include="Resources\LeftKnee.png" />
-    <None Include="Resources\RightKnee.png" />
-    <None Include="Resources\LeftHip.png" />
-    <None Include="Resources\RightHip.png" />
-    <None Include="Resources\LeftWrist.png" />
-    <None Include="Resources\RightWrist.png" />
-    <None Include="Resources\LeftToes.png" />
-    <None Include="Resources\RightToes.png" />
-    <None Include="Resources\LeftFingers.png" />
-    <None Include="Resources\RightFingers.png" />
-    <None Include="Resources\LeftElbow.png" />
-    <None Include="Resources\RightElbow.png" />
-    <None Include="Resources\LeftShoulder.png" />
-    <None Include="Resources\RightShoulder.png" />
-    <None Include="Resources\Blank.png" />
-    <None Include="Resources\RightAnkle.png" />
-    <None Include="Resources\LeftAnkle.png" />
-    <None Include="Resources\Thoraco.png" />
-    <None Include="Resources\Cervical.png" />
-    <None Include="Resources\Throat.png" />
-    <None Include="Resources\LeftEye.png" />
-    <None Include="Resources\RightEye.png" />
-    <None Include="Resources\Bones_Blue.png" />
     <None Include="Resources\Button_Green.png" />
-    <None Include="Resources\Button_Red.png" />
-    <None Include="Resources\MainBackground_Green.jpg" />
-    <None Include="Resources\button_Blue.png" />
-    <None Include="Resources\MainBackground_Green.png" />
-    <None Include="Resources\Background_Blue.png" />
     <None Include="Resources\Close.png" />
-    <None Include="Resources\RightEar.png" />
-    <None Include="Resources\Nose.png" />
-    <None Include="Resources\LeftEar.png" />
-    <None Include="Resources\human-bones_Small.jpg" />
-    <None Include="Resources\Bones_Blue_Small.jpg" />
     <None Include="Resources\button_Blue_Small.png" />
-    <None Include="Resources\MainBackground_Green_Small.jpg" />
-    <None Include="Resources\MainBackground_Green_Small.png" />
-    <None Include="Resources\MainBackground_Green_Small1.png" />
-    <None Include="Resources\Bones_Blue_Small.png" />
-    <None Include="Resources\MainBackground_Green_Form.png" />
-    <None Include="Resources\No.png" />
-    <None Include="Resources\Range_of_ Motion.png" />
-    <None Include="Resources\powerbutton.jpg" />
-    <None Include="Resources\PowerOn.jpg" />
     <None Include="Resources\Power_On.png" />
     <None Include="Resources\Power_Off.png" />
     <None Include="Resources\BlackBackground.jpg" />
@@ -148,16 +102,15 @@
     <None Include="Resources\Yes.png" />
     <None Include="Resources\No1.png" />
     <None Include="Resources\PowerOn.png" />
-    <None Include="Resources\Power_Off_85.png" />
-    <None Include="Resources\Power_Off_90.png" />
-    <None Include="Resources\Power_Off_95.png" />
-    <None Include="Resources\Power_Off_80.png" />
-    <None Include="Resources\Power_Off_50.png" />
-    <None Include="Resources\Power_Off_60.png" />
-    <None Include="Resources\Power_Off_70.png" />
-    <Content Include="Vixen Messaging.png" />
+    <None Include="Resources\NetworkOff.png" />
+    <None Include="Resources\NetworkOn.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Power_Off1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Power_On1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -106,6 +106,7 @@
 			this.label6.Size = new System.Drawing.Size(74, 25);
 			this.label6.TabIndex = 119;
 			this.label6.Text = "Repeat";
+			this.toolTip1.SetToolTip(this.label6, "Select the days for the event to take place.");
 			// 
 			// checkBoxSun
 			// 
@@ -247,21 +248,23 @@
 			// pictureBoxAdd
 			// 
 			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxAdd.Location = new System.Drawing.Point(541, 20);
+			this.pictureBoxAdd.Location = new System.Drawing.Point(541, 18);
 			this.pictureBoxAdd.Name = "pictureBoxAdd";
-			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 36);
+			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 39);
 			this.pictureBoxAdd.TabIndex = 105;
 			this.pictureBoxAdd.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxAdd, "Create new Schedule");
 			this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
 			// 
 			// pictureBoxDelete
 			// 
 			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxDelete.Location = new System.Drawing.Point(594, 20);
+			this.pictureBoxDelete.Location = new System.Drawing.Point(594, 18);
 			this.pictureBoxDelete.Name = "pictureBoxDelete";
-			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 36);
+			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 39);
 			this.pictureBoxDelete.TabIndex = 104;
 			this.pictureBoxDelete.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxDelete, "Remove Selected Schedule");
 			this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
 			// 
 			// label3
@@ -306,6 +309,7 @@
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
 			this.comboBoxDeviceName.Size = new System.Drawing.Size(246, 28);
 			this.comboBoxDeviceName.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.comboBoxDeviceName, "Select the device that will be scheduled.");
 			this.comboBoxDeviceName.SelectedIndexChanged += new System.EventHandler(this.comboBoxDeviceName_SelectedIndexChanged);
 			// 
 			// dateTimePicker1

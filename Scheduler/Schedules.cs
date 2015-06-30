@@ -47,7 +47,9 @@ namespace S20_Power_Points
 			for (int i = 0; i < GlobalVar.Schedule_Name.Count; i++)
 			{
 				comboBoxSchedulerName.Items.Add(GlobalVar.Schedule_Name[i]);
+
 			}
+
 			if (comboBoxSchedulerName.Items.Count > 0)
 			{
 				comboBoxSchedulerName.SelectedIndex = 0;
@@ -62,6 +64,7 @@ namespace S20_Power_Points
 				comboBoxSchedulerName.SelectedIndex = i;
 				CreateBatch();
 				CreateTaskRunWeekly();
+				CreateNonScheduleBatch();
 			}
 		}
 
@@ -110,16 +113,24 @@ namespace S20_Power_Points
 			scheduleName.ShowDialog();
 			if (GlobalVar.CancelRequest == false)
 			{
+
 				GlobalVar.ScheduleDeviceName.Add(comboBoxDeviceName.Items[0].ToString());
+				checkBoxMon.Checked = false;
+				checkBoxTue.Checked = false;
+				checkBoxWed.Checked = false;
+				checkBoxThu.Checked = false;
+				checkBoxFri.Checked = false;
+				checkBoxSat.Checked = false;
+				checkBoxSun.Checked = false;
 				GlobalVar.Schedule_Time.Add(dateTimePicker1.Value);
 				GlobalVar.Schedule_Toggle.Add(GlobalVar.ToggleEvent);
-				GlobalVar.Schedule_Mon.Add(checkBoxMon.Checked);
-				GlobalVar.Schedule_Tue.Add(checkBoxTue.Checked);
-				GlobalVar.Schedule_Wed.Add(checkBoxWed.Checked);
-				GlobalVar.Schedule_Thu.Add(checkBoxThu.Checked);
-				GlobalVar.Schedule_Fri.Add(checkBoxFri.Checked);
-				GlobalVar.Schedule_Sat.Add(checkBoxSat.Checked);
-				GlobalVar.Schedule_Sun.Add(checkBoxSun.Checked);
+				GlobalVar.Schedule_Mon.Add(false);
+				GlobalVar.Schedule_Tue.Add(false);
+				GlobalVar.Schedule_Wed.Add(false);
+				GlobalVar.Schedule_Thu.Add(false);
+				GlobalVar.Schedule_Fri.Add(false);
+				GlobalVar.Schedule_Sat.Add(false);
+				GlobalVar.Schedule_Sun.Add(false);
 				comboBoxSchedulerName.Items.Add(GlobalVar.Schedule_Name[GlobalVar.Schedule_Name.Count - 1]);
 				comboBoxSchedulerName.SelectedIndex = comboBoxSchedulerName.Items.Count - 1;
 				CreateTaskRunWeekly();
@@ -172,7 +183,6 @@ namespace S20_Power_Points
 		{
 			if (comboBoxSchedulerName.Items.Count > 0)
 			{
-				comboBoxDeviceName.SelectedItem = GlobalVar.ScheduleDeviceName[comboBoxSchedulerName.SelectedIndex];
 				dateTimePicker1.Value = GlobalVar.Schedule_Time[comboBoxSchedulerName.SelectedIndex];
 				GlobalVar.ToggleEvent = GlobalVar.Schedule_Toggle[comboBoxSchedulerName.SelectedIndex];
 				checkBoxMon.Checked = GlobalVar.Schedule_Mon[comboBoxSchedulerName.SelectedIndex];
@@ -182,6 +192,7 @@ namespace S20_Power_Points
 				checkBoxFri.Checked = GlobalVar.Schedule_Fri[comboBoxSchedulerName.SelectedIndex];
 				checkBoxSat.Checked = GlobalVar.Schedule_Sat[comboBoxSchedulerName.SelectedIndex];
 				checkBoxSun.Checked = GlobalVar.Schedule_Sun[comboBoxSchedulerName.SelectedIndex];
+				comboBoxDeviceName.SelectedItem = GlobalVar.ScheduleDeviceName[comboBoxSchedulerName.SelectedIndex];
 				if (GlobalVar.ToggleEvent)
 				{
 					buttonEvent.BackgroundImage = Resources.On;
@@ -247,11 +258,49 @@ namespace S20_Power_Points
 					sw.WriteLine(@":numbers");
 					sw.WriteLine(@"set /a counter=%counter%+1");
 					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @" > " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @"_" + deviceStatus + @" >> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + comboBoxDeviceName.SelectedItem + @"_" + deviceStatus + @">> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
 					sw.WriteLine(@"goto :eof)");
 					sw.WriteLine(@"goto :numbers");
 				}
+		}
+		#endregion
+
+		#region Create Non schedule Batch file
+
+		private void CreateNonScheduleBatch()
+		{
+			for (int i = 0; i < GlobalVar.Device_Name.Count; i++)
+			{
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_On.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_On>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_Off.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_Off>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
+			}
 		}
 		#endregion
 
@@ -275,6 +324,7 @@ namespace S20_Power_Points
 		#endregion
 
 		#region Create Weekly Task
+
 		private void CreateTaskRunWeekly()
 		{
 
@@ -361,14 +411,25 @@ namespace S20_Power_Points
 						else
 						{
 							week.DaysOfWeek = DaysOfTheWeek.Sunday;
+							dayAdded = true;
 						}
 					}
+				if (dayAdded)
+				{
 					td.Triggers.Add(week);
-					td.Actions.Add(new ExecAction(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat", null, GlobalVar.DocumnetsFolder + @"\"));
-					
-				ts.RootFolder.RegisterTaskDefinition(GlobalVar.Schedule_Name[comboBoxSchedulerName.SelectedIndex], td);
+					td.Settings.DisallowStartIfOnBatteries = false;
+					td.Settings.StopIfGoingOnBatteries = false;
+					td.Actions.Add(new ExecAction(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat", null,
+						GlobalVar.DocumnetsFolder + @"\"));
+					ts.RootFolder.RegisterTaskDefinition(GlobalVar.Schedule_Name[comboBoxSchedulerName.SelectedIndex], td);
+				}
+				else
+				{
+					DeleteTask();
+				}
 			}
 		}
+
 		#endregion
 
 		#region Delete Task
@@ -407,7 +468,7 @@ namespace S20_Power_Points
 		}
 		private void comboBoxDeviceName_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			SchedulerChange();
+			SchedulerUpdate();
 		}
 
 		private void comboBoxSchedulerName_SelectedIndexChanged(object sender, EventArgs e)
