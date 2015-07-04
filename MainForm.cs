@@ -247,8 +247,12 @@ namespace S20_Power_Points
 		#region Instructions
 		private void buttonInstructions_Click(object sender, EventArgs e)
 		{
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
+			Hide();
 			var instructions = new Instructions();
 			instructions.ShowDialog();
+			Show();
 		}
 		#endregion
 
@@ -1218,6 +1222,7 @@ namespace S20_Power_Points
 					}
 				}
 				File.Delete(scheduleFiles[0]);
+				WaitCmd();
 
 				Cursor.Current = Cursors.Default;
 			}

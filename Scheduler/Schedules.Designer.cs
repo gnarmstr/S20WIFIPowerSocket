@@ -60,7 +60,7 @@
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(563, 393);
+			this.pictureBoxOK.Location = new System.Drawing.Point(553, 286);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 14;
@@ -92,7 +92,7 @@
 			this.panel1.Controls.Add(this.pictureBoxOK);
 			this.panel1.Location = new System.Drawing.Point(12, 63);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(646, 476);
+			this.panel1.Size = new System.Drawing.Size(646, 368);
 			this.panel1.TabIndex = 59;
 			// 
 			// label6
@@ -101,7 +101,7 @@
 			this.label6.BackColor = System.Drawing.Color.Transparent;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label6.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label6.Location = new System.Drawing.Point(305, 255);
+			this.label6.Location = new System.Drawing.Point(191, 248);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(74, 25);
 			this.label6.TabIndex = 119;
@@ -114,7 +114,7 @@
 			this.checkBoxSun.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxSun.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxSun.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxSun.Location = new System.Drawing.Point(478, 294);
+			this.checkBoxSun.Location = new System.Drawing.Point(364, 287);
 			this.checkBoxSun.Name = "checkBoxSun";
 			this.checkBoxSun.Size = new System.Drawing.Size(52, 50);
 			this.checkBoxSun.TabIndex = 11;
@@ -128,7 +128,7 @@
 			this.checkBoxSat.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxSat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxSat.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxSat.Location = new System.Drawing.Point(426, 294);
+			this.checkBoxSat.Location = new System.Drawing.Point(312, 287);
 			this.checkBoxSat.Name = "checkBoxSat";
 			this.checkBoxSat.Size = new System.Drawing.Size(46, 50);
 			this.checkBoxSat.TabIndex = 10;
@@ -142,7 +142,7 @@
 			this.checkBoxFri.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxFri.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxFri.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxFri.Location = new System.Drawing.Point(373, 294);
+			this.checkBoxFri.Location = new System.Drawing.Point(259, 287);
 			this.checkBoxFri.Name = "checkBoxFri";
 			this.checkBoxFri.Size = new System.Drawing.Size(38, 50);
 			this.checkBoxFri.TabIndex = 9;
@@ -156,7 +156,7 @@
 			this.checkBoxThu.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxThu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxThu.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxThu.Location = new System.Drawing.Point(312, 294);
+			this.checkBoxThu.Location = new System.Drawing.Point(198, 287);
 			this.checkBoxThu.Name = "checkBoxThu";
 			this.checkBoxThu.Size = new System.Drawing.Size(51, 50);
 			this.checkBoxThu.TabIndex = 8;
@@ -170,7 +170,7 @@
 			this.checkBoxWed.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxWed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxWed.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxWed.Location = new System.Drawing.Point(251, 294);
+			this.checkBoxWed.Location = new System.Drawing.Point(137, 287);
 			this.checkBoxWed.Name = "checkBoxWed";
 			this.checkBoxWed.Size = new System.Drawing.Size(58, 50);
 			this.checkBoxWed.TabIndex = 7;
@@ -184,7 +184,7 @@
 			this.checkBoxTue.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxTue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxTue.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxTue.Location = new System.Drawing.Point(194, 294);
+			this.checkBoxTue.Location = new System.Drawing.Point(80, 287);
 			this.checkBoxTue.Name = "checkBoxTue";
 			this.checkBoxTue.Size = new System.Drawing.Size(51, 50);
 			this.checkBoxTue.TabIndex = 6;
@@ -198,7 +198,7 @@
 			this.checkBoxMon.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.checkBoxMon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.checkBoxMon.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.checkBoxMon.Location = new System.Drawing.Point(133, 294);
+			this.checkBoxMon.Location = new System.Drawing.Point(19, 287);
 			this.checkBoxMon.Name = "checkBoxMon";
 			this.checkBoxMon.Size = new System.Drawing.Size(55, 50);
 			this.checkBoxMon.TabIndex = 5;
@@ -351,12 +351,12 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Info;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.ClientSize = new System.Drawing.Size(670, 550);
+			this.ClientSize = new System.Drawing.Size(670, 440);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(670, 550);
-			this.MinimumSize = new System.Drawing.Size(670, 550);
+			this.MaximumSize = new System.Drawing.Size(670, 440);
+			this.MinimumSize = new System.Drawing.Size(670, 440);
 			this.Name = "Schedules";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Cervical  Spine Movement";

@@ -10,13 +10,10 @@ namespace S20_Power_Points
 	{
 		public Instructions()
 		{
-			if (ActiveForm != null)
-				Location = new Point(ActiveForm.Location.X, ActiveForm.Location.Y - 20);
+			Location = new Point(GlobalVar.MainFormLocxationX -40, GlobalVar.MainFormLocxationY);
 			InitializeComponent();
 			pictureBoxClose.BackgroundImage = Resources.Close;
-			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
-			MinimumSize = new Size(605, 600);
-			MaximumSize = new Size(605, 600);	
+			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;	
 			BackgroundImage = Resources.BlackBackground;
 			BackgroundImageLayout = ImageLayout.Stretch;
 			panel1.BackgroundImage = Resources.BlackBackground;

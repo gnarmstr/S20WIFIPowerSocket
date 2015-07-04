@@ -47,14 +47,14 @@
 			this.label85.ForeColor = System.Drawing.Color.RoyalBlue;
 			this.label85.Location = new System.Drawing.Point(13, 59);
 			this.label85.Name = "label85";
-			this.label85.Size = new System.Drawing.Size(824, 742);
+			this.label85.Size = new System.Drawing.Size(824, 481);
 			this.label85.TabIndex = 20;
 			this.label85.Text = resources.GetString("label85.Text");
 			// 
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(772, 742);
+			this.pictureBoxOK.Location = new System.Drawing.Point(772, 487);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 21;
@@ -71,7 +71,7 @@
 			this.panel1.Controls.Add(this.label85);
 			this.panel1.Location = new System.Drawing.Point(26, 70);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(855, 896);
+			this.panel1.Size = new System.Drawing.Size(855, 570);
 			this.panel1.TabIndex = 22;
 			// 
 			// label1
@@ -118,13 +118,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(900, 980);
+			this.ClientSize = new System.Drawing.Size(900, 650);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(900, 980);
-			this.MinimumSize = new System.Drawing.Size(900, 980);
+			this.MaximumSize = new System.Drawing.Size(900, 650);
+			this.MinimumSize = new System.Drawing.Size(900, 650);
 			this.Name = "Instructions";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Instructions";

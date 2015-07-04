@@ -66,6 +66,38 @@ namespace S20_Power_Points
 				CreateTaskRunWeekly();
 				CreateNonScheduleBatch();
 			}
+
+			for (int i = 0; i < GlobalVar.Device_Name.Count; i++)
+			{
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_On.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_On>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
+				// Create a file to write to. 
+				using (
+					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_Off.bat"))
+				{
+					sw.WriteLine(@"@echo off");
+					sw.WriteLine(@"set /a counter=0");
+					sw.WriteLine(@":numbers");
+					sw.WriteLine(@"set /a counter=%counter%+1");
+					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_Off>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
+					sw.WriteLine(@"goto :eof)");
+					sw.WriteLine(@"goto :numbers");
+				}
+			}
 		}
 
 		private void DeviceName_Load(object sender, EventArgs e)

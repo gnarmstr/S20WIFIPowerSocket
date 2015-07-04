@@ -96,6 +96,7 @@
 			this.textBoxDeviceName.Name = "textBoxDeviceName";
 			this.textBoxDeviceName.Size = new System.Drawing.Size(281, 26);
 			this.textBoxDeviceName.TabIndex = 59;
+			this.textBoxDeviceName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDeviceName_KeyPress);
 			// 
 			// toolTip1
 			// 

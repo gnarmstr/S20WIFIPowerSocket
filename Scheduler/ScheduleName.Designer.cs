@@ -96,6 +96,7 @@
 			this.textBoxScheduleName.Name = "textBoxScheduleName";
 			this.textBoxScheduleName.Size = new System.Drawing.Size(281, 26);
 			this.textBoxScheduleName.TabIndex = 59;
+			this.textBoxScheduleName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxScheduleName_KeyPress);
 			// 
 			// toolTip1
 			// 

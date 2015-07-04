@@ -30,15 +30,17 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
+			this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
+			this.pictureBoxTogglePWR = new System.Windows.Forms.PictureBox();
+			this.labelNetworkConnection = new System.Windows.Forms.Label();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
+			this.pictureBoxNetworkConnection = new System.Windows.Forms.PictureBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
-			this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
-			this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
-			this.pictureBoxTogglePWR = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.comboBoxDeviceName = new System.Windows.Forms.ComboBox();
@@ -49,13 +51,11 @@
 			this.buttonSettings = new System.Windows.Forms.Button();
 			this.buttonSchedules = new System.Windows.Forms.Button();
 			this.timerCheckSchedules = new System.Windows.Forms.Timer(this.components);
-			this.labelNetworkConnection = new System.Windows.Forms.Label();
-			this.pictureBoxNetworkConnection = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
-			this.panelMainPoints.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTogglePWR)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
+			this.panelMainPoints.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxNetworkConnection)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,6 +64,52 @@
 			this.toolTip1.AutoPopDelay = 8000;
 			this.toolTip1.InitialDelay = 500;
 			this.toolTip1.ReshowDelay = 100;
+			// 
+			// pictureBoxAdd
+			// 
+			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxAdd.Location = new System.Drawing.Point(275, 101);
+			this.pictureBoxAdd.Name = "pictureBoxAdd";
+			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 39);
+			this.pictureBoxAdd.TabIndex = 103;
+			this.pictureBoxAdd.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxAdd, "Register or add new device.");
+			this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
+			// 
+			// pictureBoxDelete
+			// 
+			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxDelete.Location = new System.Drawing.Point(328, 101);
+			this.pictureBoxDelete.Name = "pictureBoxDelete";
+			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 39);
+			this.pictureBoxDelete.TabIndex = 102;
+			this.pictureBoxDelete.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxDelete, "Remove selected Device.");
+			this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
+			// 
+			// pictureBoxTogglePWR
+			// 
+			this.pictureBoxTogglePWR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(426, 11);
+			this.pictureBoxTogglePWR.Name = "pictureBoxTogglePWR";
+			this.pictureBoxTogglePWR.Size = new System.Drawing.Size(213, 215);
+			this.pictureBoxTogglePWR.TabIndex = 101;
+			this.pictureBoxTogglePWR.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxTogglePWR, "Toggle power setting for selected Device.");
+			this.pictureBoxTogglePWR.Click += new System.EventHandler(this.pictureBoxTogglePWR_Click);
+			// 
+			// labelNetworkConnection
+			// 
+			this.labelNetworkConnection.BackColor = System.Drawing.Color.Transparent;
+			this.labelNetworkConnection.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelNetworkConnection.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.labelNetworkConnection.Location = new System.Drawing.Point(633, 58);
+			this.labelNetworkConnection.Name = "labelNetworkConnection";
+			this.labelNetworkConnection.Size = new System.Drawing.Size(115, 57);
+			this.labelNetworkConnection.TabIndex = 105;
+			this.labelNetworkConnection.Text = "Network Availability";
+			this.labelNetworkConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.toolTip1.SetToolTip(this.labelNetworkConnection, "Monitors network availability.");
 			// 
 			// printDialog1
 			// 
@@ -116,6 +162,16 @@
 			this.panelMainPoints.Size = new System.Drawing.Size(740, 516);
 			this.panelMainPoints.TabIndex = 83;
 			// 
+			// pictureBoxNetworkConnection
+			// 
+			this.pictureBoxNetworkConnection.BackColor = System.Drawing.Color.Transparent;
+			this.pictureBoxNetworkConnection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxNetworkConnection.Location = new System.Drawing.Point(674, 0);
+			this.pictureBoxNetworkConnection.Name = "pictureBoxNetworkConnection";
+			this.pictureBoxNetworkConnection.Size = new System.Drawing.Size(30, 30);
+			this.pictureBoxNetworkConnection.TabIndex = 106;
+			this.pictureBoxNetworkConnection.TabStop = false;
+			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
@@ -130,45 +186,12 @@
 			// 
 			// richTextBoxLog
 			// 
-			this.richTextBoxLog.Location = new System.Drawing.Point(19, 253);
+			this.richTextBoxLog.Location = new System.Drawing.Point(4, 253);
 			this.richTextBoxLog.Name = "richTextBoxLog";
 			this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.richTextBoxLog.Size = new System.Drawing.Size(701, 260);
+			this.richTextBoxLog.Size = new System.Drawing.Size(733, 260);
 			this.richTextBoxLog.TabIndex = 96;
 			this.richTextBoxLog.Text = "";
-			// 
-			// pictureBoxAdd
-			// 
-			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxAdd.Location = new System.Drawing.Point(244, 95);
-			this.pictureBoxAdd.Name = "pictureBoxAdd";
-			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 39);
-			this.pictureBoxAdd.TabIndex = 103;
-			this.pictureBoxAdd.TabStop = false;
-			this.toolTip1.SetToolTip(this.pictureBoxAdd, "Register or add new device.");
-			this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
-			// 
-			// pictureBoxDelete
-			// 
-			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxDelete.Location = new System.Drawing.Point(297, 95);
-			this.pictureBoxDelete.Name = "pictureBoxDelete";
-			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 39);
-			this.pictureBoxDelete.TabIndex = 102;
-			this.pictureBoxDelete.TabStop = false;
-			this.toolTip1.SetToolTip(this.pictureBoxDelete, "Remove selected Device.");
-			this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
-			// 
-			// pictureBoxTogglePWR
-			// 
-			this.pictureBoxTogglePWR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxTogglePWR.Location = new System.Drawing.Point(426, 11);
-			this.pictureBoxTogglePWR.Name = "pictureBoxTogglePWR";
-			this.pictureBoxTogglePWR.Size = new System.Drawing.Size(213, 215);
-			this.pictureBoxTogglePWR.TabIndex = 101;
-			this.pictureBoxTogglePWR.TabStop = false;
-			this.toolTip1.SetToolTip(this.pictureBoxTogglePWR, "Toggle power setting for selected Device.");
-			this.pictureBoxTogglePWR.Click += new System.EventHandler(this.pictureBoxTogglePWR_Click);
 			// 
 			// label1
 			// 
@@ -176,7 +199,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label1.Location = new System.Drawing.Point(10, 61);
+			this.label1.Location = new System.Drawing.Point(41, 67);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(135, 25);
 			this.label1.TabIndex = 98;
@@ -199,7 +222,7 @@
 			// 
 			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxDeviceName.FormattingEnabled = true;
-			this.comboBoxDeviceName.Location = new System.Drawing.Point(15, 99);
+			this.comboBoxDeviceName.Location = new System.Drawing.Point(46, 105);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
 			this.comboBoxDeviceName.Size = new System.Drawing.Size(213, 28);
 			this.comboBoxDeviceName.TabIndex = 1;
@@ -280,29 +303,6 @@
 			this.timerCheckSchedules.Interval = 500;
 			this.timerCheckSchedules.Tick += new System.EventHandler(this.timerCheckSchedules_Tick);
 			// 
-			// labelNetworkConnection
-			// 
-			this.labelNetworkConnection.BackColor = System.Drawing.Color.Transparent;
-			this.labelNetworkConnection.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelNetworkConnection.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.labelNetworkConnection.Location = new System.Drawing.Point(633, 58);
-			this.labelNetworkConnection.Name = "labelNetworkConnection";
-			this.labelNetworkConnection.Size = new System.Drawing.Size(115, 57);
-			this.labelNetworkConnection.TabIndex = 105;
-			this.labelNetworkConnection.Text = "Network Availability";
-			this.labelNetworkConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.toolTip1.SetToolTip(this.labelNetworkConnection, "Monitors network availability.");
-			// 
-			// pictureBoxNetworkConnection
-			// 
-			this.pictureBoxNetworkConnection.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxNetworkConnection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxNetworkConnection.Location = new System.Drawing.Point(674, 0);
-			this.pictureBoxNetworkConnection.Name = "pictureBoxNetworkConnection";
-			this.pictureBoxNetworkConnection.Size = new System.Drawing.Size(30, 30);
-			this.pictureBoxNetworkConnection.TabIndex = 106;
-			this.pictureBoxNetworkConnection.TabStop = false;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -326,12 +326,12 @@
 			this.Text = " ";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
-			this.panelMainPoints.ResumeLayout(false);
-			this.panelMainPoints.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTogglePWR)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
+			this.panelMainPoints.ResumeLayout(false);
+			this.panelMainPoints.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxNetworkConnection)).EndInit();
 			this.ResumeLayout(false);
 

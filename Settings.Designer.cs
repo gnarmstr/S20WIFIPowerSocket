@@ -57,7 +57,7 @@
 			// pictureBoxCancel
 			// 
 			this.pictureBoxCancel.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxCancel.Location = new System.Drawing.Point(517, 429);
+			this.pictureBoxCancel.Location = new System.Drawing.Point(539, 314);
 			this.pictureBoxCancel.Name = "pictureBoxCancel";
 			this.pictureBoxCancel.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxCancel.TabIndex = 15;
@@ -68,7 +68,7 @@
 			// pictureBoxOK
 			// 
 			this.pictureBoxOK.BackColor = System.Drawing.Color.Transparent;
-			this.pictureBoxOK.Location = new System.Drawing.Point(407, 429);
+			this.pictureBoxOK.Location = new System.Drawing.Point(429, 314);
 			this.pictureBoxOK.Name = "pictureBoxOK";
 			this.pictureBoxOK.Size = new System.Drawing.Size(80, 80);
 			this.pictureBoxOK.TabIndex = 14;
@@ -100,7 +100,7 @@
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Location = new System.Drawing.Point(12, 61);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(626, 525);
+			this.panel1.Size = new System.Drawing.Size(626, 403);
 			this.panel1.TabIndex = 59;
 			// 
 			// textBoxPassword
@@ -262,13 +262,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Info;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-			this.ClientSize = new System.Drawing.Size(650, 600);
+			this.ClientSize = new System.Drawing.Size(650, 480);
 			this.Controls.Add(this.buttonMainTitle);
 			this.Controls.Add(this.pictureBoxClose);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximumSize = new System.Drawing.Size(650, 600);
-			this.MinimumSize = new System.Drawing.Size(650, 600);
+			this.MaximumSize = new System.Drawing.Size(650, 480);
+			this.MinimumSize = new System.Drawing.Size(650, 480);
 			this.Name = "Settings";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Cervical  Spine Movement";

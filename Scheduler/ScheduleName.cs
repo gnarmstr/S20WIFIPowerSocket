@@ -64,6 +64,11 @@ namespace S20_Power_Points
 
 		private void pictureBoxOK_Click(object sender, EventArgs e)
 		{
+			Ok_Button();
+		}
+
+		private void Ok_Button()
+		{
 			if (textBoxScheduleName.Text != "")
 			{
 				foreach (var compare in GlobalVar.Schedule_Name)
@@ -93,6 +98,14 @@ namespace S20_Power_Points
 		private void pictureBoxClose_Click(object sender, EventArgs e)
 		{
 			Close();
+		}
+
+		private void textBoxScheduleName_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (Convert.ToInt32(e.KeyChar) == 13)
+			{
+				Ok_Button();
+			}
 		}
 
 	}

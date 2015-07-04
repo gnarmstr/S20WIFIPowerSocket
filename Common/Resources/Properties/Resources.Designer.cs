@@ -183,29 +183,9 @@ namespace Common.Resources.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Power_Off {
-            get {
-                object obj = ResourceManager.GetObject("Power_Off", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap Power_Off1 {
             get {
                 object obj = ResourceManager.GetObject("Power_Off1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Power_On {
-            get {
-                object obj = ResourceManager.GetObject("Power_On", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

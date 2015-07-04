@@ -65,6 +65,11 @@ namespace S20_Power_Points
 
 		private void pictureBoxOK_Click(object sender, EventArgs e)
 		{
+			Ok_Button();
+		}
+
+		private void Ok_Button()
+		{
 			if (textBoxDeviceName.Text != "")
 			{
 				foreach (var compare in GlobalVar.Device_Name)
@@ -106,6 +111,14 @@ namespace S20_Power_Points
 		{
 			GlobalVar.CancelDiscover = true;
 			Close();
+		}
+
+		private void textBoxDeviceName_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (Convert.ToInt32(e.KeyChar) == 13)
+			{
+				Ok_Button();
+			}
 		}
 
 	}
