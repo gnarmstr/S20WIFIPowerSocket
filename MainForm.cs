@@ -34,6 +34,7 @@ namespace S20_Power_Points
 	public partial class MainForm : Form
 	{
 		// TO DO LIST
+		// Groups
 
 		#region Initialization
 
@@ -125,6 +126,8 @@ namespace S20_Power_Points
 			buttonMainTitle.BackgroundImage = Resources.button_Blue_Small;
 			pictureBoxDelete.BackgroundImage = Resources.delete;
 			pictureBoxAdd.BackgroundImage = Resources.add;
+			pictureBoxDeleteGroup.BackgroundImage = Resources.delete;
+			pictureBoxAddGroup.BackgroundImage = Resources.add;
 			buttonSchedules.BackgroundImage = Resources.button_Blue_Small;
 			buttonSettings.BackgroundImage = Resources.button_Blue_Small;
 			BackgroundImage = Resources.BlackBackground;
@@ -144,7 +147,6 @@ namespace S20_Power_Points
 
 			GlobalVar.DeviceNumber = profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, "DeviceNumber", 0);
 			GlobalVar.WifiPassword = profile.GetSetting(XmlProfileSettings.SettingType.Profiles, "WifiPassword", "");
-	//		GlobalVar.PowerStatus = profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, "PowerStatus", 0);
 			string line;
 			int i = 0;
 			line = "DeviceName";
@@ -161,6 +163,8 @@ namespace S20_Power_Points
 					GlobalVar.ReverseMacAddress.Add(profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, ""));
 					line = "Device_Name";
 					GlobalVar.Device_Name.Add(profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, ""));
+					line = "GroupDeviceName";
+					GlobalVar.GroupDeviceName.Add(profile.GetSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, ""));
 					line = "DeviceName";
 					i++;
 				} while (i < GlobalVar.DeviceNumber);
@@ -176,7 +180,6 @@ namespace S20_Power_Points
 			}
 
 			i = 0;
-
 			GlobalVar.SchedulerNumber = profile.GetSetting(XmlProfileSettings.SettingType.Schedules, "SchedulerNumber", 0);
 			line = "Schedule_Name";
 			if (GlobalVar.SchedulerNumber > 0)
@@ -208,6 +211,27 @@ namespace S20_Power_Points
 					line = "Schedule_Name";
 					i++;
 				} while (i < GlobalVar.SchedulerNumber);
+			}
+			i = 0;
+			GlobalVar.GroupNumber = profile.GetSetting(XmlProfileSettings.SettingType.Groups, "GroupNumber", 0);
+			line = "Group_Name";
+			if (GlobalVar.GroupNumber > 0)
+			{
+				do
+				{
+					GlobalVar.Group_Name.Add(profile.GetSetting(XmlProfileSettings.SettingType.Groups, line + i, ""));
+					line = "Group_Name";
+					comboBoxGroupName.Items.Add(profile.GetSetting(XmlProfileSettings.SettingType.Groups, line + i, ""));
+					i++;
+				} while (i < GlobalVar.GroupNumber);
+				GroupChange();
+			}
+			else
+			{
+				GlobalVar.Group_Name.Add("None");
+				GlobalVar.GroupDeviceName.Add("None");
+				comboBoxGroupName.Items.Add("None");
+				comboBoxGroupName.SelectedIndex = 0;
 			}
 
 			#endregion
@@ -288,8 +312,7 @@ namespace S20_Power_Points
 				line = "DeviceName";
 				do
 				{
-					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i,
-						Convert.ToString(GlobalVar.Device_Name[i]));
+					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, Convert.ToString(GlobalVar.Device_Name[i]));
 					line = "DeviceIP";
 					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, GlobalVar.IpAddress[i]);
 					line = "DeviceMAC";
@@ -298,15 +321,17 @@ namespace S20_Power_Points
 					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, GlobalVar.ReverseMacAddress[i]);
 					line = "Device_Name";
 					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, GlobalVar.Device_Name[i]);
+					line = "GroupDeviceName";
+					profile.PutSetting(XmlProfileSettings.SettingType.DeviceSettings, line + i, Convert.ToString(GlobalVar.GroupDeviceName[i]));
 					line = "DeviceName";
 					i++;
 				} while (i < GlobalVar.MacAddress.Count());
 
 			}
-			else
-			{
-				File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\S20 Socket Control\Settings.xml");
-			}
+	//		else
+	//		{
+	//			File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\S20 Socket Control\Settings.xml");
+	//		}
 			if (GlobalVar.Schedule_Name.Count > 0)
 			{
 				GlobalVar.SchedulerNumber = GlobalVar.Schedule_Name.Count;
@@ -339,6 +364,18 @@ namespace S20_Power_Points
 					line = "Schedule_Name";
 					i++;
 				} while (i < GlobalVar.Schedule_Name.Count());
+			}
+			if (GlobalVar.Group_Name.Count > 0)
+			{
+				GlobalVar.GroupNumber = GlobalVar.Group_Name.Count;
+				profile.PutSetting(XmlProfileSettings.SettingType.Groups, "GroupNumber", GlobalVar.GroupNumber);
+				int i = 0;
+				line = "Group_Name";
+				do
+				{
+					profile.PutSetting(XmlProfileSettings.SettingType.Groups, line + i, Convert.ToString(GlobalVar.Group_Name[i]));
+					i++;
+				} while (i < GlobalVar.Group_Name.Count());
 			}
 		}
 			#endregion
@@ -712,13 +749,10 @@ namespace S20_Power_Points
 								client.Close();
 								return;
 							}
-							GlobalVar.MacAddress.Add(
-								GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(
-									GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1));
-							GlobalVar.ReverseMacAddress.Add(
-								GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Remove(
-									GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Length - 1));
+							GlobalVar.MacAddress.Add(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Remove(GlobalVar.HexValue[GlobalVar.HexValue.Count() - 1].Length - 1));
+							GlobalVar.ReverseMacAddress.Add(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Remove(GlobalVar.ReverseHexValue[GlobalVar.ReverseHexValue.Count() - 1].Length - 1));
 							GlobalVar.RX_Data = server.Address;
+							GlobalVar.GroupDeviceName.Add("None");
 
 							string[] splitString = GlobalVar.ReverseMacAddress[GlobalVar.ReverseMacAddress.Count - 1].Split(':');
 							var ii = 0;
@@ -817,6 +851,7 @@ namespace S20_Power_Points
 						WaitCmd();
 						WaitCmd();
 						WaitCmd();
+						GroupChange();
 						getStatus();
 					}
 					else
@@ -909,6 +944,7 @@ namespace S20_Power_Points
 		#region Get Device Status
 		private void comboBoxDeviceName_SelectionChangeCommitted(object sender, EventArgs e)
 		{
+			GroupChange();
 			getStatus();				
 		}
 		
@@ -1012,11 +1048,13 @@ namespace S20_Power_Points
 				catch
 				{
 				}
-				//		GlobalVar.ScheduleDeviceName comboBoxDeviceName.SelectedIndex
 					GlobalVar.IpAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
 					GlobalVar.MacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
 					GlobalVar.Device_Name.RemoveAt(comboBoxDeviceName.SelectedIndex);
 					GlobalVar.ReverseMacAddress.RemoveAt(comboBoxDeviceName.SelectedIndex);
+
+					GlobalVar.GroupDeviceName.RemoveAt(comboBoxDeviceName.SelectedIndex);
+
 					comboBoxDeviceName.Items.RemoveAt(comboBoxDeviceName.SelectedIndex);
 					if (GlobalVar.Device_Name.Count > 0)
 					{
@@ -1032,7 +1070,7 @@ namespace S20_Power_Points
 						textBoxMacAddress.Text = "";
 						comboBoxDeviceName.Text = "";
 					}
-				
+				GroupChange();
 			}
 			else
 			{
@@ -1239,6 +1277,82 @@ namespace S20_Power_Points
 			settings.ShowDialog();
 			BringToFront();
 			Show();
+		}
+		#endregion
+
+		#region Groups - Used for Sequencers (Vixen)
+		private void pictureBoxAddGroup_Click(object sender, EventArgs e)
+		{
+			GlobalVar.MainFormLocxationX = Location.X;
+			GlobalVar.MainFormLocxationY = Location.Y;
+			if (GlobalVar.Device_Name.Count > 0)
+			{
+				var groupname = new GroupName();
+				groupname.ShowDialog();
+				if (!GlobalVar.CancelAnything)
+				{
+					comboBoxGroupName.Items.Add(GlobalVar.Group_Name[GlobalVar.Group_Name.Count - 1]);
+					comboBoxGroupName.SelectedIndex = comboBoxGroupName.Items.Count - 1;
+					GroupUpdate();
+				}
+			}
+			else
+			{
+				GlobalVar.MessageBoxData = "Can't create any groups until you have some devices.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Can't create any groups until you have some devices.\n"));
+			}
+		}
+
+		private void pictureBoxDeleteGroup_Click(object sender, EventArgs e)
+		{
+			if (GlobalVar.Group_Name.Count > 0)
+			{
+				if (comboBoxGroupName.SelectedIndex == 0)
+				{
+					GlobalVar.MessageBoxData ="Can not remove the None group.";
+					GlobalVar.MainFormLocxationX = Location.X;
+					GlobalVar.MainFormLocxationY = Location.Y;
+					var okMessage = new OkMessage();
+					okMessage.ShowDialog();
+					richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Can not remove the None group.\n"));
+				}
+				else
+				{
+					GlobalVar.Group_Name.RemoveAt(comboBoxGroupName.SelectedIndex);
+					comboBoxGroupName.Items.RemoveAt(comboBoxGroupName.SelectedIndex);
+					comboBoxGroupName.SelectedIndex = 0;
+					GlobalVar.NoSaveMsg = true;
+					Save();
+					// add in code to remove the group name from the devices that have that name selected
+				}
+			}
+		}
+
+		private void GroupUpdate()
+		{
+			if (comboBoxDeviceName.Items.Count != 0)
+			{
+				GlobalVar.GroupDeviceName[comboBoxDeviceName.SelectedIndex] = comboBoxGroupName.SelectedItem.ToString();
+			}
+			GlobalVar.NoSaveMsg = true;
+			Save();
+		}
+
+		private void GroupChange()
+		{
+			if (comboBoxDeviceName.Items.Count > 0)
+			{
+				comboBoxGroupName.SelectedItem = GlobalVar.GroupDeviceName[comboBoxDeviceName.SelectedIndex];
+				GlobalVar.NoSaveMsg = true;
+				Save();
+			}
+		}
+
+		private void comboBoxGroupName_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			GroupUpdate();
 		}
 		#endregion
 	}

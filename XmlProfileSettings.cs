@@ -125,6 +125,7 @@ namespace S20_Power_Points
 			AppSettings,
 			DeviceSettings,
 			Schedules,
+			Groups,
 			Other
 		};
 

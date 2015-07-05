@@ -222,10 +222,19 @@ namespace S20_Power_Points
 
 		public static bool NoSaveMsg;
 
-
 		public static bool startup;
 
 		public static bool FirstTimeStart;
+
+
+
+		public static List<string> Group_Name = new List<String>();
+
+		public static bool CancelAnything;
+
+		public static int GroupNumber;
+
+		public static List<string> GroupDeviceName = new List<String>();
 
 
 	}

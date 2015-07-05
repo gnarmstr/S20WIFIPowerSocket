@@ -34,10 +34,14 @@
 			this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
 			this.pictureBoxTogglePWR = new System.Windows.Forms.PictureBox();
 			this.labelNetworkConnection = new System.Windows.Forms.Label();
+			this.pictureBoxAddGroup = new System.Windows.Forms.PictureBox();
+			this.pictureBoxDeleteGroup = new System.Windows.Forms.PictureBox();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.pictureBoxClose = new System.Windows.Forms.PictureBox();
 			this.buttonMainTitle = new System.Windows.Forms.Button();
 			this.panelMainPoints = new System.Windows.Forms.Panel();
+			this.label5 = new System.Windows.Forms.Label();
+			this.comboBoxGroupName = new System.Windows.Forms.ComboBox();
 			this.pictureBoxNetworkConnection = new System.Windows.Forms.PictureBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
@@ -54,6 +58,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTogglePWR)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGroup)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteGroup)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
 			this.panelMainPoints.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxNetworkConnection)).BeginInit();
@@ -68,7 +74,7 @@
 			// pictureBoxAdd
 			// 
 			this.pictureBoxAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxAdd.Location = new System.Drawing.Point(275, 101);
+			this.pictureBoxAdd.Location = new System.Drawing.Point(271, 70);
 			this.pictureBoxAdd.Name = "pictureBoxAdd";
 			this.pictureBoxAdd.Size = new System.Drawing.Size(39, 39);
 			this.pictureBoxAdd.TabIndex = 103;
@@ -79,7 +85,7 @@
 			// pictureBoxDelete
 			// 
 			this.pictureBoxDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBoxDelete.Location = new System.Drawing.Point(328, 101);
+			this.pictureBoxDelete.Location = new System.Drawing.Point(324, 70);
 			this.pictureBoxDelete.Name = "pictureBoxDelete";
 			this.pictureBoxDelete.Size = new System.Drawing.Size(39, 39);
 			this.pictureBoxDelete.TabIndex = 102;
@@ -110,6 +116,28 @@
 			this.labelNetworkConnection.Text = "Network Availability";
 			this.labelNetworkConnection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.toolTip1.SetToolTip(this.labelNetworkConnection, "Monitors network availability.");
+			// 
+			// pictureBoxAddGroup
+			// 
+			this.pictureBoxAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxAddGroup.Location = new System.Drawing.Point(271, 150);
+			this.pictureBoxAddGroup.Name = "pictureBoxAddGroup";
+			this.pictureBoxAddGroup.Size = new System.Drawing.Size(39, 39);
+			this.pictureBoxAddGroup.TabIndex = 110;
+			this.pictureBoxAddGroup.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxAddGroup, "Register or add new device.");
+			this.pictureBoxAddGroup.Click += new System.EventHandler(this.pictureBoxAddGroup_Click);
+			// 
+			// pictureBoxDeleteGroup
+			// 
+			this.pictureBoxDeleteGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBoxDeleteGroup.Location = new System.Drawing.Point(324, 150);
+			this.pictureBoxDeleteGroup.Name = "pictureBoxDeleteGroup";
+			this.pictureBoxDeleteGroup.Size = new System.Drawing.Size(39, 39);
+			this.pictureBoxDeleteGroup.TabIndex = 109;
+			this.pictureBoxDeleteGroup.TabStop = false;
+			this.toolTip1.SetToolTip(this.pictureBoxDeleteGroup, "Remove selected Device.");
+			this.pictureBoxDeleteGroup.Click += new System.EventHandler(this.pictureBoxDeleteGroup_Click);
 			// 
 			// printDialog1
 			// 
@@ -145,6 +173,10 @@
 			// 
 			this.panelMainPoints.BackColor = System.Drawing.Color.Transparent;
 			this.panelMainPoints.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.panelMainPoints.Controls.Add(this.pictureBoxAddGroup);
+			this.panelMainPoints.Controls.Add(this.pictureBoxDeleteGroup);
+			this.panelMainPoints.Controls.Add(this.label5);
+			this.panelMainPoints.Controls.Add(this.comboBoxGroupName);
 			this.panelMainPoints.Controls.Add(this.pictureBoxNetworkConnection);
 			this.panelMainPoints.Controls.Add(this.label4);
 			this.panelMainPoints.Controls.Add(this.richTextBoxLog);
@@ -161,6 +193,28 @@
 			this.panelMainPoints.Name = "panelMainPoints";
 			this.panelMainPoints.Size = new System.Drawing.Size(740, 516);
 			this.panelMainPoints.TabIndex = 83;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.BackColor = System.Drawing.Color.Transparent;
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label5.Location = new System.Drawing.Point(37, 116);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(129, 25);
+			this.label5.TabIndex = 108;
+			this.label5.Text = "Group Name:";
+			// 
+			// comboBoxGroupName
+			// 
+			this.comboBoxGroupName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxGroupName.FormattingEnabled = true;
+			this.comboBoxGroupName.Location = new System.Drawing.Point(42, 154);
+			this.comboBoxGroupName.Name = "comboBoxGroupName";
+			this.comboBoxGroupName.Size = new System.Drawing.Size(213, 28);
+			this.comboBoxGroupName.TabIndex = 107;
+			this.comboBoxGroupName.SelectionChangeCommitted += new System.EventHandler(this.comboBoxGroupName_SelectionChangeCommitted);
 			// 
 			// pictureBoxNetworkConnection
 			// 
@@ -199,7 +253,7 @@
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label1.Location = new System.Drawing.Point(41, 67);
+			this.label1.Location = new System.Drawing.Point(37, 36);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(135, 25);
 			this.label1.TabIndex = 98;
@@ -211,7 +265,7 @@
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label3.Location = new System.Drawing.Point(10, 138);
+			this.label3.Location = new System.Drawing.Point(81, 215);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(207, 25);
 			this.label3.TabIndex = 100;
@@ -222,7 +276,7 @@
 			// 
 			this.comboBoxDeviceName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxDeviceName.FormattingEnabled = true;
-			this.comboBoxDeviceName.Location = new System.Drawing.Point(46, 105);
+			this.comboBoxDeviceName.Location = new System.Drawing.Point(42, 74);
 			this.comboBoxDeviceName.Name = "comboBoxDeviceName";
 			this.comboBoxDeviceName.Size = new System.Drawing.Size(213, 28);
 			this.comboBoxDeviceName.TabIndex = 1;
@@ -234,7 +288,7 @@
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label2.Location = new System.Drawing.Point(12, 14);
+			this.label2.Location = new System.Drawing.Point(27, 4);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(179, 25);
 			this.label2.TabIndex = 99;
@@ -243,7 +297,7 @@
 			// 
 			// textBoxIP
 			// 
-			this.textBoxIP.Location = new System.Drawing.Point(226, 15);
+			this.textBoxIP.Location = new System.Drawing.Point(212, 3);
 			this.textBoxIP.Name = "textBoxIP";
 			this.textBoxIP.ReadOnly = true;
 			this.textBoxIP.Size = new System.Drawing.Size(151, 26);
@@ -252,10 +306,10 @@
 			// 
 			// textBoxMacAddress
 			// 
-			this.textBoxMacAddress.Location = new System.Drawing.Point(15, 166);
+			this.textBoxMacAddress.Location = new System.Drawing.Point(294, 214);
 			this.textBoxMacAddress.Name = "textBoxMacAddress";
 			this.textBoxMacAddress.ReadOnly = true;
-			this.textBoxMacAddress.Size = new System.Drawing.Size(213, 26);
+			this.textBoxMacAddress.Size = new System.Drawing.Size(123, 26);
 			this.textBoxMacAddress.TabIndex = 97;
 			this.textBoxMacAddress.Visible = false;
 			// 
@@ -329,6 +383,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTogglePWR)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddGroup)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeleteGroup)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
 			this.panelMainPoints.ResumeLayout(false);
 			this.panelMainPoints.PerformLayout();
@@ -361,6 +417,10 @@
 		private System.Windows.Forms.Timer timerCheckSchedules;
 		private System.Windows.Forms.PictureBox pictureBoxNetworkConnection;
 		private System.Windows.Forms.Label labelNetworkConnection;
+		private System.Windows.Forms.PictureBox pictureBoxAddGroup;
+		private System.Windows.Forms.PictureBox pictureBoxDeleteGroup;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.ComboBox comboBoxGroupName;
 	}
 }
 
