@@ -12,6 +12,8 @@ namespace S20_Power_Points
 {
 	internal class GlobalVar
 	{
+		public static string ConnectionType;
+
 		public static string DocumnetsFolder =
 			(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents\\S20WIFIControl"));
 

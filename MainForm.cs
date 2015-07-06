@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
@@ -21,11 +22,13 @@ using GemBox.Spreadsheet;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.VisualBasic;
 using Quartz;
 using Quartz.Impl;
 using DataTable = System.Data.DataTable;
 using Timer = System.Threading.Timer;
 using Microsoft.Win32.TaskScheduler;
+
 
 #endregion
 
@@ -34,7 +37,6 @@ namespace S20_Power_Points
 	public partial class MainForm : Form
 	{
 		// TO DO LIST
-		// Groups
 
 		#region Initialization
 
@@ -42,6 +44,27 @@ namespace S20_Power_Points
 		{
 			InitializeComponent();
 			NetworkChange.NetworkAvailabilityChanged += AvailabilityChanged;
+
+			var allNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+			for (int i = 0; i < allNetworkInterfaces.Count(); i++)
+			{
+				if (allNetworkInterfaces[i].NetworkInterfaceType.ToString().Contains("Wireless"))
+				{
+					GlobalVar.ConnectionType = "Wireless";
+					pictureBoxWifiConnection.BackgroundImage = Resources.NetworkOn;
+					break;
+				}
+				else
+				{
+					pictureBoxWifiConnection.BackgroundImage = Resources.NetworkOff;
+				}
+			}
+
+			if (Directory.Exists(GlobalVar.DocumnetsFolder))
+			{
+				Directory.Delete(GlobalVar.DocumnetsFolder + @"\Sequencer", true);
+			}
 			Settings();
 			LoadData();
 			GlobalVar.startup = false;
@@ -50,45 +73,8 @@ namespace S20_Power_Points
 				getStatus();
 			}
 
-			if (!Directory.Exists(GlobalVar.DocumnetsFolder))
-			{
-				Directory.CreateDirectory(GlobalVar.DocumnetsFolder);
-				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
-			}
-			Directory.Delete(GlobalVar.DocumnetsFolder + @"\ToDo", true);
-			Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
+			Create_Batch_Files.CreateBatchFiles();
 
-			for (int i = 0; i < GlobalVar.Device_Name.Count; i++)
-			{
-				// Create a file to write to. 
-				using (
-					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_On.bat"))
-				{
-					sw.WriteLine(@"@echo off");
-					sw.WriteLine(@"set /a counter=0");
-					sw.WriteLine(@":numbers");
-					sw.WriteLine(@"set /a counter=%counter%+1");
-					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_On>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"goto :eof)");
-					sw.WriteLine(@"goto :numbers");
-				}
-				// Create a file to write to. 
-				using (
-					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_Off.bat"))
-				{
-					sw.WriteLine(@"@echo off");
-					sw.WriteLine(@"set /a counter=0");
-					sw.WriteLine(@":numbers");
-					sw.WriteLine(@"set /a counter=%counter%+1");
-					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_Off>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"goto :eof)");
-					sw.WriteLine(@"goto :numbers");
-				}
-			}
 			timerCheckSchedules.Enabled = true;
 
 		}
@@ -382,21 +368,21 @@ namespace S20_Power_Points
 
 		#endregion
 
-		#region Wait a long time for registering only
-
-		private void WaitCmdLong()
-		{
-			int milliseconds = 8000;
-			Thread.Sleep(milliseconds);
-		}
-		#endregion
-
 		#region Wait
 		#region Wait 200
 
 		private void WaitCmd()
 		{
-			int milliseconds = 200;
+			int milliseconds = 150;
+			Thread.Sleep(milliseconds);
+		}
+		#endregion
+
+		#region Wait a long time for registering only
+
+		private void WaitCmdLong()
+		{
+			int milliseconds = 8000;
 			Thread.Sleep(milliseconds);
 		}
 		#endregion
@@ -707,7 +693,6 @@ namespace S20_Power_Points
 			{
 				do
 				{
-			//		receiveData(rxPacket, rxPacketLength, mode, repeat); //Enable this when not testing without network.
 
 					int i = 0;
 					GlobalVar.HexValue.Clear();
@@ -1089,7 +1074,7 @@ namespace S20_Power_Points
 
 		private void registerNewDevcice()
 		{
-			if (GlobalVar.ReDiscover)
+			if (GlobalVar.ReDiscover & GlobalVar.ConnectionType == "Wireless")
 			{
 				var registerDevice = new RegisterDevice();
 				registerDevice.ShowDialog();
@@ -1200,6 +1185,13 @@ namespace S20_Power_Points
 				AddNewDevice();
 
 			}
+			else
+			{
+				GlobalVar.MessageBoxData = "No devices found and no new devices can be registered due to no WIFI connection. Register any new devices with the WiWo mobile app or use the S20 app with a WIFI connection.";
+				var okMessage = new OkMessage();
+				okMessage.ShowDialog();
+				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Can not remove the None group.\n"));
+			}
 		}
 
 		#endregion
@@ -1245,23 +1237,73 @@ namespace S20_Power_Points
 						s[i] = s1;
 						i++;
 					}
-					comboBoxDeviceName.Text = s[0];
-					textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
-					textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
-					if ( s[1].Contains("On") )
+					if (s[0].Contains("Group"))
 					{
-						GlobalVar.TogglePower = GlobalVar.On;
-						TogglePower();
+						s[0] = "Group";
 					}
-					else
+					switch (s[0])
 					{
-						GlobalVar.TogglePower = GlobalVar.Off;
-						TogglePower();
+						case "All":
+							for (int ii = 0; ii < GlobalVar.Device_Name.Count; ii++)
+							{
+								comboBoxDeviceName.Text = GlobalVar.Device_Name[ii];
+								textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+								textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
+								if (s[1].Contains("On"))
+								{
+									GlobalVar.TogglePower = GlobalVar.On;
+									TogglePower();
+								}
+								else
+								{
+									GlobalVar.TogglePower = GlobalVar.Off;
+									TogglePower();
+								}
+								WaitCmd();
+							}
+							break;
+						case "Group":
+					//		Test this code for groups.
+							string[] splitGroupName = s[1].Split('_');
+							for (int ii = 0; ii < GlobalVar.GroupDeviceName.Count; ii++)
+							{
+								if (GlobalVar.GroupDeviceName[ii] == splitGroupName[0])
+								{
+									comboBoxDeviceName.Text = GlobalVar.Device_Name[ii];
+									textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+									textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
+									if (splitGroupName[1].Contains("On"))
+									{
+										GlobalVar.TogglePower = GlobalVar.On;
+										TogglePower();
+									}
+									else
+									{
+										GlobalVar.TogglePower = GlobalVar.Off;
+										TogglePower();
+									}
+								}
+							}
+							break;
+						default:
+							comboBoxDeviceName.Text = s[0];
+							textBoxIP.Text = GlobalVar.IpAddress[comboBoxDeviceName.SelectedIndex];
+							textBoxMacAddress.Text = GlobalVar.MacAddress[comboBoxDeviceName.SelectedIndex];
+							if (s[1].Contains("On"))
+							{
+								GlobalVar.TogglePower = GlobalVar.On;
+								TogglePower();
+							}
+							else
+							{
+								GlobalVar.TogglePower = GlobalVar.Off;
+								TogglePower();
+							}
+							break;
 					}
 				}
 				File.Delete(scheduleFiles[0]);
 				WaitCmd();
-
 				Cursor.Current = Cursors.Default;
 			}
 		}
@@ -1281,6 +1323,8 @@ namespace S20_Power_Points
 		#endregion
 
 		#region Groups - Used for Sequencers (Vixen)
+
+		#region Add new Group
 		private void pictureBoxAddGroup_Click(object sender, EventArgs e)
 		{
 			GlobalVar.MainFormLocxationX = Location.X;
@@ -1294,6 +1338,8 @@ namespace S20_Power_Points
 					comboBoxGroupName.Items.Add(GlobalVar.Group_Name[GlobalVar.Group_Name.Count - 1]);
 					comboBoxGroupName.SelectedIndex = comboBoxGroupName.Items.Count - 1;
 					GroupUpdate();
+
+					Create_Batch_Files.CreateBatchFiles();
 				}
 			}
 			else
@@ -1304,7 +1350,9 @@ namespace S20_Power_Points
 				richTextBoxLog.Text = richTextBoxLog.Text.Insert(0, ("Can't create any groups until you have some devices.\n"));
 			}
 		}
+		#endregion
 
+		#region Delete Group
 		private void pictureBoxDeleteGroup_Click(object sender, EventArgs e)
 		{
 			if (GlobalVar.Group_Name.Count > 0)
@@ -1320,16 +1368,27 @@ namespace S20_Power_Points
 				}
 				else
 				{
+					for (int i = 0; i < GlobalVar.GroupDeviceName.Count; i++)
+					{
+						if (GlobalVar.GroupDeviceName[i] == GlobalVar.Group_Name[comboBoxGroupName.SelectedIndex])
+						{
+							GlobalVar.GroupDeviceName[i] = "None";
+						}
+					}
+					File.Delete(GlobalVar.DocumnetsFolder + @"\" + comboBoxGroupName.SelectedItem + @"_Group_Sequence_On.bat");
+					File.Delete(GlobalVar.DocumnetsFolder + @"\" + comboBoxGroupName.SelectedItem + @"_Group_Sequence_Off.bat");
 					GlobalVar.Group_Name.RemoveAt(comboBoxGroupName.SelectedIndex);
 					comboBoxGroupName.Items.RemoveAt(comboBoxGroupName.SelectedIndex);
 					comboBoxGroupName.SelectedIndex = 0;
 					GlobalVar.NoSaveMsg = true;
+					Create_Batch_Files.CreateBatchFiles();
 					Save();
-					// add in code to remove the group name from the devices that have that name selected
 				}
 			}
 		}
+		#endregion
 
+		#region Updates, Changes
 		private void GroupUpdate()
 		{
 			if (comboBoxDeviceName.Items.Count != 0)
@@ -1354,6 +1413,8 @@ namespace S20_Power_Points
 		{
 			GroupUpdate();
 		}
+		#endregion
+
 		#endregion
 	}
 }

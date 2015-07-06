@@ -33,16 +33,6 @@ namespace S20_Power_Points
 			{
 				comboBoxDeviceName.Items.Add(GlobalVar.Device_Name[i]);
 			}
-			if (Directory.Exists(GlobalVar.DocumnetsFolder))
-			{
-				Directory.Delete(GlobalVar.DocumnetsFolder + @"\ToDo", true);
-				Directory.Delete(GlobalVar.DocumnetsFolder, true);
-				Directory.CreateDirectory(GlobalVar.DocumnetsFolder);
-				int milliseconds = 200;
-				Thread.Sleep(milliseconds);
-				Directory.CreateDirectory(GlobalVar.DocumnetsFolder + @"\ToDo");
-				Thread.Sleep(milliseconds);
-			}
 
 			for (int i = 0; i < GlobalVar.Schedule_Name.Count; i++)
 			{
@@ -59,44 +49,15 @@ namespace S20_Power_Points
 			{
 				comboBoxDeviceName.SelectedIndex = 0;
 			}
+
+			Create_Batch_Files.CreateBatchFiles();
+
 			for (int i = 0; i < GlobalVar.Schedule_Name.Count; i++)
 			{
 				comboBoxSchedulerName.SelectedIndex = i;
 				CreateBatch();
 				CreateTaskRunWeekly();
-				CreateNonScheduleBatch();
-			}
-
-			for (int i = 0; i < GlobalVar.Device_Name.Count; i++)
-			{
-				// Create a file to write to. 
-				using (
-					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_On.bat"))
-				{
-					sw.WriteLine(@"@echo off");
-					sw.WriteLine(@"set /a counter=0");
-					sw.WriteLine(@":numbers");
-					sw.WriteLine(@"set /a counter=%counter%+1");
-					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_On>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"goto :eof)");
-					sw.WriteLine(@"goto :numbers");
-				}
-				// Create a file to write to. 
-				using (
-					StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + GlobalVar.Device_Name[i] + "_Sequence_Off.bat"))
-				{
-					sw.WriteLine(@"@echo off");
-					sw.WriteLine(@"set /a counter=0");
-					sw.WriteLine(@":numbers");
-					sw.WriteLine(@"set /a counter=%counter%+1");
-					sw.WriteLine(@"if exist " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt (goto :numbers) else (");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"echo " + GlobalVar.Device_Name[i] + @"_Off>> " + GlobalVar.DocumnetsFolder + @"\ToDo\S20WIFIControl%counter%.txt");
-					sw.WriteLine(@"goto :eof)");
-					sw.WriteLine(@"goto :numbers");
-				}
+		//		CreateNonScheduleBatch();
 			}
 		}
 
@@ -180,9 +141,9 @@ namespace S20_Power_Points
 			if (comboBoxSchedulerName.Items.Count > 0)
 			{
 				DeleteTask();
-				if (File.Exists(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat"))
+				if (File.Exists(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat"))
 				{
-					File.Delete(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat");
+					File.Delete(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat");
 				}
 				GlobalVar.ScheduleDeviceName.RemoveAt(comboBoxSchedulerName.SelectedIndex);
 				GlobalVar.Schedule_Time.RemoveAt(comboBoxSchedulerName.SelectedIndex);
@@ -268,9 +229,9 @@ namespace S20_Power_Points
 		#region Create Batch file
 		private void CreateBatch()
 		{
-			if (File.Exists(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat"))
+			if (File.Exists(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat"))
 				{
-					File.Delete(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat");
+					File.Delete(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat");
 				}
 				string deviceStatus;
 				if (GlobalVar.ToggleEvent)
@@ -283,7 +244,7 @@ namespace S20_Power_Points
 				}
 
 				// Create a file to write to. 
-				using (StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat"))
+				using (StreamWriter sw = File.CreateText(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat"))
 				{
 					sw.WriteLine(@"@echo off");
 					sw.WriteLine(@"set /a counter=0");
@@ -451,8 +412,8 @@ namespace S20_Power_Points
 					td.Triggers.Add(week);
 					td.Settings.DisallowStartIfOnBatteries = false;
 					td.Settings.StopIfGoingOnBatteries = false;
-					td.Actions.Add(new ExecAction(GlobalVar.DocumnetsFolder + @"\" + comboBoxSchedulerName.SelectedItem + ".bat", null,
-						GlobalVar.DocumnetsFolder + @"\"));
+					td.Actions.Add(new ExecAction(GlobalVar.DocumnetsFolder + @"\Schedules\" + comboBoxSchedulerName.SelectedItem + ".bat", null,
+						GlobalVar.DocumnetsFolder + @"\Schedules\"));
 					ts.RootFolder.RegisterTaskDefinition(GlobalVar.Schedule_Name[comboBoxSchedulerName.SelectedIndex], td);
 				}
 				else

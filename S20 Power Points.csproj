@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Create_Batch_Files.cs" />
     <Compile Include="GroupName.cs">
       <SubType>Form</SubType>
     </Compile>
