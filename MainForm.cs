@@ -44,6 +44,22 @@ namespace S20_Power_Points
 		{
 			InitializeComponent();
 			NetworkChange.NetworkAvailabilityChanged += AvailabilityChanged;
+			IPHostEntry host;
+			string localIP = "?";
+			host = Dns.GetHostEntry(Dns.GetHostName());
+			foreach (IPAddress ip in host.AddressList)
+			{
+				if (ip.AddressFamily.ToString() == "InterNetwork")
+				{
+					GlobalVar.BroardcastIpAddress = ip.ToString();
+					break;
+				}
+			}
+			string [] splitString = GlobalVar.BroardcastIpAddress.Split('.');
+			GlobalVar.BroardcastIpAddress = splitString[0];
+			GlobalVar.BroardcastIpAddress += "." + splitString[1];
+			GlobalVar.BroardcastIpAddress += "." + splitString[2];
+			GlobalVar.BroardcastIpAddress += ".255";
 
 			var allNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
 
@@ -55,16 +71,14 @@ namespace S20_Power_Points
 					pictureBoxWifiConnection.BackgroundImage = Resources.NetworkOn;
 					break;
 				}
-				else
-				{
-					pictureBoxWifiConnection.BackgroundImage = Resources.NetworkOff;
-				}
+				pictureBoxWifiConnection.BackgroundImage = Resources.NetworkOff;
 			}
 
 			if (Directory.Exists(GlobalVar.DocumnetsFolder))
 			{
 				Directory.Delete(GlobalVar.DocumnetsFolder + @"\Sequencer", true);
 			}
+
 			Settings();
 			LoadData();
 			GlobalVar.startup = false;
@@ -99,7 +113,7 @@ namespace S20_Power_Points
 		{
 			GlobalVar.startup = true;
 			GlobalVar.dataReceived = false;
-			GlobalVar.IP_Address_BCast = IPAddress.Parse("192.168.0.255");
+			GlobalVar.IP_Address_BCast = IPAddress.Parse(GlobalVar.BroardcastIpAddress);
 			GlobalVar.receiveTimeOut = 1000;
 			GlobalVar.PowerStatusOn = false;
 			GlobalVar.NoSaveMsg = false;

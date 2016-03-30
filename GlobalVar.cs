@@ -14,6 +14,8 @@ namespace S20_Power_Points
 	{
 		public static string ConnectionType;
 
+		public static string BroardcastIpAddress;
+
 		public static string DocumnetsFolder =
 			(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents\\S20WIFIControl"));
 
